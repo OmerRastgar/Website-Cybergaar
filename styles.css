@@ -1,0 +1,169 @@
+/* Aeonik Font Setup */
+@font-face {
+    font-family: 'Aeonik';
+    src: url('/fonts/Aeonik-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Aeonik';
+    src: url('/fonts/Aeonik-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Inter', sans-serif; /* A nice default sans-serif font */
+}
+
+/* Custom utility class for the font */
+.font-aeonik {
+    font-family: 'Aeonik', sans-serif;
+}
+
+/* Apply Aeonik to all major headings */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Aeonik', sans-serif;
+    font-weight: bold;
+}
+
+
+/* Animated Hexagon Background */
+.hero-section {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    z-index: -1;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMjYwIj48ZGVmcz48cGF0dGVybiBpZD0icCIgd2lkdGg9IjM0LjY0MSIgaGVpZGhtPSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjY2JkNWUxIiBzdHJva2Utd2lkdGg9IjEiIGQ9Ik0xNy4zMiAwbDE3LjMyIDMwLTE3LjMyIDMwSDBMMTcuMzIgMzBaTS0xNy4zMiAzMGwwIDYwTTAgNjBsMCA2ME0zNC42NCAzMGwwIDYwTTM0LjY0IDkwbDE3LjMyIDMwTDM0LjY0IDE1MEwxNy4zMiAxMjBaIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCBmaWxsPSJ1cmwoI3ApIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIi8+PC9zdmc+');
+    opacity: 0.04;
+    animation: slide 90s linear infinite;
+    transform: rotate(30deg);
+}
+
+@keyframes slide {
+  0% {
+    transform: translate(0, 0) rotate(30deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(30deg);
+  }
+}
+
+/* Styles for rendered Markdown content - MORE SPECIFIC SELECTORS */
+.markdown-content > h1,
+.markdown-content > h2,
+.markdown-content > h3 {
+  font-weight: 700;
+  color: #0f172a; /* slate-900 */
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.markdown-content > h1 {
+  font-size: 2.25rem;
+  border-bottom: 1px solid #cbd5e1; /* slate-300 */
+  padding-bottom: 0.3em;
+}
+
+.markdown-content > h2 {
+  font-size: 1.875rem;
+   border-bottom: 1px solid #cbd5e1; /* slate-300 */
+  padding-bottom: 0.3em;
+}
+
+.markdown-content > h3 {
+  font-size: 1.5rem;
+}
+
+.markdown-content > p {
+  line-height: 1.7;
+  margin-bottom: 1em;
+  color: #334155; /* slate-700 */
+}
+
+.markdown-content a {
+  color: #2563eb; /* blue-600 */
+  text-decoration: underline;
+}
+
+.markdown-content a:hover {
+  color: #1d4ed8; /* blue-700 */
+}
+
+.markdown-content > ul,
+.markdown-content > ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1em;
+  color: #334155; /* slate-700 */
+}
+
+.markdown-content > ul {
+  list-style-type: disc;
+}
+
+.markdown-content > ol {
+  list-style-type: decimal;
+}
+
+.markdown-content li {
+  margin-bottom: 0.5em;
+}
+
+.markdown-content > blockquote {
+  border-left: 4px solid #2563eb; /* blue-600 */
+  padding-left: 1rem;
+  margin: 1.5em 0;
+  color: #334155; /* slate-700 */
+  font-style: italic;
+}
+
+.markdown-content code {
+  background-color: #e2e8f0; /* slate-200 */
+  color: #0f172a; /* slate-900 */
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.markdown-content > pre {
+  background-color: #0f172a; /* slate-900 */
+  color: #f1f5f9; /* slate-100 */
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 1.5em;
+}
+
+.markdown-content > pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+.markdown-content > table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5em;
+}
+
+.markdown-content th,
+.markdown-content td {
+    border: 1px solid #cbd5e1; /* slate-300 */
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.markdown-content th {
+    background-color: #f1f5f9; /* slate-100 */
+    font-weight: 600;
+}
