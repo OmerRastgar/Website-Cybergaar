@@ -2,20 +2,22 @@ import React from 'react';
 import AnimatedSection from '../components/AnimatedSection';
 import FAQ from '../components/FAQ';
 import ContactForm from '../components/ContactForm';
+import Timeline from '../components/Timeline'; // Import the new Timeline component
 import type { TimelineStep, FAQItem } from '../types';
 
 const timelineSteps: TimelineStep[] = [
-    { title: 'Reconnaissance', description: 'We gather information about your digital footprint to identify potential attack vectors.' },
-    { title: 'Scanning & Enumeration', description: 'Automated and manual tools are used to map your networks and systems, identifying open ports, services, and vulnerabilities.' },
-    { title: 'Exploitation', description: 'Our ethical hackers attempt to exploit identified vulnerabilities in a controlled, non-disruptive manner to confirm their impact.' },
-    { title: 'Post-Exploitation', description: 'We assess the potential damage an attacker could cause after gaining initial access, such as data exfiltration or lateral movement.' },
-    { title: 'Reporting & Debrief', description: 'A comprehensive report is delivered, detailing all findings, their risk levels, and clear, actionable steps for remediation.' },
+    { title: 'Target Reconnaissance', description: 'We map your digital footprint to identify potential vectors of attack, gathering intelligence to inform our strategy.' },
+    { title: 'System Scanning & Enumeration', description: 'Automated and manual scans map your network topology, identifying open ports, active services, and potential system weaknesses.' },
+    { title: 'Controlled Exploitation', description: 'Our ethical hackers attempt to breach identified vulnerabilities in a controlled, non-disruptive manner to confirm their strategic impact.' },
+    { title: 'Post-Breach Analysis', description: 'We assess the potential impact of a successful breach, including data exfiltration, lateral movement, and system compromise.' },
+    { title: 'After-Action Debriefing', description: 'A comprehensive report is delivered, detailing all findings, their threat levels, and clear, actionable intelligence for remediation.' },
 ];
 
 const faqs: FAQItem[] = [
-    { question: "What is penetration testing?", answer: "Penetration testing, or pen testing, is a simulated cyber attack against your computer system to check for exploitable vulnerabilities. It helps identify security weaknesses before malicious actors can." },
-    { question: "How is security testing different from a vulnerability assessment?", answer: "A vulnerability assessment identifies and reports on vulnerabilities, while security testing (like pen testing) goes a step further by attempting to actively exploit those vulnerabilities to see what an attacker could achieve." },
-    { question: "Will penetration testing disrupt our business operations?", answer: "We take great care to ensure our testing is non-disruptive. We work with you to schedule tests during low-traffic periods and use controlled, safe exploitation techniques." },
+    { question: "What is Penetration Testing?", answer: "Penetration Testing is a simulated hostile engagement against your systems to identify exploitable vulnerabilities. It reveals how an adversary could compromise your defenses and provides the intelligence needed to neutralize those threats." },
+    { question: "How does Penetration Testing differ from a Vulnerability Assessment?", answer: "A Vulnerability Assessment identifies and catalogs potential vulnerabilities. Penetration Testing goes a step further by actively attempting to exploit those vulnerabilities to determine the real-world impact of an attack." },
+    { question: "Will this engagement disrupt our core operations?", answer: "We adhere to strict rules of engagement to ensure our analysis is non-disruptive. We coordinate with your team to schedule operations during low-impact periods and utilize controlled, safe techniques."
+    },
 ];
 
 const SecurityTestingPage: React.FC = () => {
@@ -24,8 +26,8 @@ const SecurityTestingPage: React.FC = () => {
             <section className="hero-section text-center py-20 px-4" style={{ backgroundColor: '#1a202c', color: 'white' }}>
                 <AnimatedSection>
                     <div className="pt-32">
-                        <h1 className="text-4xl md:text-5xl font-bold">Security Testing</h1>
-                        <p className="text-lg md:text-xl mt-2">Uncover and Remediate Your Most Critical Vulnerabilities</p>
+                        <h1 className="text-4xl md:text-5xl font-bold">Penetration Testing</h1>
+                        <p className="text-lg md:text-xl mt-2">Simulating Attacks to Fortify Your Defenses</p>
                     </div>
                 </AnimatedSection>
             </section>
@@ -34,41 +36,25 @@ const SecurityTestingPage: React.FC = () => {
                 <AnimatedSection className="bg-white rounded-xl shadow-lg p-8 md:p-12 mb-20">
                     <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
                          <div className="order-2 md:order-1">
-                            <h2 className="text-3xl font-bold mb-4">Think Like an Attacker</h2>
-                            <p className="text-lg leading-relaxed mb-4">Our security testing services simulate real-world attacks to provide a true measure of your security posture. From network and web application penetration testing to social engineering, we identify weaknesses that automated tools often miss.</p>
-                            <p className="text-lg leading-relaxed">By proactively discovering and fixing vulnerabilities, you can protect your assets, maintain customer trust, and prevent costly data breaches.</p>
+                            <h2 className="text-3xl font-bold mb-4">Penetration Testing</h2>
+                            <p className="text-lg leading-relaxed mb-4">Our Penetration Testing simulates real-world attack scenarios to provide a true measure of your defensive posture. From network and web application exploitation to social engineering, we identify critical weaknesses that automated tools cannot detect.</p>
+                            <p className="text-lg leading-relaxed">By proactively neutralizing vulnerabilities, you can protect your critical assets, maintain operational integrity, and prevent catastrophic system breaches.</p>
                         </div>
                         <div className="order-1 md:order-2">
-                           <img src="/images/security-testing.jpg" alt="Security Testing" className="w-full h-auto rounded-lg shadow-md" />
+                           <img src="/images/security-testing.jpg" alt="Penetration Testing" className="w-full h-auto rounded-lg shadow-md" />
                         </div>
                     </div>
                 </AnimatedSection>
 
                 <AnimatedSection>
-                    <h2 className="text-3xl font-bold text-center mb-12">Our Testing Methodology</h2>
+                    <h2 className="text-3xl font-bold text-center mb-12">Our Engagement Protocol</h2>
                 </AnimatedSection>
-                <div className="relative mb-20">
-                    <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-slate-300 -translate-x-1/2 hidden sm:block"></div>
-                     {timelineSteps.map((step, index) => (
-                        <div key={index} className="relative sm:flex sm:items-center mb-12 group">
-                             <div className={`sm:w-1/2 ${index % 2 !== 0 ? 'sm:order-2 sm:pl-8' : 'sm:pr-8 sm:text-right'}`}>
-                                <AnimatedSection>
-                                    <div className="bg-white p-6 rounded-lg shadow-md mb-4 sm:mb-0 border border-slate-200">
-                                        <h3 className="text-xl font-bold text-slate-900 mb-2">{step.title}</h3>
-                                        <p>{step.description}</p>
-                                    </div>
-                                </AnimatedSection>
-                            </div>
-                            <div className="absolute left-1/2 -translate-x-1/2 bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl ring-8 ring-white group-hover:bg-blue-700 transition-colors">
-                                {index + 1}
-                            </div>
-                            <div className={`sm:w-1/2 ${index % 2 !== 0 ? 'sm:order-1 sm:pr-8' : 'sm:pl-8'}`}></div>
-                        </div>
-                    ))}
-                </div>
+                
+                {/* Replace the old timeline code with the new Timeline component */}
+                <Timeline steps={timelineSteps} />
 
                 <AnimatedSection>
-                    <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+                    <h2 className="text-3xl font-bold text-center mb-12">Engagement Briefings</h2>
                     <div className="max-w-4xl mx-auto">
                         <FAQ items={faqs} />
                     </div>

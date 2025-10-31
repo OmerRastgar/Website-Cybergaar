@@ -1,0 +1,145 @@
+/*
+ * 1. Main container for the entire planet element.
+ *    `transform-style: preserve-3d` is the most critical part.
+ */
+.timeline-planet {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transform-style: preserve-3d;
+  border: 8px solid white;
+}
+
+/*
+ * 2. The visual sphere of the planet.
+ *    It is explicitly placed slightly behind the center of the 3D space.
+ */
+.planet-sphere {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #3b82f6; /* A nice blue */
+  box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.4), 
+              inset -4px -4px 8px rgba(255, 255, 255, 0.2);
+  transform: translateZ(-1px);
+}
+
+/*
+ * 3. The container that sets the TILT of the orbit.
+ *    It is positioned in the center of the planet and tilted in 3D space.
+ */
+.orbit-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  margin-top: -30px;
+  margin-left: -30px;
+  transform-style: preserve-3d;
+  /* Default tilt */
+  transform: rotateX(75deg);
+}
+
+/*
+ * 4. The path that ROTATES.
+ *    This element sits inside the tilted container and spins.
+ *    The `animation-delay` uses the `--start-delay` variable from the component.
+ */
+.moon-path {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  animation-name: orbit-rotation;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-delay: var(--start-delay, 0s);
+}
+
+/* The keyframe for the rotation is very simple */
+@keyframes orbit-rotation {
+  from { transform: rotateZ(0deg); }
+  to   { transform: rotateZ(360deg); }
+}
+
+/*
+ * 5. The element that pushes the moon out to its orbit position.
+ */
+.moon-position {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    transform-style: preserve-3d;
+    transform: translateY(-30px);
+}
+
+/*
+ * 6. The moon itself.
+ *    It is counter-rotated to appear circular.
+ */
+.orbiting-moon {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 3px 2px, #FFFFFF, #FFD700);
+  box-shadow: 0 0 5px rgba(255, 215, 0, 0.9);
+  transform-style: preserve-3d;
+  transform: rotateX(-75deg);
+}
+
+/*
+ * 7. The step number, which must always be on top.
+ */
+.step-number {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.25rem; /* text-xl */
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 
+ * 8. Variations for multiple moons.
+ *    This changes the tilt and animation speed for each moon.
+ */
+
+/* Moon 1 */
+.orbit-container-1 .moon-path {
+  animation-duration: 5s;
+}
+
+/* Moon 2 */
+.orbit-container-2 {
+  transform: rotateX(75deg) rotateY(25deg);
+}
+.orbit-container-2 .moon-path {
+  animation-duration: 6s;
+  animation-delay: calc(var(--start-delay, 0s) - 2s);
+}
+.orbit-container-2 .orbiting-moon {
+    transform: rotateY(-25deg) rotateX(-75deg);
+}
+
+/* Moon 3 */
+.orbit-container-3 {
+  transform: rotateX(80deg) rotateY(-20deg);
+}
+.orbit-container-3 .moon-path {
+  animation-duration: 4.5s;
+  animation-delay: calc(var(--start-delay, 0s) - 1.5s);
+}
+.orbit-container-3 .orbiting-moon {
+    transform: rotateY(20deg) rotateX(-80deg);
+}

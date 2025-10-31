@@ -20,11 +20,11 @@ const ContactForm: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setStatus('Sending...');
+        setStatus('Transmitting...');
         // Simulate form submission
         setTimeout(() => {
             console.log('Form submitted:', formData);
-            setStatus('Your message has been sent successfully!');
+            setStatus('Your message has been securely transmitted.');
             setFormData({ name: '', email: '', subject: '', message: '' });
             setTimeout(() => setStatus(''), 3000);
         }, 1000);
@@ -33,11 +33,11 @@ const ContactForm: React.FC = () => {
     return (
         <AnimatedSection>
             <div id="contact" className="w-full max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-                <h2 className="text-3xl font-bold text-center text-slate-900 mb-6">Get in Touch</h2>
+                <h2 className="text-3xl font-bold text-center text-slate-900 mb-6">Open a Secure Channel</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div>
-                            <label htmlFor="name" className="block text-sm font-medium text-slate-700">Full Name</label>
+                            <label htmlFor="name" className="block text-sm font-medium text-slate-700">Your Name / Callsign</label>
                             <input
                                 type="text"
                                 name="name"
@@ -49,7 +49,7 @@ const ContactForm: React.FC = () => {
                             />
                         </div>
                         <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-slate-700">Email Address</label>
+                            <label htmlFor="email" className="block text-sm font-medium text-slate-700">Secure Comms Link (Email)</label>
                             <input
                                 type="email"
                                 name="email"
@@ -62,7 +62,7 @@ const ContactForm: React.FC = () => {
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="subject" className="block text-sm font-medium text-slate-700">Subject</label>
+                        <label htmlFor="subject" className="block text-sm font-medium text-slate-700">Message Subject</label>
                         <input
                             type="text"
                             name="subject"
@@ -74,7 +74,7 @@ const ContactForm: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="message" className="block text-sm font-medium text-slate-700">Message</label>
+                        <label htmlFor="message" className="block text-sm font-medium text-slate-700">Encrypted Message</label>
                         <textarea
                             name="message"
                             id="message"
@@ -90,7 +90,7 @@ const ContactForm: React.FC = () => {
                             type="submit"
                             className="w-full inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
                         >
-                            Send Message
+                            Transmit Message
                         </button>
                     </div>
                     {status && <p className="text-center mt-4 text-blue-600">{status}</p>}

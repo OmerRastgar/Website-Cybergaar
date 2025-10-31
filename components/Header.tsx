@@ -74,7 +74,7 @@ const Header: React.FC = () => {
                 {servicesOpen && (
                     <div className={isMobile ? "pt-2 flex flex-col items-center space-y-2" : "absolute top-full left-1/2 -translate-x-1/2 mt-4 w-56 bg-white rounded-md shadow-lg py-2 z-10 border border-slate-200"}>
                         <Link to="/services/compliance-audit" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>Compliance Audit</Link>
-                        <Link to="/services/security-testing" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>Security Testing</Link>
+                        <Link to="/services/security-testing" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>Penetration Testing</Link>
                         <Link to="/services/vulnerability-assessment" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>Vulnerability Assessment</Link>
                     </div>
                 )}
@@ -123,7 +123,7 @@ const Header: React.FC = () => {
                             to="/#contact" 
                             onClick={handleContactClick}
                             className="border border-slate-900 font-bold py-2 px-5 rounded-full text-sm transition-all hover:scale-105 hover:bg-slate-900 hover:text-white">
-                            Get in Touch
+                            Contact 
                         </Link>
                     </div>
 
@@ -152,7 +152,7 @@ const Header: React.FC = () => {
                             to="/#contact"
                             onClick={handleContactClick}
                             className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full transition-transform hover:scale-105">
-                            Get in Touch
+                            Contact
                         </Link>
                     </nav>
                 </div>
