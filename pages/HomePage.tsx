@@ -8,6 +8,7 @@ import type { Service, FAQItem } from '../types';
 import AsciiCanvas from '../components/AsciiCanvas';
 import ParticleButton from '../components/ParticleButton';
 import GravitationalServiceCard from '../components/GravitationalServiceCard';
+import Meta from '../components/Meta';
 
 // A component to apply animations when it becomes visible
 const AnimateOnVisible: React.FC<{ options?: IntersectionObserverInit, children: React.ReactNode, className?: string, onVisible?: () => void }> = ({ options, children, className, onVisible }) => {
@@ -101,68 +102,74 @@ const HomePage: React.FC = () => {
     }, [index]);
 
     return (
-        <div className="scroll-container" ref={scrollContainerRef}>
-            {/* Hero Section */}
-            <AnimateOnVisible options={{ threshold: 0.5 }} className="page hero-section text-white" onVisible={() => setBodyBgClass('bg-primary')}>
-                <AsciiCanvas /> 
-                <div className="relative z-10 w-full">
-                    <div className="text-center">
-                        <h1 className="text-5xl md:text-7xl font-extrabold mb-4 animate fade-in">
-                            Secure Your <span className="hero-highlight transition-all duration-300 ease-in-out animate slide-in-right delay-200">{currentText}</span>
-                        </h1>
-                        <p className="text-slate-300 text-lg md:text-xl max-w-3xl mx-auto mb-8 animate fade-in-up delay-400">We are your first line of defense in the vast expanse of cyberspace, securing your operations with resilient, cutting-edge threat mitigation.</p>
-                        <ParticleButton to="/#contact" className="animate fade-in-up pulse delay-600">Fortify Your Perimeter</ParticleButton>
-                    </div>
-                </div>
-            </AnimateOnVisible>
-
-            {/* Services Section */}
-            <AnimateOnVisible options={{ threshold: 0.5 }} className="page services-section" onVisible={() => setBodyBgClass('bg-secondary')}>
-                <h2 className="section-title text-5xl md:text-6xl font-bold animate fade-in-up">Mission Capabilities</h2>
-                <div className="flex flex-col md:flex-row gap-12 max-w-6xl mx-auto">
-                    {services.map((service, i) => (
-                        <GravitationalServiceCard 
-                            key={i} 
-                            service={service} 
-                            animationClass={`${i === 0 ? 'slide-in-left' : i === 1 ? 'slide-in-bottom' : 'slide-in-right'} delay-${i * 200}`} 
-                        />
-                    ))}
-                </div>
-            </AnimateOnVisible>
-
-            {/* FAQ Section */}
-            <AnimateOnVisible options={{ threshold: 0.5 }} className="page faq-section" onVisible={() => setBodyBgClass('bg-secondary')}>
-                <h2 className="section-title text-5xl md:text-6xl font-bold animate fade-in-up text-white">Engagement Briefings</h2>
-                <div className="max-w-4xl w-full">
-                    <FAQ items={faqs} />
-                </div>
-            </AnimateOnVisible>
-
-            {/* Clients Section */}
-            <AnimateOnVisible options={{ threshold: 0.5 }} className="page testimonials-section" onVisible={() => setBodyBgClass('bg-primary')}>
-                <ClientsCarousel />
-            </AnimateOnVisible>
-
-            {/* Contact Section with Footer */}
-            <AnimateOnVisible options={{ threshold: 0.5 }} className="page contact-section" id="contact" onVisible={() => setBodyBgClass('bg-secondary')}>
-                <div className="flex flex-col h-full w-full max-w-4xl justify-center">
-                    <div className="flex-grow flex flex-col justify-center">
-                        <h2 className="section-title text-5xl md:text-6xl font-bold animate fade-in-up">Open a Secure Channel</h2>
-                        <div className="w-full">
-                            <ContactForm />
+        <>
+            <Meta
+                title="CyberGaar - Elite Cybersecurity Solutions"
+                description="CyberGaar offers cutting-edge cybersecurity services, including compliance audits, penetration testing, and vulnerability assessments to protect your digital assets."
+            />
+            <div className="scroll-container" ref={scrollContainerRef}>
+                {/* Hero Section */}
+                <AnimateOnVisible options={{ threshold: 0.5 }} className="page hero-section text-white" onVisible={() => setBodyBgClass('bg-primary')}>
+                    <AsciiCanvas /> 
+                    <div className="relative z-10 w-full">
+                        <div className="text-center">
+                            <h1 className="text-5xl md:text-7xl font-extrabold mb-4 animate fade-in">
+                                Secure Your <span className="hero-highlight transition-all duration-300 ease-in-out animate slide-in-right delay-200">{currentText}</span>
+                            </h1>
+                            <p className="text-slate-300 text-lg md:text-xl max-w-3xl mx-auto mb-8 animate fade-in-up delay-400">We are your first line of defense in the vast expanse of cyberspace, securing your operations with resilient, cutting-edge threat mitigation.</p>
+                            <ParticleButton to="/#contact" className="animate fade-in-up pulse delay-600">Fortify Your Perimeter</ParticleButton>
                         </div>
                     </div>
-                    <footer className="w-full pt-8 text-center">
-                        <p className="mb-4 text-neutral-color">&copy; 2024 CyberGaar. All rights reserved.</p>
-                        <div className="flex justify-center space-x-4">
-                            <a href="#" className="text-neutral-color hover:text-accent-color">Twitter</a>
-                            <a href="#" className="text-neutral-color hover:text-accent-color">LinkedIn</a>
-                            <a href="#" className="text-neutral-color hover:text-accent-color">GitHub</a>
+                </AnimateOnVisible>
+
+                {/* Services Section */}
+                <AnimateOnVisible options={{ threshold: 0.5 }} className="page services-section" onVisible={() => setBodyBgClass('bg-secondary')}>
+                    <h2 className="section-title text-5xl md:text-6xl font-bold animate fade-in-up">Mission Capabilities</h2>
+                    <div className="flex flex-col md:flex-row gap-12 max-w-6xl mx-auto">
+                        {services.map((service, i) => (
+                            <GravitationalServiceCard 
+                                key={i} 
+                                service={service} 
+                                animationClass={`${i === 0 ? 'slide-in-left' : i === 1 ? 'slide-in-bottom' : 'slide-in-right'} delay-${i * 200}`} 
+                            />
+                        ))}
+                    </div>
+                </AnimateOnVisible>
+
+                {/* FAQ Section */}
+                <AnimateOnVisible options={{ threshold: 0.5 }} className="page faq-section" onVisible={() => setBodyBgClass('bg-secondary')}>
+                    <h2 className="section-title text-5xl md:text-6xl font-bold animate fade-in-up text-white">Engagement Briefings</h2>
+                    <div className="max-w-4xl w-full">
+                        <FAQ items={faqs} />
+                    </div>
+                </AnimateOnVisible>
+
+                {/* Clients Section */}
+                <AnimateOnVisible options={{ threshold: 0.5 }} className="page testimonials-section" onVisible={() => setBodyBgClass('bg-primary')}>
+                    <ClientsCarousel />
+                </AnimateOnVisible>
+
+                {/* Contact Section with Footer */}
+                <AnimateOnVisible options={{ threshold: 0.5 }} className="page contact-section" id="contact" onVisible={() => setBodyBgClass('bg-secondary')}>
+                    <div className="flex flex-col h-full w-full max-w-4xl justify-center">
+                        <div className="flex-grow flex flex-col justify-center">
+                            <h2 className="section-title text-5xl md:text-6xl font-bold animate fade-in-up">Open a Secure Channel</h2>
+                            <div className="w-full">
+                                <ContactForm />
+                            </div>
                         </div>
-                    </footer>
-                </div>
-            </AnimateOnVisible>
-        </div>
+                        <footer className="w-full pt-8 text-center">
+                            <p className="mb-4 text-neutral-color">&copy; 2024 CyberGaar. All rights reserved.</p>
+                            <div className="flex justify-center space-x-4">
+                                <a href="#" className="text-neutral-color hover:text-accent-color">Twitter</a>
+                                <a href="#" className="text-neutral-color hover:text-accent-color">LinkedIn</a>
+                                <a href="#" className="text-neutral-color hover:text-accent-color">GitHub</a>
+                            </div>
+                        </footer>
+                    </div>
+                </AnimateOnVisible>
+            </div>
+        </>
     );
 };
 

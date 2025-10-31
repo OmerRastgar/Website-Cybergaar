@@ -7,6 +7,7 @@ import ScrollToAnchor from './components/ScrollToAnchor';
 import CookieNotice from './components/CookieNotice';
 import ErrorBoundary from './components/ErrorBoundary';
 import Loader from './components/Loader';
+import Meta from './components/Meta';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
@@ -42,6 +43,7 @@ const App: React.FC = () => {
     return (
         <ErrorBoundary>
             <Router>
+                <Meta title="CyberGaar" description="Your first line of defense in the vast expanse of cyberspace, securing your operations with resilient, cutting-edge threat mitigation." />
                 <ScrollToTop />
                 <ScrollToAnchor />
                 <Header />

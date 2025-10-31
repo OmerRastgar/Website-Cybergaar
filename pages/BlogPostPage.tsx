@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getPostBySlug } from '../blog/loader';
 import AnimatedSection from '../components/AnimatedSection';
+import Meta from '../components/Meta';
 
 const markdownToHtml = (markdown: string): string => {
     const blocks = markdown.trim().split(/\n\n+/);
@@ -33,29 +34,35 @@ const BlogPostPage: React.FC = () => {
     const htmlContent = post.content ? markdownToHtml(post.content) : '';
 
     return (
-        <div className="-mt-32">
-            <section className="hero-section text-left bg-slate-900 text-white pt-48 pb-24 px-4">
-                <AnimatedSection>
-                    <div className="container mx-auto">
-                        <h1 className="text-4xl md:text-5xl font-bold">{post.title}</h1>
-                        <p className="text-lg text-slate-300 mt-4">
-                            By {post.author} on {post.date}
-                        </p>
-                    </div>
-                </AnimatedSection>
-            </section>
+        <>
+            <Meta
+                title={post.title}
+                description={post.description}
+            />
+            <div className="-mt-32">
+                <section className="hero-section text-left bg-slate-900 text-white pt-48 pb-24 px-4">
+                    <AnimatedSection>
+                        <div className="container mx-auto">
+                            <h1 className="text-4xl md:text-5xl font-bold">{post.title}</h1>
+                            <p className="text-lg text-slate-300 mt-4">
+                                By {post.author} on {post.date}
+                            </p>
+                        </div>
+                    </AnimatedSection>
+                </section>
 
-            <div className="bg-slate-100">
-                <div className="container mx-auto py-20 px-4">
-                    <article className="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-lg shadow-lg">
-                        <div 
-                            className="markdown-content"
-                            dangerouslySetInnerHTML={{ __html: htmlContent }} 
-                        />
-                    </article>
+                <div className="bg-slate-100">
+                    <div className="container mx-auto py-20 px-4">
+                        <article className="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-lg shadow-lg">
+                            <div 
+                                className="markdown-content"
+                                dangerouslySetInnerHTML={{ __html: htmlContent }} 
+                            />
+                        </article>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

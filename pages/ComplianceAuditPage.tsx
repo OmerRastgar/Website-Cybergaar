@@ -5,6 +5,7 @@ import ContactForm from '../components/ContactForm';
 import Timeline from '../components/Timeline'; // Import the new Timeline component
 import type { TimelineStep, FAQItem } from '../types';
 import '../styles/timeline.css';
+import Meta from '../components/Meta';
 
 const timelineSteps: TimelineStep[] = [
     { title: 'Mission Scoping & Planning', description: 'We work with you to define the mission parameters based on your specific compliance needs (ISO 27001, PCI DSS, SOC 2, etc.).' },
@@ -22,51 +23,57 @@ const faqs: FAQItem[] = [
 
 const ComplianceAuditPage: React.FC = () => {
     return (
-        <div className="-mt-32">
-            <section className="hero-section text-center bg-slate-900 text-white py-20 px-4">
-                <AnimatedSection>
-                    <div className="pt-32">
-                        <h1 className="text-4xl md:text-5xl font-bold">Compliance Audit</h1>
-                        <p className="text-lg md:text-xl text-slate-300 mt-2">Navigating the Regulatory Cosmos with Precision</p>
-                    </div>
-                </AnimatedSection>
-            </section>
-
-            <div className="container mx-auto py-20 px-4">
-                <AnimatedSection className="bg-white rounded-xl shadow-lg p-8 md:p-12 mb-20">
-                    <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-                        <div>
-                            <h2 className="text-3xl font-bold text-slate-900 mb-4">Navigating Complexity with Ease</h2>
-                            <p className="text-lg text-slate-700 leading-relaxed mb-4">CyberGaar specializes in helping organizations meet rigorous industry standards like ISO 27001, PCI DSS, NIST, and SOC 2. Our comprehensive scans identify gaps, reduce risk, and provide a clear roadmap to certification and ongoing compliance.</p>
-                            <p className="text-lg text-slate-700 leading-relaxed">We understand that compliance isn't just about checking boxes; it's about building a robust security framework that protects your data and your reputation.</p>
+        <>
+            <Meta
+                title="Compliance Audits - ISO 27001, PCI DSS, SOC 2 | CyberGaar"
+                description="Navigate complex regulations with CyberGaar's expert compliance audit services. We specialize in ISO 27001, PCI DSS, SOC 2, and more to ensure your organization meets all required standards."
+            />
+            <div className="-mt-32">
+                <section className="hero-section text-center bg-slate-900 text-white py-20 px-4">
+                    <AnimatedSection>
+                        <div className="pt-32">
+                            <h1 className="text-4xl md:text-5xl font-bold">Compliance Audit</h1>
+                            <p className="text-lg md:text-xl text-slate-300 mt-2">Navigating the Regulatory Cosmos with Precision</p>
                         </div>
-                        <div>
-                           <img src="/images/compliance-audit.jpg" alt="Compliance Scan" className="w-full h-auto rounded-lg shadow-md" />
+                    </AnimatedSection>
+                </section>
+
+                <div className="container mx-auto py-20 px-4">
+                    <AnimatedSection className="bg-white rounded-xl shadow-lg p-8 md:p-12 mb-20">
+                        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                            <div>
+                                <h2 className="text-3xl font-bold text-slate-900 mb-4">Navigating Complexity with Ease</h2>
+                                <p className="text-lg text-slate-700 leading-relaxed mb-4">CyberGaar specializes in helping organizations meet rigorous industry standards like ISO 27001, PCI DSS, NIST, and SOC 2. Our comprehensive scans identify gaps, reduce risk, and provide a clear roadmap to certification and ongoing compliance.</p>
+                                <p className="text-lg text-slate-700 leading-relaxed">We understand that compliance isn't just about checking boxes; it's about building a robust security framework that protects your data and your reputation.</p>
+                            </div>
+                            <div>
+                               <img src="/images/compliance-audit.jpg" alt="Compliance Scan" className="w-full h-auto rounded-lg shadow-md" />
+                            </div>
                         </div>
-                    </div>
-                </AnimatedSection>
+                    </AnimatedSection>
 
-                <AnimatedSection>
-                    <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Our Scan Protocol</h2>
-                </AnimatedSection>
-                
-                {/* Replace the old timeline code with the new Timeline component */}
-                <Timeline steps={timelineSteps} />
+                    <AnimatedSection>
+                        <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Our Scan Protocol</h2>
+                    </AnimatedSection>
+                    
+                    {/* Replace the old timeline code with the new Timeline component */}
+                    <Timeline steps={timelineSteps} />
 
-                <AnimatedSection>
-                    <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Mission-Critical Briefings</h2>
-                    <div className="max-w-4xl mx-auto">
-                        <FAQ items={faqs} />
-                    </div>
-                </AnimatedSection>
-            </div>
-            
-            <section className="contact-section py-20 bg-slate-100" id="contact">
-                <div className="container mx-auto px-4">
-                    <ContactForm />
+                    <AnimatedSection>
+                        <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Mission-Critical Briefings</h2>
+                        <div className="max-w-4xl mx-auto">
+                            <FAQ items={faqs} />
+                        </div>
+                    </AnimatedSection>
                 </div>
-            </section>
-        </div>
+                
+                <section className="contact-section py-20 bg-slate-100" id="contact">
+                    <div className="container mx-auto px-4">
+                        <ContactForm />
+                    </div>
+                </section>
+            </div>
+        </>
     );
 };
 

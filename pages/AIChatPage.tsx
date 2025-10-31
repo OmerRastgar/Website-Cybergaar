@@ -2,6 +2,7 @@ import React from 'react';
 import AnimatedSection from '../components/AnimatedSection';
 import FAQ from '../components/FAQ';
 import type { FAQItem } from '../types';
+import Meta from '../components/Meta';
 
 const faqs: FAQItem[] = [
     { question: "Is the CyberGaar AI Chat completely free to use?", answer: "Yes, our AI Chat is available online for free. Our mission is to spread cybersecurity awareness and provide accessible tools to the community." },
@@ -30,55 +31,61 @@ const GithubIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 
 const AIChatPage: React.FC = () => {
     return (
-        <div className="-mt-32">
-            <section className="hero-section text-center bg-slate-900 text-white py-20 px-4">
-                <AnimatedSection>
-                    <div className="pt-32">
-                        <h1 className="text-4xl md:text-5xl font-bold">AI Chat</h1>
-                        <p className="text-lg md:text-xl text-slate-300 mt-2">Our Commitment to an Open and Secure Community</p>
-                    </div>
-                </AnimatedSection>
-            </section>
+        <>
+            <Meta
+                title="CyberGaar AI Chat - Open Source Cybersecurity Education"
+                description="Explore our free, open-source AI Chat dedicated to cybersecurity. Learn about digital security, explore our training data, and contribute to the project."
+            />
+            <div className="-mt-32">
+                <section className="hero-section text-center bg-slate-900 text-white py-20 px-4">
+                    <AnimatedSection>
+                        <div className="pt-32">
+                            <h1 className="text-4xl md:text-5xl font-bold">AI Chat</h1>
+                            <p className="text-lg md:text-xl text-slate-300 mt-2">Our Commitment to an Open and Secure Community</p>
+                        </div>
+                    </AnimatedSection>
+                </section>
 
-            <div className="container mx-auto py-20 px-4">
-                <AnimatedSection className="bg-white rounded-xl shadow-lg p-8 md:p-12 mb-20 text-center">
-                     <h2 className="text-3xl font-bold text-slate-900 mb-4">Spreading Awareness Through Open Source AI</h2>
-                    <p className="text-lg text-slate-700 leading-relaxed max-w-4xl mx-auto mb-8">At CyberGaar, we believe that knowledge is the best defense. That's why we've developed a free, open-source Large Language Model (LLM) dedicated to cybersecurity. Hosted at <a href="https://ai.cybergaar.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 font-semibold hover:underline">ai.cybergaar.com</a>, our AI Chat is a transparent tool designed to help educate, inform, and assist anyone interested in learning more about digital security.</p>
-                     <a href="https://ai.cybergaar.com" target="_blank" rel="noopener noreferrer" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-transform hover:scale-105 inline-block">Try the AI Chat Now</a>
-                </AnimatedSection>
+                <div className="container mx-auto py-20 px-4">
+                    <AnimatedSection className="bg-white rounded-xl shadow-lg p-8 md:p-12 mb-20 text-center">
+                         <h2 className="text-3xl font-bold text-slate-900 mb-4">Spreading Awareness Through Open Source AI</h2>
+                        <p className="text-lg text-slate-700 leading-relaxed max-w-4xl mx-auto mb-8">At CyberGaar, we believe that knowledge is the best defense. That's why we've developed a free, open-source Large Language Model (LLM) dedicated to cybersecurity. Hosted at <a href="https://ai.cybergaar.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 font-semibold hover:underline">ai.cybergaar.com</a>, our AI Chat is a transparent tool designed to help educate, inform, and assist anyone interested in learning more about digital security.</p>
+                         <a href="https://ai.cybergaar.com" target="_blank" rel="noopener noreferrer" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-transform hover:scale-105 inline-block">Try the AI Chat Now</a>
+                    </AnimatedSection>
 
-                 <AnimatedSection>
-                    <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Transparent & Community-Driven</h2>
-                </AnimatedSection>
-                <div className="grid md:grid-cols-3 gap-8 mb-20">
-                    <div className="card bg-white rounded-lg shadow-lg p-6 text-center transition-transform duration-300 hover:-translate-y-2 border border-slate-200 hover:border-blue-600">
-                         <DatabaseIcon className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-                        <h3 className="text-xl font-bold text-slate-900 mb-2">The Dataset</h3>
-                        <p className="text-slate-700 mb-4">Explore the comprehensive cybersecurity dataset used to train our model.</p>
-                        <a href="https://huggingface.co/datasets/omer-rastgar/cyber-security-dataset" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:text-blue-700">View on Hugging Face &rarr;</a>
+                     <AnimatedSection>
+                        <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Transparent & Community-Driven</h2>
+                    </AnimatedSection>
+                    <div className="grid md:grid-cols-3 gap-8 mb-20">
+                        <div className="card bg-white rounded-lg shadow-lg p-6 text-center transition-transform duration-300 hover:-translate-y-2 border border-slate-200 hover:border-blue-600">
+                             <DatabaseIcon className="w-12 h-12 text-blue-600 mx-auto mb-4" />
+                            <h3 className="text-xl font-bold text-slate-900 mb-2">The Dataset</h3>
+                            <p className="text-slate-700 mb-4">Explore the comprehensive cybersecurity dataset used to train our model.</p>
+                            <a href="https://huggingface.co/datasets/omer-rastgar/cyber-security-dataset" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:text-blue-700">View on Hugging Face &rarr;</a>
+                        </div>
+                         <div className="card bg-white rounded-lg shadow-lg p-6 text-center transition-transform duration-300 hover:-translate-y-2 border border-slate-200 hover:border-blue-600">
+                            <RobotIcon className="w-12 h-12 text-blue-600 mx-auto mb-4" />
+                            <h3 className="text-xl font-bold text-slate-900 mb-2">The PEFT Model</h3>
+                            <p className="text-slate-700 mb-4">Access the fine-tuned model files, ready for your own projects and research.</p>
+                            <a href="https://huggingface.co/omer-rastgar/Llama-2-7b-chat-finetune" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:text-blue-700">View on Hugging Face &rarr;</a>
+                        </div>
+                         <div className="card bg-white rounded-lg shadow-lg p-6 text-center transition-transform duration-300 hover:-translate-y-2 border border-slate-200 hover:border-blue-600">
+                            <GithubIcon className="w-12 h-12 text-blue-600 mx-auto mb-4" />
+                            <h3 className="text-xl font-bold text-slate-900 mb-2">The GUI</h3>
+                            <p className="text-slate-700 mb-4">See the code behind our user-friendly chat interface and contribute to its development.</p>
+                            <a href="https://github.com/OmerRastgar/LLM-Security-Chat" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:text-blue-700">View on GitHub &rarr;</a>
+                        </div>
                     </div>
-                     <div className="card bg-white rounded-lg shadow-lg p-6 text-center transition-transform duration-300 hover:-translate-y-2 border border-slate-200 hover:border-blue-600">
-                        <RobotIcon className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-                        <h3 className="text-xl font-bold text-slate-900 mb-2">The PEFT Model</h3>
-                        <p className="text-slate-700 mb-4">Access the fine-tuned model files, ready for your own projects and research.</p>
-                        <a href="https://huggingface.co/omer-rastgar/Llama-2-7b-chat-finetune" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:text-blue-700">View on Hugging Face &rarr;</a>
-                    </div>
-                     <div className="card bg-white rounded-lg shadow-lg p-6 text-center transition-transform duration-300 hover:-translate-y-2 border border-slate-200 hover:border-blue-600">
-                        <GithubIcon className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-                        <h3 className="text-xl font-bold text-slate-900 mb-2">The GUI</h3>
-                        <p className="text-slate-700 mb-4">See the code behind our user-friendly chat interface and contribute to its development.</p>
-                        <a href="https://github.com/OmerRastgar/LLM-Security-Chat" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:text-blue-700">View on GitHub &rarr;</a>
-                    </div>
+
+                    <AnimatedSection>
+                        <h2 className="text-3xl font-bold text-center text-black mb-12">Frequently Asked Questions</h2>
+                        <div className="max-w-4xl mx-auto">
+                            <FAQ items={faqs} />
+                        </div>
+                    </AnimatedSection>
                 </div>
-
-                <AnimatedSection>
-                    <h2 className="text-3xl font-bold text-center text-black mb-12">Frequently Asked Questions</h2>
-                    <div className="max-w-4xl mx-auto">
-                        <FAQ items={faqs} />
-                    </div>
-                </AnimatedSection>
             </div>
-        </div>
+        </>
     );
 };
 
