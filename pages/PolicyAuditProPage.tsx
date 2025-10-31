@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
 import FAQ from '../components/FAQ';
@@ -35,6 +35,11 @@ const faqs: FAQItem[] = [
 ];
 
 const PolicyAuditProPage: React.FC = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
+
     return (
         <div className="-mt-32">
             <section className="hero-section text-center bg-slate-900 text-white pt-52 pb-24 px-4">
@@ -58,15 +63,11 @@ const PolicyAuditProPage: React.FC = () => {
             <div className="container mx-auto py-20 px-4">
                 <AnimatedSection className="mb-20">
                     <h2 className="text-3xl font-bold text-center text-slate-900 mb-8">Introducing Our Product</h2>
-                    <div className="aspect-w-16 aspect-h-9 max-w-4xl mx-auto bg-slate-200 rounded-lg shadow-lg overflow-hidden">
-                        <iframe 
-                            className="w-full h-full"
-                            src="https://www.youtube.com/embed/dQw4w9WgXcQ" // Replace with your actual YouTube video ID
-                            title="YouTube video player" 
-                            frameBorder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowFullScreen>
-                        </iframe>
+                    <div className="aspect-w-16 aspect-h-9 max-w-4xl mx-auto bg-slate-200 rounded-lg shadow-lg overflow-hidden cursor-pointer" onClick={openModal}>
+                        <img src="/images/product-demo-thumbnail.jpg" alt="Product demo video thumbnail" className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <i className="fas fa-play text-white text-6xl"></i>
+                        </div>
                     </div>
                 </AnimatedSection>
 
@@ -76,7 +77,7 @@ const PolicyAuditProPage: React.FC = () => {
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
                     {features.map((feature, index) => (
                         <AnimatedSection key={index} className={`delay-${index * 100}`}>
-                            <div className="service-card text-center bg-white p-8 rounded-lg shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full flex flex-col border border-slate-200 hover:border-blue-600">
+                            <div className="text-center bg-slate-50 p-8 rounded-lg shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full flex flex-col border border-slate-200 hover:border-blue-600">
                                 <div className="mb-4 text-blue-600 mx-auto">
                                     <i className={`${feature.icon} text-5xl`}></i>
                                 </div>
@@ -100,6 +101,24 @@ const PolicyAuditProPage: React.FC = () => {
                     <ContactForm />
                 </div>
             </section>
+
+            {isModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75" onClick={closeModal}>
+                    <div className="relative w-full max-w-4xl h-auto" onClick={(e) => e.stopPropagation()}>
+                        <button onClick={closeModal} className="absolute -top-12 right-0 text-white text-3xl">&times;</button>
+                        <div className="aspect-w-16 aspect-h-9">
+                            <iframe 
+                                className="w-full h-full"
+                                src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" 
+                                title="YouTube video player" 
+                                frameBorder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowFullScreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

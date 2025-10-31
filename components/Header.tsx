@@ -2,11 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
 const Logo = () => (
-    <div className="flex items-center font-bold font-aeonik text-xl text-slate-900">
-        <div className="inline-flex items-center justify-center h-[28px] w-[28px] bg-slate-900 rounded-md mr-2">
-            <span className="text-slate-100 font-bold font-aeonik text-xl leading-none">C</span>
-        </div>
-        <span>yberGaar</span>
+    <div className="flex items-center">
+        <img src="/images/logo.png" alt="CyberGaar Logo" className="h-8 w-auto" />
     </div>
 );
 
@@ -40,8 +37,23 @@ const Header: React.FC = () => {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    const handleContactClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        // If we are on the homepage, smooth scroll
+        if (location.pathname === '/') {
+            e.preventDefault();
+            const contactSection = document.getElementById('contact');
+            if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        // If on mobile, also close the menu
+        if (mobileMenuOpen) {
+            setMobileMenuOpen(false);
+        }
+    };
+
     const activeLinkClass = "text-blue-600";
-    const inactiveLinkClass = "text-slate-900 hover:text-blue-600 transition-colors";
+    const inactiveLinkClass = "hover:text-blue-600 transition-colors";
     
     const navLinkClasses = ({ isActive }: { isActive: boolean }) => 
         isActive ? activeLinkClass : inactiveLinkClass;
@@ -54,13 +66,16 @@ const Header: React.FC = () => {
             {/* Services Dropdown */}
             <div className="relative" ref={servicesDropdownRef}>
                 <button onClick={() => setServicesOpen(!servicesOpen)} className={`${inactiveLinkClass} flex items-center w-full justify-center`}>
-                    Services <i className={`fas fa-chevron-down ml-2 text-xs transition-transform ${servicesOpen ? 'rotate-180' : ''}`}></i>
+                    Services 
+                    <svg className={`w-4 h-4 ml-2 transition-transform transform ${servicesOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
                 </button>
                 {servicesOpen && (
                     <div className={isMobile ? "pt-2 flex flex-col items-center space-y-2" : "absolute top-full left-1/2 -translate-x-1/2 mt-4 w-56 bg-white rounded-md shadow-lg py-2 z-10 border border-slate-200"}>
-                        <Link to="/services/compliance-audit" className={isMobile ? "text-slate-600 hover:text-blue-600" : "block px-4 py-2 text-slate-700 hover:bg-slate-100 w-full text-left"}>Compliance Audit</Link>
-                        <Link to="/services/security-testing" className={isMobile ? "text-slate-600 hover:text-blue-600" : "block px-4 py-2 text-slate-700 hover:bg-slate-100 w-full text-left"}>Security Testing</Link>
-                        <Link to="/services/vulnerability-assessment" className={isMobile ? "text-slate-600 hover:text-blue-600" : "block px-4 py-2 text-slate-700 hover:bg-slate-100 w-full text-left"}>Vulnerability Assessment</Link>
+                        <Link to="/services/compliance-audit" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>Compliance Audit</Link>
+                        <Link to="/services/security-testing" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>Security Testing</Link>
+                        <Link to="/services/vulnerability-assessment" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>Vulnerability Assessment</Link>
                     </div>
                 )}
             </div>
@@ -68,12 +83,15 @@ const Header: React.FC = () => {
             {/* Products Dropdown */}
             <div className="relative" ref={productsDropdownRef}>
                 <button onClick={() => setProductsOpen(!productsOpen)} className={`${inactiveLinkClass} flex items-center w-full justify-center`}>
-                    Products <i className={`fas fa-chevron-down ml-2 text-xs transition-transform ${productsOpen ? 'rotate-180' : ''}`}></i>
+                    Products
+                    <svg className={`w-4 h-4 ml-2 transition-transform transform ${productsOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
                 </button>
                 {productsOpen && (
                     <div className={isMobile ? "pt-2 flex flex-col items-center space-y-2" : "absolute top-full left-1/2 -translate-x-1/2 mt-4 w-56 bg-white rounded-md shadow-lg py-2 z-10 border border-slate-200"}>
-                        <Link to="/products/policy-audit-pro" className={isMobile ? "text-slate-600 hover:text-blue-600" : "block px-4 py-2 text-slate-700 hover:bg-slate-100 w-full text-left"}>Policy Audit Pro</Link>
-                        <Link to="/products/ai-chat" className={isMobile ? "text-slate-600 hover:text-blue-600" : "block px-4 py-2 text-slate-700 hover:bg-slate-100 w-full text-left"}>AI Chat</Link>
+                        <Link to="/products/policy-audit-pro" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>Policy Audit Pro</Link>
+                        <Link to="/products/ai-chat" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>AI Chat</Link>
                     </div>
                 )}
             </div>
@@ -84,7 +102,7 @@ const Header: React.FC = () => {
 
     return (
         <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-full max-w-6xl px-4">
-            <div className="relative bg-slate-100/50 backdrop-blur-lg rounded-full shadow-lg h-16 grid grid-cols-3 items-center px-6">
+            <div className="relative bg-slate-100/50 backdrop-blur-lg rounded-full shadow-lg h-16 grid grid-cols-3 items-center px-6 text-slate-900">
                 
                 {/* Left: Logo */}
                 <div className="justify-self-start">
@@ -101,14 +119,25 @@ const Header: React.FC = () => {
                 {/* Right: Get in Touch & Mobile Menu */}
                 <div className="justify-self-end flex items-center">
                     <div className="hidden lg:block">
-                        <Link to={`${location.pathname}#contact`} className="border border-slate-900 text-slate-900 font-bold py-2 px-5 rounded-full text-sm transition-all hover:scale-105 hover:bg-slate-900 hover:text-white">
+                        <Link 
+                            to="/#contact" 
+                            onClick={handleContactClick}
+                            className="border border-slate-900 font-bold py-2 px-5 rounded-full text-sm transition-all hover:scale-105 hover:bg-slate-900 hover:text-white">
                             Get in Touch
                         </Link>
                     </div>
 
                     <div className="lg:hidden">
-                        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="text-slate-900 focus:outline-none">
-                            <i className={`fas ${mobileMenuOpen ? 'fa-times' : 'fa-bars'} text-xl`}></i>
+                        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="focus:outline-none" aria-label="Toggle mobile menu">
+                            {mobileMenuOpen ? (
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            ) : (
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+                                </svg>
+                            )}
                         </button>
                     </div>
                 </div>
@@ -116,10 +145,13 @@ const Header: React.FC = () => {
 
             {/* Mobile Navigation */}
             {mobileMenuOpen && (
-                <div className="lg:hidden mt-2 bg-slate-100/95 backdrop-blur-md rounded-xl shadow-lg">
+                <div className="lg:hidden mt-2 bg-slate-100/95 backdrop-blur-md rounded-xl shadow-lg text-slate-900">
                     <nav className="flex flex-col items-center space-y-4 py-6 text-md font-medium">
                         {navItems(true)}
-                        <Link to={`${location.pathname}#contact`} className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full transition-transform hover:scale-105">
+                        <Link 
+                            to="/#contact"
+                            onClick={handleContactClick}
+                            className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full transition-transform hover:scale-105">
                             Get in Touch
                         </Link>
                     </nav>

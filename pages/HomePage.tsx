@@ -1,12 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import AnimatedSection from '../components/AnimatedSection';
-import ClientCarousel from '../components/ClientCarousel';
-import TestimonialCarousel from '../components/TestimonialCarousel';
+import ClientsCarousel from '../components/ClientsCarousel';
 import ContactForm from '../components/ContactForm';
-import type { Service } from '../types';
+import FAQ from '../components/FAQ';
+import useIntersectionObserver from '../hooks/useIntersectionObserver';
+import type { Service, FAQItem } from '../types';
+import AsciiCanvas from '../components/AsciiCanvas'; // Import the new animation
 
-// Dummy icon components. In a real app, these would be from an icon library like Heroicons.
+// A component to apply animations when it becomes visible
+const AnimateOnVisible: React.FC<{ options?: IntersectionObserverInit, children: React.ReactNode, className?: string, onVisible?: () => void }> = ({ options, children, className, onVisible }) => {
+    const [setNode, entry] = useIntersectionObserver(options || { threshold: 0.1 });
+    const isVisible = entry?.isIntersecting;
+
+    useEffect(() => {
+        if (isVisible && onVisible) {
+            onVisible();
+        }
+    }, [isVisible, onVisible]);
+
+    return (
+        <div ref={setNode as any} className={`${className} ${isVisible ? 'visible' : ''}`}>
+            {children}
+        </div>
+    );
+};
+
+// Dummy icon components
 const ShieldCheckIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg {...props} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.286z" />
@@ -24,11 +43,17 @@ const MagnifyingGlassIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => 
     </svg>
 );
 
+const services: (Service & { link: string })[] = [
+    { icon: ShieldCheckIcon, title: 'Compliance Audits', description: 'Navigate complex regulations like ISO 27001, PCI DSS, and SOC 2 with our expert-led audits.', link: '/services/compliance-audit' },
+    { icon: BugAntIcon, title: 'Security Testing', description: 'Identify and mitigate vulnerabilities with our comprehensive penetration testing and security assessments.', link: '/services/security-testing' },
+    { icon: MagnifyingGlassIcon, title: 'Vulnerability Assessment', description: 'Proactively identify, classify, and remediate security weaknesses before they can be exploited.', link: '/services/vulnerability-assessment' },
+];
 
-const services: Service[] = [
-    { icon: ShieldCheckIcon, title: 'Compliance Audits', description: 'Navigate complex regulations like ISO 27001, PCI DSS, and SOC 2 with our expert-led audits.' },
-    { icon: BugAntIcon, title: 'Security Testing', description: 'Identify and mitigate vulnerabilities with our comprehensive penetration testing and security assessments.' },
-    { icon: MagnifyingGlassIcon, title: 'Vulnerability Assessment', description: 'Proactively identify, classify, and remediate security weaknesses before they can be exploited.' },
+const faqs: FAQItem[] = [
+    { question: "What types of cybersecurity services do you offer?", answer: "We offer a comprehensive suite of services..." },
+    { question: "How much do your services cost?", answer: "Our pricing is customized based on your needs..." },
+    { question: "What industries do you specialize in?", answer: "We have experience with a wide range of industries..." },
+    { question: "How can I get started with CyberGaar?", answer: "Schedule a free consultation through our contact form..." },
 ];
 
 const animatedTexts = ["Digital Assets", "Business", "Infrastructure"];
@@ -36,6 +61,24 @@ const animatedTexts = ["Digital Assets", "Business", "Infrastructure"];
 const HomePage: React.FC = () => {
     const [currentText, setCurrentText] = useState(animatedTexts[0]);
     const [index, setIndex] = useState(0);
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+    const setBodyBgClass = (className: string) => {
+        document.body.classList.remove('bg-primary', 'bg-secondary');
+        if (className) {
+            document.body.classList.add(className);
+        }
+    };
+
+    useEffect(() => {
+        document.body.classList.add('homepage-scroll-lock');
+        setBodyBgClass('bg-primary');
+
+        return () => {
+            document.body.classList.remove('homepage-scroll-lock');
+            setBodyBgClass('');
+        };
+    }, []);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -49,52 +92,69 @@ const HomePage: React.FC = () => {
     }, [index]);
 
     return (
-        <div className="-mt-32">
+        <div className="scroll-container" ref={scrollContainerRef}>
             {/* Hero Section */}
-            <section className="hero-section bg-slate-900 text-white text-center py-20 px-4 relative">
-                <div className="container mx-auto relative z-10 pt-32">
-                    <AnimatedSection>
-                        <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
-                            Secure Your <span className="text-blue-600 transition-all duration-300 ease-in-out">{currentText}</span>
+            <AnimateOnVisible options={{ threshold: 0.5 }} className="page hero-section text-white" onVisible={() => setBodyBgClass('bg-primary')}>
+                <AsciiCanvas /> 
+                <div className="relative z-10 w-full">
+                    <div className="text-center">
+                        <h1 className="text-5xl md:text-7xl font-extrabold mb-4 animate fade-in">
+                            Secure Your <span className="hero-highlight transition-all duration-300 ease-in-out animate slide-in-right delay-200">{currentText}</span>
                         </h1>
-                        <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto mb-8">CyberGaar provides cutting-edge cybersecurity solutions, from compliance audits to penetration testing, ensuring your business is secure and resilient.</p>
-                        <Link to="/#contact" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-transform hover:scale-105 inline-block">Explore Our Services</Link>
-                    </AnimatedSection>
-                </div>
-            </section>
-
-            {/* Services Section */}
-            <section className="services-section py-20 bg-white">
-                <div className="container mx-auto px-4">
-                    <AnimatedSection>
-                        <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Our Core Services</h2>
-                    </AnimatedSection>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                        {services.map((service, index) => (
-                            <AnimatedSection key={index} className={`delay-${index * 100}`}>
-                                <div className="service-card text-center bg-white p-8 rounded-lg shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full flex flex-col border border-slate-200 hover:border-blue-600">
-                                    <div className="mb-4 text-blue-600 mx-auto">
-                                        <service.icon className="h-16 w-16" />
-                                    </div>
-                                    <h3 className="text-xl font-bold text-slate-900 mb-2">{service.title}</h3>
-                                    <p className="text-slate-700 flex-grow">{service.description}</p>
-                                </div>
-                            </AnimatedSection>
-                        ))}
+                        <p className="text-slate-300 text-lg md:text-xl max-w-3xl mx-auto mb-8 animate fade-in-up delay-400">CyberGaar provides cutting-edge cybersecurity solutions, ensuring your business is secure and resilient.</p>
+                        <Link to="/#contact" className="cta-button font-bold py-3 px-8 rounded-full text-lg transition-transform hover:scale-105 inline-block animate fade-in-up pulse delay-600">Explore Our Services</Link>
                     </div>
                 </div>
-            </section>
-            
-            <ClientCarousel />
-            
-            <TestimonialCarousel />
+            </AnimateOnVisible>
 
-            {/* Contact Section */}
-            <section className="contact-section py-20 bg-slate-100" id="contact">
-                <div className="container mx-auto px-4">
-                    <ContactForm />
+            {/* Services Section */}
+            <AnimateOnVisible options={{ threshold: 0.5 }} className="page services-section" onVisible={() => setBodyBgClass('bg-secondary')}>
+                <h2 className="section-title text-5xl md:text-6xl font-bold animate fade-in-up">Our Core Services</h2>
+                <div className="flex flex-col md:flex-row gap-12 max-w-6xl mx-auto">
+                    {services.map((service, i) => (
+                        <Link to={service.link} key={i} className="flex-1">
+                            <div className={`service-card p-8 rounded-lg shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 h-full animate ${i === 0 ? 'slide-in-left' : i === 1 ? 'slide-in-bottom' : 'slide-in-right'} delay-${i * 200}`}>
+                                <div className="service-icon h-16 w-16 mb-6"><service.icon /></div>
+                                <h3 className="service-title text-2xl font-bold mb-3">{service.title}</h3>
+                                <p className="service-description text-lg">{service.description}</p>
+                            </div>
+                        </Link>
+                    ))}
                 </div>
-            </section>
+            </AnimateOnVisible>
+
+            {/* FAQ Section */}
+            <AnimateOnVisible options={{ threshold: 0.5 }} className="page faq-section" onVisible={() => setBodyBgClass('bg-primary')}>
+                <h2 className="section-title text-5xl md:text-6xl font-bold animate fade-in-up text-white">Frequently Asked Questions</h2>
+                <div className="max-w-4xl w-full">
+                    <FAQ items={faqs} />
+                </div>
+            </AnimateOnVisible>
+
+            {/* Clients Section */}
+            <AnimateOnVisible options={{ threshold: 0.5 }} className="page testimonials-section" onVisible={() => setBodyBgClass('bg-primary')}>
+                <ClientsCarousel />
+            </AnimateOnVisible>
+
+            {/* Contact Section with Footer */}
+            <AnimateOnVisible options={{ threshold: 0.5 }} className="page contact-section" id="contact" onVisible={() => setBodyBgClass('bg-secondary')}>
+                <div className="flex flex-col h-full w-full max-w-4xl justify-center">
+                    <div className="flex-grow flex flex-col justify-center">
+                        <h2 className="section-title text-5xl md:text-6xl font-bold animate fade-in-up">Get in Touch</h2>
+                        <div className="w-full">
+                            <ContactForm />
+                        </div>
+                    </div>
+                    <footer className="w-full pt-8 text-center">
+                        <p className="mb-4 text-neutral-color">&copy; 2024 CyberGaar. All rights reserved.</p>
+                        <div className="flex justify-center space-x-4">
+                            <a href="#" className="text-neutral-color hover:text-accent-color">Twitter</a>
+                            <a href="#" className="text-neutral-color hover:text-accent-color">LinkedIn</a>
+                            <a href="#" className="text-neutral-color hover:text-accent-color">GitHub</a>
+                        </div>
+                    </footer>
+                </div>
+            </AnimateOnVisible>
         </div>
     );
 };

@@ -2,11 +2,8 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const Logo = () => (
-    <div className="flex items-center font-bold font-aeonik text-xl text-slate-300">
-         <div className="inline-flex items-center justify-center h-[28px] w-[28px] bg-slate-300 rounded-md mr-2">
-            <span className="text-slate-900 font-bold font-aeonik text-xl leading-none">C</span>
-        </div>
-        <span>yberGaar</span>
+    <div className="flex items-center">
+        <img src="/images/logo.png" alt="CyberGaar Logo" className="h-8 w-auto" />
     </div>
 );
 

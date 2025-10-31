@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: #1E293B;
+  --secondary-color: #E2E8F0;
+  --accent-color: #38BDF8;
+  --neutral-color: #94A3B8;
+}
+
+body.bg-primary {
+  background-color: var(--primary-color);
+}
+
+body.bg-secondary {
+  background-color: var(--secondary-color);
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.logos-slide {
+    animation: slide 30s linear infinite;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.service-card {
+    background-color: #F9FAFB !important; /* A light, off-white shade */
+}
+
+.service-card h3 {
+    color: #111827 !important; /* A dark color for high contrast */
+}
+
+.service-card p {
+    color: #374151 !important; /* A slightly lighter dark color */
+}

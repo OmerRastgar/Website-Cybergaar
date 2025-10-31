@@ -21,11 +21,11 @@ const faqs: FAQItem[] = [
 const SecurityTestingPage: React.FC = () => {
     return (
         <div className="-mt-32">
-            <section className="hero-section text-center bg-slate-900 text-white py-20 px-4">
+            <section className="hero-section text-center py-20 px-4" style={{ backgroundColor: '#1a202c', color: 'white' }}>
                 <AnimatedSection>
                     <div className="pt-32">
                         <h1 className="text-4xl md:text-5xl font-bold">Security Testing</h1>
-                        <p className="text-lg md:text-xl text-slate-300 mt-2">Uncover and Remediate Your Most Critical Vulnerabilities</p>
+                        <p className="text-lg md:text-xl mt-2">Uncover and Remediate Your Most Critical Vulnerabilities</p>
                     </div>
                 </AnimatedSection>
             </section>
@@ -34,18 +34,18 @@ const SecurityTestingPage: React.FC = () => {
                 <AnimatedSection className="bg-white rounded-xl shadow-lg p-8 md:p-12 mb-20">
                     <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
                          <div className="order-2 md:order-1">
-                            <h2 className="text-3xl font-bold text-slate-900 mb-4">Think Like an Attacker</h2>
-                            <p className="text-lg text-slate-700 leading-relaxed mb-4">Our security testing services simulate real-world attacks to provide a true measure of your security posture. From network and web application penetration testing to social engineering, we identify weaknesses that automated tools often miss.</p>
-                            <p className="text-lg text-slate-700 leading-relaxed">By proactively discovering and fixing vulnerabilities, you can protect your assets, maintain customer trust, and prevent costly data breaches.</p>
+                            <h2 className="text-3xl font-bold mb-4">Think Like an Attacker</h2>
+                            <p className="text-lg leading-relaxed mb-4">Our security testing services simulate real-world attacks to provide a true measure of your security posture. From network and web application penetration testing to social engineering, we identify weaknesses that automated tools often miss.</p>
+                            <p className="text-lg leading-relaxed">By proactively discovering and fixing vulnerabilities, you can protect your assets, maintain customer trust, and prevent costly data breaches.</p>
                         </div>
                         <div className="order-1 md:order-2">
-                           <img src="https://picsum.photos/id/433/800/600" alt="Security Testing" className="w-full h-auto rounded-lg shadow-md" />
+                           <img src="/images/security-testing.jpg" alt="Security Testing" className="w-full h-auto rounded-lg shadow-md" />
                         </div>
                     </div>
                 </AnimatedSection>
 
                 <AnimatedSection>
-                    <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Our Testing Methodology</h2>
+                    <h2 className="text-3xl font-bold text-center mb-12">Our Testing Methodology</h2>
                 </AnimatedSection>
                 <div className="relative mb-20">
                     <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-slate-300 -translate-x-1/2 hidden sm:block"></div>
@@ -55,7 +55,7 @@ const SecurityTestingPage: React.FC = () => {
                                 <AnimatedSection>
                                     <div className="bg-white p-6 rounded-lg shadow-md mb-4 sm:mb-0 border border-slate-200">
                                         <h3 className="text-xl font-bold text-slate-900 mb-2">{step.title}</h3>
-                                        <p className="text-slate-700">{step.description}</p>
+                                        <p>{step.description}</p>
                                     </div>
                                 </AnimatedSection>
                             </div>
@@ -68,14 +68,14 @@ const SecurityTestingPage: React.FC = () => {
                 </div>
 
                 <AnimatedSection>
-                    <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Frequently Asked Questions</h2>
+                    <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
                     <div className="max-w-4xl mx-auto">
                         <FAQ items={faqs} />
                     </div>
                 </AnimatedSection>
             </div>
             
-            <section className="contact-section py-20 bg-slate-100" id="contact">
+            <section className="contact-section py-20" id="contact">
                 <div className="container mx-auto px-4">
                     <ContactForm />
                 </div>

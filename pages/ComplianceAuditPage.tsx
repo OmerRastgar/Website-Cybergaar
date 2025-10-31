@@ -2,6 +2,7 @@ import React from 'react';
 import AnimatedSection from '../components/AnimatedSection';
 import FAQ from '../components/FAQ';
 import ContactForm from '../components/ContactForm';
+import ClientsCarousel from '../components/ClientsCarousel';
 import type { TimelineStep, FAQItem } from '../types';
 
 const timelineSteps: TimelineStep[] = [
@@ -39,7 +40,7 @@ const ComplianceAuditPage: React.FC = () => {
                             <p className="text-lg text-slate-700 leading-relaxed">We understand that compliance isn't just about checking boxes; it's about building a robust security framework that protects your data and your reputation.</p>
                         </div>
                         <div>
-                           <img src="https://picsum.photos/id/101/800/600" alt="Compliance Audit" className="w-full h-auto rounded-lg shadow-md" />
+                           <img src="/images/compliance-audit.jpg" alt="Compliance Audit" className="w-full h-auto rounded-lg shadow-md" />
                         </div>
                     </div>
                 </AnimatedSection>
@@ -51,7 +52,7 @@ const ComplianceAuditPage: React.FC = () => {
                     <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-slate-300 -translate-x-1/2 hidden sm:block"></div>
                     {timelineSteps.map((step, index) => (
                         <div key={index} className="relative sm:flex sm:items-center mb-12 group">
-                             <div className="sm:w-1/2 sm:pr-8 sm:text-right">
+                             <div className={`sm:w-1/2 ${index % 2 !== 0 ? 'sm:order-2 sm:pl-8' : 'sm:pr-8 sm:text-right'}`}>
                                 <AnimatedSection>
                                     <div className="bg-white p-6 rounded-lg shadow-md mb-4 sm:mb-0 border border-slate-200">
                                         <h3 className="text-xl font-bold text-slate-900 mb-2">{step.title}</h3>
@@ -62,10 +63,26 @@ const ComplianceAuditPage: React.FC = () => {
                             <div className="absolute left-1/2 -translate-x-1/2 bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl ring-8 ring-white group-hover:bg-blue-700 transition-colors">
                                 {index + 1}
                             </div>
-                            <div className="sm:w-1/2 sm:pl-8"></div>
+                             <div className={`sm:w-1/2 ${index % 2 !== 0 ? 'sm:order-1 sm:pr-8' : 'sm:pl-8'}`}></div>
                         </div>
                     ))}
                 </div>
+
+                <AnimatedSection className="bg-white rounded-xl shadow-lg p-8 md:p-12 mb-20">
+                    <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                        <div className="order-2 md:order-1">
+                            <h2 className="text-3xl font-bold text-slate-900 mb-4">Our Commitment to Excellence</h2>
+                            <p className="text-lg text-slate-700 leading-relaxed">We are dedicated to providing the highest quality of service and delivering results that exceed expectations. Our team of certified professionals is passionate about security and committed to helping our clients achieve their compliance goals.</p>
+                        </div>
+                        <div className="order-1 md:order-2">
+                            <img src="/images/cybergaar-office.jpg" alt="CyberGaar Office" className="w-full h-auto rounded-lg shadow-md" />
+                        </div>
+                    </div>
+                </AnimatedSection>
+
+                <AnimatedSection className="py-20">
+                    <ClientsCarousel />
+                </AnimatedSection>
 
                 <AnimatedSection>
                     <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Frequently Asked Questions</h2>

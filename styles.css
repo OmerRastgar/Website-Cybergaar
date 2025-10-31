@@ -4,6 +4,7 @@
     src: url('/fonts/Aeonik-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
@@ -11,73 +12,244 @@
     src: url('/fonts/Aeonik-Bold.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --primary-color: #FFFFFF; 
+    --secondary-color: #F8F9FA; 
+    --accent-color: #007BFF; 
+    --neutral-color: #6C757D; 
+    --text-color: #212529;
+    --header-text-color: #FFFFFF;
+}
+
+/* This class will be added to the body on the homepage to lock the main scrollbar */
+body.homepage-scroll-lock {
+    overflow: hidden;
 }
 
 body {
-    font-family: 'Inter', sans-serif; /* A nice default sans-serif font */
+    font-family: 'Inter', sans-serif;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    transition: background-color 1s ease;
 }
 
-/* Custom utility class for the font */
+/* Ensure header titles are consistently colored */
+header h1, header h2, header h3, header h4, header h5, header h6 {
+    color: var(--header-text-color);
+}
+
+/* Scroll Snap Container */
+.scroll-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+/* Full-screen page sections */
+.page {
+  height: 100vh;
+  width: 100%;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Disable snap scrolling and restore normal scrolling on mobile */
+@media (max-width: 768px) {
+  body.homepage-scroll-lock {
+    overflow: auto;
+  }
+  .scroll-container {
+    scroll-snap-type: none;
+    overflow-y: auto;
+    height: auto;
+  }
+  .page {
+      height: auto;
+      padding: 5rem 2rem;
+  }
+}
+
 .font-aeonik {
     font-family: 'Aeonik', sans-serif;
 }
 
-/* Apply Aeonik to all major headings */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Aeonik', sans-serif;
     font-weight: bold;
+    color: inherit; /* Inherit color from parent for better flexibility */
 }
 
-
-/* Animated Hexagon Background */
 .hero-section {
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
+    text-align: center;
+    position: relative; 
+    background-color: #1E293B; /* Dark Slate Blue */
+    overflow: hidden; 
 }
 
-.hero-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 200%;
-    height: 200%;
-    z-index: -1;
-    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMjYwIj48ZGVmcz48cGF0dGVybiBpZD0icCIgd2lkdGg9IjM0LjY0MSIgaGVpZGhtPSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjY2JkNWUxIiBzdHJva2Utd2lkdGg9IjEiIGQ9Ik0xNy4zMiAwbDE3LjMyIDMwLTE3LjMyIDMwSDBMMTcuMzIgMzBaTS0xNy4zMiAzMGwwIDYwTTAgNjBsMCA2ME0zNC42NCAzMGwwIDYwTTM0LjY0IDkwbDE3LjMyIDMwTDM0LjY0IDE1MEwxNy4zMiAxMjBaIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCBmaWxsPSJ1cmwoI3ApIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIi8+PC9zdmc+');
-    opacity: 0.04;
-    animation: slide 90s linear infinite;
-    transform: rotate(30deg);
+.hero-highlight {
+    color: var(--accent-color);
 }
 
-@keyframes slide {
-  0% {
-    transform: translate(0, 0) rotate(30deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(30deg);
-  }
+.hero-subtitle {
+    color: var(--neutral-color);
 }
+
+.cta-button {
+    background-color: var(--accent-color);
+    color: #FFFFFF;
+}
+
+.cta-button:hover {
+    background-color: #0056b3;
+}
+
+.services-section {
+    background-color: var(--secondary-color);
+}
+
+.testimonials-section {
+    background-color: #E2E8F0; /* Light Slate */
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.service-card {
+    background-color: var(--primary-color);
+    border: 1px solid #dee2e6;
+    text-align: center;
+}
+
+.service-card:hover {
+    border-color: var(--accent-color);
+}
+
+.service-icon {
+    color: var(--accent-color);
+    margin: 0 auto 1rem;
+}
+
+.service-title {
+    color: var(--accent-color); /* Make service titles stand out */
+}
+
+.service-description {
+    color: var(--neutral-color);
+}
+
+.faq-section {
+    background-color: var(--primary-color);
+}
+
+.contact-section {
+    background-color: var(--secondary-color);
+}
+
+/* --- Animation Keyframes --- */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInBottom {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* --- Animation Utility Classes --- */
+
+.animate {
+  opacity: 0;
+}
+
+.visible .animate {
+  animation-fill-mode: forwards;
+}
+
+.visible .fade-in {
+  animation-name: fadeIn;
+  animation-duration: 0.8s;
+}
+
+.visible .fade-in-up {
+  animation-name: fadeInUp;
+  animation-duration: 0.8s;
+}
+
+.visible .slide-in-right {
+  animation-name: slideInRight;
+  animation-duration: 0.8s;
+}
+
+.visible .slide-in-left {
+  animation-name: slideInLeft;
+  animation-duration: 0.8s;
+}
+
+.visible .slide-in-bottom {
+  animation-name: slideInBottom;
+  animation-duration: 0.8s;
+}
+
+.visible .pulse {
+    animation-name: pulse;
+    animation-duration: 1s;
+}
+
+/* Delay classes */
+.visible .delay-200 { animation-delay: 200ms; }
+.visible .delay-400 { animation-delay: 400ms; }
+.visible .delay-600 { animation-delay: 600ms; }
+.visible .delay-800 { animation-delay: 800ms; }
 
 /* Styles for rendered Markdown content - MORE SPECIFIC SELECTORS */
 .markdown-content > h1,
 .markdown-content > h2,
 .markdown-content > h3 {
   font-weight: 700;
-  color: #0f172a; /* slate-900 */
+  color: var(--text-color);
   margin-top: 1.5em;
   margin-bottom: 0.5em;
 }
 
 .markdown-content > h1 {
   font-size: 2.25rem;
-  border-bottom: 1px solid #cbd5e1; /* slate-300 */
+  border-bottom: 1px solid #dee2e6;
   padding-bottom: 0.3em;
 }
 
 .markdown-content > h2 {
   font-size: 1.875rem;
-   border-bottom: 1px solid #cbd5e1; /* slate-300 */
+   border-bottom: 1px solid #dee2e6;
   padding-bottom: 0.3em;
 }
 
@@ -88,23 +260,23 @@ h1, h2, h3, h4, h5, h6 {
 .markdown-content > p {
   line-height: 1.7;
   margin-bottom: 1em;
-  color: #334155; /* slate-700 */
+  color: var(--text-color);
 }
 
 .markdown-content a {
-  color: #2563eb; /* blue-600 */
+  color: var(--accent-color);
   text-decoration: underline;
 }
 
 .markdown-content a:hover {
-  color: #1d4ed8; /* blue-700 */
+  color: #0056b3;
 }
 
 .markdown-content > ul,
 .markdown-content > ol {
   margin-left: 1.5rem;
   margin-bottom: 1em;
-  color: #334155; /* slate-700 */
+  color: var(--text-color);
 }
 
 .markdown-content > ul {
@@ -120,24 +292,26 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .markdown-content > blockquote {
-  border-left: 4px solid #2563eb; /* blue-600 */
+  border-left: 4px solid var(--accent-color);
   padding-left: 1rem;
   margin: 1.5em 0;
-  color: #334155; /* slate-700 */
-  font-style: italic;
+  color: var(--neutral-color);
+  background-color: var(--secondary-color);
+  padding: 1rem;
+  border-radius: 8px;
 }
 
 .markdown-content code {
-  background-color: #e2e8f0; /* slate-200 */
-  color: #0f172a; /* slate-900 */
+  background-color: var(--secondary-color);
+  color: var(--text-color);
   padding: 0.2em 0.4em;
   border-radius: 4px;
   font-family: 'Courier New', Courier, monospace;
 }
 
 .markdown-content > pre {
-  background-color: #0f172a; /* slate-900 */
-  color: #f1f5f9; /* slate-100 */
+  background-color: var(--secondary-color);
+  color: var(--text-color);
   padding: 1rem;
   border-radius: 8px;
   overflow-x: auto;
@@ -158,12 +332,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .markdown-content th,
 .markdown-content td {
-    border: 1px solid #cbd5e1; /* slate-300 */
+    border: 1px solid #dee2e6;
     padding: 0.75rem;
     text-align: left;
 }
 
 .markdown-content th {
-    background-color: #f1f5f9; /* slate-100 */
+    background-color: var(--secondary-color);
     font-weight: 600;
 }

@@ -54,7 +54,7 @@ const AIChatPage: React.FC = () => {
                 </div>
 
                 <AnimatedSection>
-                    <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Frequently Asked Questions</h2>
+                    <h2 className="text-3xl font-bold text-center text-black mb-12">Frequently Asked Questions</h2>
                     <div className="max-w-4xl mx-auto">
                         <FAQ items={faqs} />
                     </div>

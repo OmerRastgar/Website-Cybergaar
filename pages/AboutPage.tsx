@@ -1,7 +1,8 @@
 import React from 'react';
-import type { TeamMember, Stat } from '../types';
+import type { TeamMember } from '../types';
 import AnimatedSection from '../components/AnimatedSection';
 import ContactForm from '../components/ContactForm';
+import AnimatedCounter from '../components/AnimatedCounter';
 
 const team: TeamMember[] = [
     { name: 'Omer Rastgar', role: 'Chief Technology Officer', description: 'Conducted audits in highly regulated industries, including FinTech and iGaming.', linkedin: 'https://www.linkedin.com/in/omer-rastgar/' },
@@ -9,11 +10,11 @@ const team: TeamMember[] = [
     { name: 'Taimoor Ahmed', role: 'Chief Operating Officer', description: 'Over 7 years of experience with CRM and ERP solutions.', linkedin: 'https://www.linkedin.com/in/taimoor-ahmed-cybersecurity/' },
 ];
 
-const stats: Stat[] = [
-    { value: '500+', label: 'Successful Audits' },
-    { value: '98%', label: 'Client Satisfaction' },
+const stats = [
+    { end: 500, suffix: '+', label: 'Successful Audits' },
+    { end: 98, suffix: '%', label: 'Client Satisfaction' },
     { value: '24/7', label: 'Security Monitoring' },
-    { value: '50+', label: 'Domains' },
+    { end: 50, suffix: '+', label: 'Domains' },
 ];
 
 const AboutPage: React.FC = () => {
@@ -60,7 +61,15 @@ const AboutPage: React.FC = () => {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
                     {stats.map((stat, index) => (
                         <AnimatedSection key={stat.label} className={`stats-card bg-slate-900 text-white text-center p-6 rounded-lg delay-${index * 100}`}>
-                            <div className="text-4xl font-bold">{stat.value}</div>
+                           { 'end' in stat ? (
+                                <AnimatedCounter
+                                    end={stat.end!}
+                                    suffix={stat.suffix}
+                                    className="text-4xl font-bold"
+                                />
+                            ) : (
+                                <div className="text-4xl font-bold">{stat.value}</div>
+                            )}
                             <p className="text-slate-300 mt-1">{stat.label}</p>
                         </AnimatedSection>
                     ))}

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import AnimatedSection from './AnimatedSection';
 
 const clients = [
     'https://cybergaar.com/assets/client4.a823927d.png',
@@ -57,30 +56,21 @@ const ClientCarousel: React.FC = () => {
 
 
     return (
-        <section className="client-section bg-slate-100 py-20">
-            <div className="container mx-auto px-4">
-                 <AnimatedSection>
-                    <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Trusted by Industry Leaders</h2>
-                </AnimatedSection>
-                <AnimatedSection>
-                    <div className="relative">
-                        <div className="overflow-hidden">
-                            <div className="flex">
-                                {getVisibleSlides().map((client, index) => (
-                                    <div key={index} className="flex-shrink-0 px-2 sm:px-4" style={{ width: `${100 / itemsToShow}%` }}>
-                                        <div className="client-item h-28 sm:h-32 flex items-center justify-center p-4 bg-white rounded-lg shadow-md transition-transform duration-300 hover:-translate-y-2 border border-slate-200">
-                                            <img src={client} alt={`Client ${index + 1}`} className="max-h-16 sm:max-h-20 max-w-full object-contain grayscale transition-all duration-300 hover:grayscale-0" />
-                                        </div>
-                                    </div>
-                                ))}
+        <div className="relative w-full">
+            <div className="overflow-hidden">
+                <div className="flex">
+                    {getVisibleSlides().map((client, index) => (
+                        <div key={index} className="flex-shrink-0 px-2 sm:px-4" style={{ width: `${100 / itemsToShow}%` }}>
+                            <div className="client-item h-28 sm:h-32 flex items-center justify-center p-4 bg-white rounded-lg shadow-md transition-transform duration-300 hover:-translate-y-2 border border-slate-200">
+                                <img src={client} alt={`Client ${index + 1}`} className="max-h-16 sm:max-h-20 max-w-full object-contain grayscale transition-all duration-300 hover:grayscale-0" />
                             </div>
                         </div>
-                        <button onClick={prevSlide} className="carousel-control prev absolute top-1/2 -translate-y-1/2 -left-2 md:-left-4 w-10 h-10 bg-slate-900 text-white rounded-full flex items-center justify-center text-xl hover:bg-slate-700 transition-colors z-10">‹</button>
-                        <button onClick={nextSlide} className="carousel-control next absolute top-1/2 -translate-y-1/2 -right-2 md:-right-4 w-10 h-10 bg-slate-900 text-white rounded-full flex items-center justify-center text-xl hover:bg-slate-700 transition-colors z-10">›</button>
-                    </div>
-                </AnimatedSection>
+                    ))}
+                </div>
             </div>
-        </section>
+            <button onClick={prevSlide} className="carousel-control prev absolute top-1/2 -translate-y-1/2 -left-2 md:-left-4 w-10 h-10 bg-slate-900 text-white rounded-full flex items-center justify-center text-xl hover:bg-slate-700 transition-colors z-10">‹</button>
+            <button onClick={nextSlide} className="carousel-control next absolute top-1/2 -translate-y-1/2 -right-2 md:-right-4 w-10 h-10 bg-slate-900 text-white rounded-full flex items-center justify-center text-xl hover:bg-slate-700 transition-colors z-10">›</button>
+        </div>
     );
 };
 
