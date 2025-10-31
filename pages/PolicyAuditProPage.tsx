@@ -77,7 +77,7 @@ const PolicyAuditProPage: React.FC = () => {
                     <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                         <a href="http://demo.cybergaar.com/" target="_blank" rel="noopener noreferrer" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full text-md transition-transform hover:scale-105 w-full sm:w-auto flex items-center justify-center">
                             <PlayIcon className="w-5 h-5 mr-2" />
-                            View Demo
+                            Go To Demo
                         </a>
                         <a href="https://github.com/OmerRastgar/AI-Audit-Analyzer" target="_blank" rel="noopener noreferrer" className="border-2 border-slate-300 text-slate-300 font-bold py-3 px-6 rounded-full text-md transition-transform hover:scale-105 hover:bg-slate-300 hover:text-slate-900 w-full sm:w-auto flex items-center justify-center">
                             <GithubIcon className="w-5 h-5 mr-2" />
@@ -140,7 +140,7 @@ const PolicyAuditProPage: React.FC = () => {
                         <div className="aspect-w-16 aspect-h-9">
                             <iframe 
                                 className="w-full h-full"
-                                src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" 
+                                src="https://drive.google.com/file/d/1iGzjKX7MIYNpWX_s73UCoVW0fZpMwQSr/view?usp=drive_link" 
                                 title="YouTube video player" 
                                 frameBorder="0" 
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
