@@ -102,7 +102,7 @@ const Header: React.FC = () => {
 
     return (
         <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-full max-w-6xl px-4">
-            <div className="relative bg-slate-100/50 backdrop-blur-lg rounded-full shadow-lg h-16 grid grid-cols-3 items-center px-6 text-slate-900">
+            <div className="relative bg-slate-100/50 backdrop-blur-lg rounded-full shadow-lg h-16 grid grid-cols-2 lg:grid-cols-3 items-center px-6 text-slate-900">
                 
                 {/* Left: Logo */}
                 <div className="justify-self-start">
@@ -117,7 +117,7 @@ const Header: React.FC = () => {
                 </nav>
 
                 {/* Right: Get in Touch & Mobile Menu */}
-                <div className="justify-self-end flex items-center">
+                <div className="justify-self-end flex items-center col-start-2 lg:col-start-3">
                     <div className="hidden lg:block">
                         <Link 
                             to="/#contact" 
