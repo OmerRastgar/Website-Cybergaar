@@ -73,9 +73,9 @@ const Header: React.FC = () => {
                 </button>
                 {servicesOpen && (
                     <div className={isMobile ? "pt-2 flex flex-col items-center space-y-2" : "absolute top-full left-1/2 -translate-x-1/2 mt-4 w-56 bg-white rounded-md shadow-lg py-2 z-10 border border-slate-200"}>
-                        <Link to="/services/compliance-audit" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>Compliance Audit</Link>
-                        <Link to="/services/security-testing" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>Penetration Testing</Link>
-                        <Link to="/services/vulnerability-assessment" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>Vulnerability Assessment</Link>
+                        <Link to="/compliance-audit" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>Compliance Audit</Link>
+                        <Link to="/security-testing" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>Penetration Testing</Link>
+                        <Link to="/vulnerability-assessment" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>Vulnerability Assessment</Link>
                     </div>
                 )}
             </div>
@@ -90,8 +90,8 @@ const Header: React.FC = () => {
                 </button>
                 {productsOpen && (
                     <div className={isMobile ? "pt-2 flex flex-col items-center space-y-2" : "absolute top-full left-1/2 -translate-x-1/2 mt-4 w-56 bg-white rounded-md shadow-lg py-2 z-10 border border-slate-200"}>
-                        <Link to="/products/policy-audit-pro" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>Policy Audit Pro</Link>
-                        <Link to="/products/ai-chat" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>AI Chat</Link>
+                        <Link to="/policy-audit-pro" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>Policy Audit Pro</Link>
+                        <Link to="/ai-chat" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>AI Chat</Link>
                     </div>
                 )}
             </div>
