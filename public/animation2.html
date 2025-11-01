@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberGaar "Multi-Planet Scan" (GSAP)</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; 
+        }
+
+        :root {
+            /* Timings */
+            --asteroid-speed: 7;      
+            --asteroid-head-start: 1000; 
+            --ship-travel-speed: 2.0;   
+            --ship-chase-speed: 0.3;    
+            --ship-rotate-speed: 0.3;   
+            --galaxy-element-rate: 500; 
+            --scan-line-rate: 2000;     
+            --vulnerability-rate: 1000; 
+            --scan-duration: 6000;      
+        }
+
+        /* 1. THE STAGE (FULLSCREEN) */
+        .animation-background {
+            position: fixed; 
+            width: 100vw;    
+            height: 100vh;   
+            top: 0;
+            left: 0;
+            background-color: #0a0a1a;
+            overflow: hidden; 
+            font-family: monospace;
+            z-index: -1; 
+        }
+
+        /* 2. GALAXY & PLANET ELEMENTS */
+        .galaxy-element {
+            position: absolute;
+            left: 0; top: 0; 
+            opacity: 0;
+            color: #444; 
+            pointer-events: none; 
+            z-index: -2; 
+        }
+        
+        .planet { 
+            position: absolute;
+            left: 0; top: 0; 
+            font-size: 100px;
+            z-index: 1;
+            color: #3a5a40; 
+            text-shadow: 0 0 20px #588157;
+        }
+
+        /* 3. SCANNING ELEMENTS */
+        .scan-line {
+            position: absolute;
+            left: 0; top: 0; 
+            width: 2px;
+            height: 100px; 
+            background-color: #00ffff;
+            box-shadow: 0 0 10px #00ffff;
+            opacity: 0.8;
+            z-index: 8;
+        }
+        
+        .vulnerability-blip {
+            position: absolute;
+            left: 0; top: 0; 
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff0000; 
+            text-shadow: 0 0 10px #ff0000;
+            z-index: 2;
+            opacity: 0;
+        }
+        
+        .vulnerability-blip.good {
+            color: #00ff00; 
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        /* 4. THE C-SHIP */
+        #ship {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            display: block; 
+        }
+        
+        /* 5. THE ASTEROID (Threat) */
+        .asteroid {
+            position: absolute;
+            z-index: 5;
+            left: 0; 
+            top: 0;
+        }
+        .asteroid-visual {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ffff00;
+            text-shadow: 0 0 15px #ffff00, 0 0 25px #ff9900;
+            opacity: 1;
+        }
+        .asteroid.explode .asteroid-visual {
+            opacity: 0;
+            transform: scale(3.5);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+
+        /* 6. TRAIL & LASER (No change) */
+        .trail {
+            position: absolute;
+            font-size: 16px;
+            z-index: 4;
+            color: #995c00;
+            animation: fade-out 1.5s linear forwards;
+        }
+        @keyframes fade-out {
+            from { opacity: 1; color: #cc7a00; }
+            to   { opacity: 0; transform: scale(0.5); }
+        }
+        .laser {
+            position: absolute;
+            width: 3px;
+            background-color: #00ffff;
+            box-shadow: 0 0 10px #00ffff;
+            transform-origin: top center;
+            z-index: 20;
+            opacity: 0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="animation-background" id="animationStage">
+        <img src="images/Artboard 16 copy 7.png" alt="C-Ship" id="ship">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+        
+            const stage = document.getElementById('animationStage');
+            const ship = document.getElementById('ship');
+            if (!stage || !ship) {
+                console.error("Animation elements not found!");
+                return;
+            }
+
+            // --- 1. CONFIG & STATE ---
+            
+            const ASTEROID_SPEED = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--asteroid-speed'));
+            const SHIP_TRAVEL_SPEED = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ship-travel-speed'));
+            const SHIP_CHASE_SPEED = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ship-chase-speed'));
+            const SHIP_ROTATE_SPEED = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ship-rotate-speed'));
+            
+            const GALAXY_ELEMENT_RATE = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--galaxy-element-rate'));
+            const SCAN_LINE_RATE = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--scan-line-rate'));
+            const VULNERABILITY_RATE = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--vulnerability-rate'));
+            const ASTEROID_HEAD_START = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--asteroid-head-start'));
+            const SCAN_DURATION = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--scan-duration'));
+
+            let shipX, shipY, shipAngle = 0;
+            let shipState = 'IDLE'; 
+            let scanInterval, vulnInterval, chaseInterval, missionTimeout;
+            
+            let planets = []; 
+            let currentPlanetIndex = -1; 
+
+            const trailChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            const galaxyChars = ['.', '*', '+', '~', 'o', '@'];
+            const vulnChars = ['[X]', '[!]', '0x1A', 'ERR'];
+            const goodChars = ['[OK]', 'SECURE', 'PASS'];
+            
+            // --- 2. CORE HELPER FUNCTIONS ---
+
+            function fireLaser(targetX, targetY) {
+                const shipCurrentX = gsap.getProperty("#ship", "x");
+                const shipCurrentY = gsap.getProperty("#ship", "y");
+
+                const laserOriginX = shipCurrentX + 30; 
+                const laserOriginY = shipCurrentY + 30;
+                
+                const deltaX = targetX - laserOriginX;
+                const deltaY = targetY - laserOriginY;
+                const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI) - 90;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                
+                const laser = document.createElement('div');
+                laser.className = 'laser';
+                gsap.set(laser, { x: laserOriginX, y: laserOriginY, rotation: angle });
+                laser.style.height = `0px`; 
+                stage.appendChild(laser);
+                
+                gsap.timeline()
+                    .to(laser, { height: distance, opacity: 1, duration: 0.1 })
+                    .to(laser, { opacity: 0, duration: 0.1 })
+                    .call(() => laser.remove());
+            }
+            
+            function createGalaxyElement() {
+                const el = document.createElement('div');
+                el.className = 'galaxy-element';
+                el.textContent = galaxyChars[Math.floor(Math.random() * galaxyChars.length)];
+                el.style.fontSize = `${10 + Math.random() * 20}px`; 
+                stage.appendChild(el);
+                
+                gsap.set(el, { x: Math.random() * stage.clientWidth, y: Math.random() * stage.clientHeight });
+                
+                gsap.fromTo(el, 
+                    { opacity: 0, scale: 0.5 },
+                    { opacity: 0.6, scale: 1, duration: 4, yoyo: true, repeat: 1, onComplete: () => el.remove() }
+                );
+            }
+
+            // --- 3. STATE-SPECIFIC FUNCTIONS ---
+
+            function setupUniverse() {
+                const stageW = stage.clientWidth;
+                const stageH = stage.clientHeight;
+                
+                // **THE CHANGE:** Calculate center
+                const centerX = stageW / 2;
+                const centerY = stageH / 2;
+                
+                // **THE CHANGE:** Planets are now relative to the center
+                const planetData = [
+                    { char: '(O)', color: '#3a5a40', x: centerX - (stageW * 0.25), y: centerY + (stageH * 0.1) }, // Bottom-left of center
+                    { char: '(Q)', color: '#5e548e', x: centerX + (stageW * 0.25), y: centerY + (stageH * 0.15) }, // Bottom-right of center
+                    { char: '(A)', color: '#904e55', x: centerX, y: centerY + (stageH * 0.05) }  // Just below center
+                ];
+                
+                planetData.forEach(data => {
+                    const el = document.createElement('div');
+                    el.className = 'planet';
+                    el.textContent = data.char;
+                    el.style.color = data.color;
+                    el.style.textShadow = `0 0 20px ${data.color}`;
+                    stage.appendChild(el);
+                    
+                    gsap.set(el, { x: data.x, y: data.y });
+                    
+                    planets.push({
+                        element: el,
+                        isVulnerable: Math.random() < 0.5 
+                    });
+                });
+            }
+            
+            function findNextPlanet() {
+                console.log("State: Finding new target...");
+                shipState = 'TRAVELING';
+                stopScanning(); 
+
+                currentPlanetIndex = (currentPlanetIndex + 1) % planets.length;
+                const nextPlanet = planets[currentPlanetIndex];
+                startScanning(nextPlanet);
+            }
+
+            function startScanning(planetData) {
+                console.log(`State: TRAVELING to Planet ${currentPlanetIndex}`);
+                
+                const planetEl = planetData.element;
+                const planetX = gsap.getProperty(planetEl, "x");
+                const planetY = gsap.getProperty(planetEl, "y");
+                
+                const scanX = planetX + (planetEl.offsetWidth / 2) - 30; 
+                const scanY = planetY - 100; // 100px above
+                
+                const deltaX = scanX - shipX;
+                const deltaY = scanY - shipY;
+                const travelAngle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+                
+                gsap.timeline()
+                    .to("#ship", { // 1. Rotate
+                        rotation: travelAngle,
+                        duration: SHIP_ROTATE_SPEED,
+                        ease: "power2.inOut"
+                    })
+                    .to("#ship", { // 2. Move
+                        x: scanX, 
+                        y: scanY, 
+                        duration: SHIP_TRAVEL_SPEED,
+                        ease: "power2.inOut",
+                        onUpdate: () => {
+                            shipX = gsap.getProperty("#ship", "x");
+                            shipY = gsap.getProperty("#ship", "y");
+                        }
+                    })
+                    .to("#ship", { // 3. Aim down
+                        rotation: 90, 
+                        duration: SHIP_ROTATE_SPEED,
+                        onComplete: () => {
+                            // 4. Arrived. Start scanning.
+                            shipState = 'SCANNING';
+                            shipX = scanX; shipY = scanY; shipAngle = 90; // Lock in final position
+                            
+                            scanInterval = setInterval(() => pulseScanLine(planetEl), SCAN_LINE_RATE);
+                            
+                            if (planetData.isVulnerable) {
+                                console.log("This planet is VULNERABLE.");
+                                vulnInterval = setInterval(() => showVulnerability(planetEl, false), VULNERABILITY_RATE);
+                                missionTimeout = setTimeout(() => triggerChase(planetEl), SCAN_DURATION);
+                            } else {
+                                console.log("This planet is SECURE.");
+                                vulnInterval = setInterval(() => showVulnerability(planetEl, true), VULNERABILITY_RATE);
+                                missionTimeout = setTimeout(findNextPlanet, SCAN_DURATION);
+                            }
+                        }
+                    });
+            }
+            
+            function stopScanning() {
+                clearInterval(scanInterval);
+                clearInterval(vulnInterval);
+                clearTimeout(missionTimeout); 
+            }
+
+            function pulseScanLine(planetEl) {
+                const scanLine = document.createElement('div');
+                scanLine.className = 'scan-line';
+                
+                const planetX = gsap.getProperty(planetEl, "x");
+                const planetY = gsap.getProperty(planetEl, "y");
+                
+                const startX = planetX;
+                const startY = planetY;
+                const endX = planetX + planetEl.offsetWidth;
+                
+                gsap.set(scanLine, { x: startX, y: startY });
+                stage.appendChild(scanLine);
+                
+                gsap.to(scanLine, { 
+                    x: endX, 
+                    duration: 1.5, 
+                    ease: "power1.inOut",
+                    onComplete: () => scanLine.remove() 
+                });
+            }
+
+            function showVulnerability(planetEl, isGood) {
+                const blip = document.createElement('div');
+                blip.className = 'vulnerability-blip';
+                
+                if (isGood) {
+                    blip.textContent = goodChars[Math.floor(Math.random() * goodChars.length)];
+                    blip.classList.add('good');
+                } else {
+                    blip.textContent = vulnChars[Math.floor(Math.random() * vulnChars.length)];
+                }
+                
+                const planetX = gsap.getProperty(planetEl, "x");
+                const planetY = gsap.getProperty(planetEl, "y");
+                
+                const x = planetX + (Math.random() * planetEl.offsetWidth * 0.6) + (planetEl.offsetWidth * 0.2);
+                const y = planetY + (Math.random() * planetEl.offsetHeight * 0.6) + (planetEl.offsetHeight * 0.2);
+                
+                gsap.set(blip, { x: x, y: y });
+                stage.appendChild(blip);
+                
+                gsap.fromTo(blip, 
+                    { opacity: 0, scale: 0.5 }, 
+                    { opacity: 1, scale: 1, duration: 1, yoyo: true, repeat: 1, onComplete: () => blip.remove() }
+                );
+            }
+
+            // --- CHASING STATE ---
+            function triggerChase(planetEl) {
+                if (shipState === 'CHASING') return;
+                console.log("State: THREAT DETECTED");
+                stopScanning();
+                shipState = 'CHASING';
+                
+                const asteroid = launchThreatAsteroid(planetEl);
+                
+                setTimeout(() => {
+                    console.log("State: Head start over. Engaging chase.");
+                    chaseAsteroid(asteroid);
+                }, ASTEROID_HEAD_START);
+            }
+
+            function launchThreatAsteroid(planetEl) {
+                const stageW = stage.clientWidth;
+                const stageH = stage.clientHeight;
+
+                const asteroid = document.createElement('div');
+                asteroid.className = 'asteroid';
+                const visual = document.createElement('div');
+                visual.className = 'asteroid-visual';
+                visual.textContent = '(@)';
+                asteroid.appendChild(visual);
+                stage.appendChild(asteroid);
+                
+                const planetX = gsap.getProperty(planetEl, "x");
+                const planetY = gsap.getProperty(planetEl, "y");
+                
+                const startX = planetX + (planetEl.offsetWidth / 2);
+                const startY = planetY + (planetEl.offsetHeight / 2);
+                
+                const endX = Math.random() < 0.5 ? -100 : stageW + 100;
+                const endY = Math.random() < 0.5 ? -100 : stageH + 100;
+                
+                gsap.fromTo(asteroid, 
+                    { x: startX, y: startY, scale: 0.2 }, 
+                    { 
+                        x: endX, 
+                        y: endY, 
+                        scale: 1,
+                        duration: ASTEROID_SPEED, 
+                        ease: "power1.in", 
+                        onComplete: () => asteroid.remove() 
+                    }
+                );
+                return asteroid; 
+            }
+
+            function chaseAsteroid(asteroid) {
+                const firingRange = 100;
+                
+                chaseInterval = setInterval(() => {
+                    if (!asteroid || !asteroid.parentElement) {
+                        clearInterval(chaseInterval);
+                        findNextPlanet(); 
+                        return;
+                    }
+                    
+                    const astX = gsap.getProperty(asteroid, "x");
+                    const astY = gsap.getProperty(asteroid, "y");
+                    
+                    // Use the ship's last known position
+                    const shipCurrentX = shipX;
+                    const shipCurrentY = shipY;
+
+                    const shipCenterX = shipCurrentX + 30;
+                    const shipCenterY = shipCurrentY + 30;
+
+                    const deltaX = astX - shipCenterX;
+                    const deltaY = astY - shipCenterY;
+                    const distance = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+                    
+                    const travelAngle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+                    
+                    if (distance > firingRange) {
+                        // CHASE
+                        gsap.to("#ship", {
+                            x: shipCurrentX + deltaX * 0.2, 
+                            y: shipCurrentY + deltaY * 0.2,
+                            rotation: travelAngle,
+                            duration: SHIP_CHASE_SPEED,
+                            ease: "power1.out",
+                            onUpdate: () => {
+                                shipX = gsap.getProperty("#ship", "x");
+                                shipY = gsap.getProperty("#ship", "y");
+                            }
+                        });
+
+                    } else {
+                        // ZAP!
+                        console.log("State: Target in range. FIRING.");
+                        clearInterval(chaseInterval);
+                        fireLaser(astX, astY);
+                        asteroid.classList.add('explode');
+                        gsap.killTweensOf(asteroid); 
+                        setTimeout(() => { asteroid.remove(); }, 300);
+                        
+                        setTimeout(findNextPlanet, 2000); 
+                    }
+                }, 100); 
+            }
+            
+            // --- 4. START THE SIMULATION ---
+            
+            // **THE CHANGE:** Set initial ship position to center
+            shipX = stage.clientWidth / 2 - 30;
+            shipY = stage.clientHeight / 2 - 30;
+            gsap.set("#ship", { x: shipX, y: shipY });
+
+            setInterval(createGalaxyElement, GALAXY_ELEMENT_RATE);
+            
+            setupUniverse();
+            
+            findNextPlanet(); // Start the main loop
+
+        }); 
+    </script>
+</body>
+</html>

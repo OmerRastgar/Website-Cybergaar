@@ -12,7 +12,7 @@ const logos = [
 const ClientsCarousel: React.FC = () => {
     return (
         <div className="w-full py-12">
-            <h2 className="text-4xl font-bold text-center text-white mb-12">Trusted By</h2>
+            <h2 className="text-4xl font-bold text-center text-black mb-12">Trusted By</h2>
             <div className="relative overflow-hidden">
                 <div className="logos-track animate-scroll-x">
                     {[...logos, ...logos].map((logo, index) => (

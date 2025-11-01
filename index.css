@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Aeonik:wght@400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,6 +9,7 @@
   --secondary-color: #E2E8F0;
   --accent-color: #38BDF8;
   --neutral-color: #94A3B8;
+  --font-family-sans: 'Aeonik', sans-serif;
 }
 
 body.bg-primary {
@@ -68,4 +71,8 @@ body {
 
 .service-card p {
     color: #374151 !important; /* A slightly lighter dark color */
+}
+
+body {
+    font-family: var(--font-family-sans);
 }
