@@ -52,11 +52,11 @@ const App: React.FC = () => {
                         <Routes>
                             <Route path="/" element={<HomePage />} />
                             <Route path="/about" element={<AboutPage />} />
-                            <Route path="/services/compliance-audit" element={<ComplianceAuditPage />} />
-                            <Route path="/services/security-testing" element={<SecurityTestingPage />} />
-                            <Route path="/services/vulnerability-assessment" element={<VulnerabilityAssessmentPage />} />
-                            <Route path="/products/policy-audit-pro" element={<PolicyAuditProPage />} />
-                            <Route path="/products/ai-chat" element={<AIChatPage />} />
+                            <Route path="/compliance-audit" element={<ComplianceAuditPage />} />
+                            <Route path="/security-testing" element={<SecurityTestingPage />} />
+                            <Route path="/vulnerability-assessment" element={<VulnerabilityAssessmentPage />} />
+                            <Route path="/policy-audit-pro" element={<PolicyAuditProPage />} />
+                            <Route path="/ai-chat" element={<AIChatPage />} />
                             <Route path="/blog" element={<BlogPage />} />
                             <Route path="/blog/:slug" element={<BlogPostPage />} />
                         </Routes>

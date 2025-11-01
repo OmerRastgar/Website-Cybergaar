@@ -15,6 +15,9 @@ const GravitationalServiceCard: React.FC<GravitationalServiceCardProps> = ({ ser
         if (!card) return;
 
         const handleMouseMove = (e: MouseEvent) => {
+            if (document.hidden) {
+                return;
+            }
             const { clientX, clientY } = e;
             const { left, top, width, height } = card.getBoundingClientRect();
 

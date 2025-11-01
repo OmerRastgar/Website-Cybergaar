@@ -93,11 +93,24 @@ const AsciiCanvas: React.FC = () => {
             animationFrameId = requestAnimationFrame(animate);
         };
 
+        let spawnCometTimeoutId: number;
         const spawnComet = () => {
             comets.push(new Comet());
             const randomDelay = 1000 + Math.random() * 4000;
-            setTimeout(spawnComet, randomDelay);
+            spawnCometTimeoutId = window.setTimeout(spawnComet, randomDelay);
         };
+
+        const handleVisibilityChange = () => {
+            if (document.hidden) {
+                cancelAnimationFrame(animationFrameId);
+                clearTimeout(spawnCometTimeoutId);
+            } else {
+                animate();
+                spawnComet();
+            }
+        };
+
+        document.addEventListener("visibilitychange", handleVisibilityChange);
 
         animate();
         spawnComet();
@@ -114,7 +127,9 @@ const AsciiCanvas: React.FC = () => {
         // Cleanup function
         return () => {
             window.removeEventListener('resize', handleResize);
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
             cancelAnimationFrame(animationFrameId);
+            clearTimeout(spawnCometTimeoutId);
         };
     }, []);
 
