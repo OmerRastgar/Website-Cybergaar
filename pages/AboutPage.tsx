@@ -6,9 +6,9 @@ import AnimatedCounter from '../components/AnimatedCounter';
 import Meta from '../components/Meta';
 
 const team: TeamMember[] = [
-    { name: 'Omer Rastgar', role: 'Chief Systems Architect', description: 'Expert in designing and auditing secure systems for highly regulated industries like FinTech and iGaming.', linkedin: 'https://www.linkedin.com/in/omer-rastgar/' },
-    { name: 'Muhammad Usama Iqbal', role: 'Mission Commander', description: 'Over 7 years of experience leading security missions with top-tier audit firms.', linkedin: 'https://pk.linkedin.com/in/muhammad-usama-iqbal' },
-    { name: 'Taimoor Ahmed', role: 'Operations Commander', description: 'Specializes in the strategic deployment of enterprise-wide security solutions.', linkedin: 'https://www.linkedin.com/in/taimoor-ahmed-cybersecurity/' },
+    { name: 'Omer Rastgar', role: 'Chief Technicaal  Officer', description: 'Expert in designing and auditing secure systems for highly regulated industries like FinTech and iGaming.', linkedin: 'https://www.linkedin.com/in/omer-rastgar/' },
+    { name: 'Muhammad Usama Iqbal', role: 'Chief Executive Officer', description: 'Over 7 years of experience leading security missions with top-tier audit firms.', linkedin: 'https://pk.linkedin.com/in/muhammad-usama-iqbal' },
+    { name: 'Taimoor Ahmed', role: 'Chief Operation Officer', description: 'Specializes in the strategic deployment of enterprise-wide security solutions.', linkedin: 'https://www.linkedin.com/in/taimoor-ahmed-cybersecurity/' },
 ];
 
 const stats = [
@@ -44,7 +44,7 @@ const AboutPage: React.FC = () => {
                         <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
                             <div className="order-2 md:order-1">
                                 <h2 className="text-3xl font-bold text-slate-900 mb-4">Our Prime Directive</h2>
-                                <p className="text-lg text-slate-700 leading-relaxed">Our mission is to navigate the complexities of cyberspace, providing robust security that goes beyond mere compliance. We are the architects of your digital defense, protecting your assets from an evolving threat landscape. We specialize in charting secure pathways for industries operating in high-stakes environments, transforming security from a necessity into a strategic advantage.</p>
+                                <p className="text-lg text-slate-700 leading-relaxed">Our mission is to go beyond mere compliance into true security. We navigate the uncharted sectors of your cyberspace, actively neutralizing the 'Threat-roids' that populate an evolving digital landscape. We are the specialists who chart secure pathways for high-stakes industries, transforming your security posture from a simple necessity into a mission-critical advantage.</p>
                             </div>
                             <div className="order-1 md:order-2">
                                 <img src="/images/cybergaar-office.jpg" alt="CyberGaar Mission Command" className="w-full h-auto rounded-lg shadow-md" />
