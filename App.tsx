@@ -18,6 +18,7 @@ const PolicyAuditProPage = lazy(() => import('./pages/PolicyAuditProPage'));
 const AIChatPage = lazy(() => import('./pages/AIChatPage'));
 const BlogPage = lazy(() => import('./pages/BlogPage'));
 const BlogPostPage = lazy(() => import('./pages/BlogPostPage'));
+const AnimationPage = lazy(() => import('./pages/AnimationPage'));
 
 const ScrollToTop = () => {
     const { pathname } = useLocation();
@@ -29,11 +30,21 @@ const ScrollToTop = () => {
     return null;
 }
 
+// This component will conditionally render the header
+const ConditionalHeader = () => {
+    const location = useLocation();
+    // Do not render the header on the animation page
+    if (location.pathname === '/animation') {
+        return null;
+    }
+    return <Header />;
+}
+
 // This component will conditionally render the footer
 const ConditionalFooter = () => {
     const location = useLocation();
-    // Do not render the footer on the homepage
-    if (location.pathname === '/') {
+    // Do not render the footer on the homepage or animation page
+    if (location.pathname === '/' || location.pathname === '/animation') {
         return null;
     }
     return <Footer />;
@@ -46,7 +57,7 @@ const App: React.FC = () => {
                 <Meta title="CyberGaar" description="Your first line of defense in the vast expanse of cyberspace, securing your operations with resilient, cutting-edge threat mitigation." />
                 <ScrollToTop />
                 <ScrollToAnchor />
-                <Header />
+                <ConditionalHeader />
                 <main>
                     <Suspense fallback={<Loader />}>
                         <Routes>
@@ -59,6 +70,7 @@ const App: React.FC = () => {
                             <Route path="/ai-chat" element={<AIChatPage />} />
                             <Route path="/blog" element={<BlogPage />} />
                             <Route path="/blog/:slug" element={<BlogPostPage />} />
+                            <Route path="/animation" element={<AnimationPage />} />
                         </Routes>
                     </Suspense>
                 </main>

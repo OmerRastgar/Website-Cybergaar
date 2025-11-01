@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberGaar "Hunt & Orient" Animation</title>
+    <style>
+        /* Basic reset for fullscreen */
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; 
+        }
+
+        :root {
+            --asteroid-speed: 5000; 
+            --ship-travel-speed: 800;
+            --ship-rotate-speed: 300;
+            --new-asteroid-rate: 3000;
+            --galaxy-element-rate: 500;
+        }
+
+        /* 1. THE STAGE (FULLSCREEN) */
+        .animation-background {
+            position: fixed; 
+            width: 100vw;    
+            height: 100vh;   
+            top: 0;
+            left: 0;
+            background-color: #0a0a1a;
+            overflow: hidden; 
+            font-family: monospace;
+            z-index: -1; 
+        }
+
+        /* NEW: ASCII Galaxy Elements */
+        .galaxy-element {
+            position: absolute;
+            opacity: 0;
+            color: #444; 
+            animation: galaxy-fade 8s linear forwards; 
+            pointer-events: none; 
+            z-index: -2; 
+        }
+
+        @keyframes galaxy-fade {
+            0% { opacity: 0; transform: scale(0.5); }
+            20% { opacity: 0.6; transform: scale(1); }
+            80% { opacity: 0.6; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.5); }
+        }
+
+        /* 2. THE C-SHIP */
+        #ship {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            display: block; 
+            transition: transform var(--ship-travel-speed) ease-in-out;
+        }
+        
+        /* 3. THE ASTEROID */
+        .asteroid {
+            position: absolute;
+            z-index: 5;
+        }
+        
+        .asteroid-visual {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ffff00;
+            text-shadow: 0 0 15px #ffff00, 0 0 25px #ff9900;
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+
+        .asteroid.explode .asteroid-visual {
+            opacity: 0;
+            transform: scale(3.5);
+        }
+
+        /* 4. THE ASCII TRAIL */
+        .trail {
+            position: absolute;
+            font-size: 16px;
+            z-index: 4;
+            color: #995c00;
+            animation: fade-out 1.5s linear forwards;
+        }
+        @keyframes fade-out {
+            from { opacity: 1; color: #cc7a00; }
+            to   { opacity: 0; transform: scale(0.5); }
+        }
+
+        /* 5. THE LASER */
+        .laser {
+            position: absolute;
+            width: 3px;
+            background-color: #00ffff;
+            box-shadow: 0 0 10px #00ffff;
+            transform-origin: top center;
+            z-index: 20;
+            opacity: 0;
+            animation: laser-fire 0.2s linear;
+        }
+        @keyframes laser-fire {
+            0% { opacity: 1; }
+            99% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="animation-background" id="animationStage">
+        <img src="images/Artboard 16 copy 7.png" alt="C-Ship" id="ship">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+        
+            const stage = document.getElementById('animationStage');
+            const ship = document.getElementById('ship');
+            if (!stage || !ship) {
+                console.error("Animation elements not found!");
+                return;
+            }
+
+            const ASTEROID_SPEED = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--asteroid-speed'));
+            const SHIP_TRAVEL_SPEED = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--ship-travel-speed'));
+            const SHIP_ROTATE_SPEED = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--ship-rotate-speed'));
+            const NEW_ASTEROID_RATE = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--new-asteroid-rate'));
+            const GALAXY_ELEMENT_RATE = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--galaxy-element-rate'));
+
+
+            let shipX, shipY, shipAngle = 0;
+            const trailChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            const galaxyChars = ['.', '*', '+', '~', 'o', '@'];
+            const galaxyColors = ['#444', '#555', '#666', '#777']; 
+
+            function setShipTransform(x, y, angle, speed) {
+                shipX = x;
+                shipY = y;
+                shipAngle = angle;
+                
+                let duration = (speed === 'rotate') ? SHIP_ROTATE_SPEED : SHIP_TRAVEL_SPEED;
+                ship.style.transition = `transform ${duration}ms ease-in-out`;
+                
+                ship.style.transform = `translate(${x}px, ${y}px) rotate(${angle}deg)`;
+            }
+
+            function fireLaser(targetX, targetY) {
+                const shipRect = ship.getBoundingClientRect();
+                const stageRect = stage.getBoundingClientRect();
+                const laserOriginX = shipRect.left - stageRect.left + shipRect.width / 2;
+                const laserOriginY = shipRect.top - stageRect.top + shipRect.height / 2;
+                const deltaX = targetX - laserOriginX;
+                const deltaY = targetY - laserOriginY;
+                const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI) - 90;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                const laser = document.createElement('div');
+                laser.className = 'laser';
+                laser.style.left = `${laserOriginX}px`;
+                laser.style.top = `${laserOriginY}px`;
+                laser.style.height = `${distance}px`;
+                laser.style.transform = `rotate(${angle}deg)`;
+                stage.appendChild(laser);
+                setTimeout(() => { laser.remove(); }, 200);
+            }
+
+            function createTrail(x, y) {
+                const trail = document.createElement('div');
+                trail.className = 'trail';
+                trail.textContent = trailChars[Math.floor(Math.random() * trailChars.length)];
+                trail.style.left = `${x}px`;
+                trail.style.top = `${y}px`;
+                stage.appendChild(trail);
+                setTimeout(() => { trail.remove(); }, 1500);
+            }
+
+            function createGalaxyElement() {
+                const galaxyElement = document.createElement('div');
+                galaxyElement.className = 'galaxy-element';
+                galaxyElement.textContent = galaxyChars[Math.floor(Math.random() * galaxyChars.length)];
+                galaxyElement.style.left = `${Math.random() * 100}vw`; 
+                galaxyElement.style.top = `${Math.random() * 100}vh`;   
+                galaxyElement.style.fontSize = `${10 + Math.random() * 20}px`; 
+                galaxyElement.style.color = galaxyColors[Math.floor(Math.random() * galaxyColors.length)]; 
+                galaxyElement.style.animationDuration = `${8 + Math.random() * 10}s`; 
+                stage.appendChild(galaxyElement);
+
+                setTimeout(() => {
+                    galaxyElement.remove();
+                }, parseFloat(galaxyElement.style.animationDuration) * 1000);
+            }
+
+
+            function launchMission() {
+                const stageW = stage.clientWidth;
+                const stageH = stage.clientHeight;
+
+                // --- A. Create Asteroid ---
+                const asteroid = document.createElement('div');
+                asteroid.className = 'asteroid';
+                const visual = document.createElement('div');
+                visual.className = 'asteroid-visual';
+                visual.textContent = '(@)';
+                asteroid.appendChild(visual);
+                
+                const startX = Math.random() * stageW;
+                const startY = -50; 
+                const endX = startX + (Math.random() - 0.5) * 400; 
+                const endY = stageH + 50;
+
+                // --- Force-Render Fix ---
+                asteroid.style.transition = 'none';
+                asteroid.style.transform = `translate(${startX}px, ${startY}px)`;
+                stage.appendChild(asteroid);
+                void asteroid.offsetHeight; 
+                asteroid.style.transition = `transform ${ASTEROID_SPEED}ms linear`;
+                asteroid.style.transform = `translate(${endX}px, ${endY}px)`;
+
+                // --- B. Calculate Intercept Point ---
+                const interceptY = stageH * 0.6; 
+                const journeyPercent = (interceptY - startY) / (endY - startY);
+                const interceptX = startX + (endX - startX) * journeyPercent;
+                const timeToIntercept = ASTEROID_SPEED * journeyPercent;
+
+                // --- C. 8-DIRECTION DYNAMIC LOGIC ---
+                let fireX, fireY, aimAngle;
+                const firingDistance = 80;
+                const side = Math.floor(Math.random() * 8); 
+
+                switch (side) {
+                    case 0: // Top
+                        fireX = interceptX; fireY = interceptY - firingDistance; aimAngle = 90; break;
+                    case 1: // Top-Right
+                        fireX = interceptX + firingDistance; fireY = interceptY - firingDistance; aimAngle = 135; break;
+                    case 2: // Right
+                        fireX = interceptX + firingDistance; fireY = interceptY; aimAngle = 180; break;
+                    case 3: // Bottom-Right
+                        fireX = interceptX + firingDistance; fireY = interceptY + firingDistance; aimAngle = -135; break;
+                    case 4: // Bottom
+                        fireX = interceptX; fireY = interceptY + firingDistance; aimAngle = -90; break;
+                    case 5: // Bottom-Left
+                        fireX = interceptX - firingDistance; fireY = interceptY + firingDistance; aimAngle = -45; break;
+                    case 6: // Left
+                        fireX = interceptX - firingDistance; fireY = interceptY; aimAngle = 0; break;
+                    case 7: // Top-Left
+                    default:
+                        fireX = interceptX - firingDistance; fireY = interceptY - firingDistance; aimAngle = 45; break;
+                }
+                // --- End of New Logic ---
+
+                // --- D. Start Trail ---
+                let trailInterval = setInterval(() => {
+                    const rect = asteroid.getBoundingClientRect();
+                    const stageRect = stage.getBoundingClientRect();
+                    if (rect.top > stageRect.bottom) { clearInterval(trailInterval); }
+                    createTrail(rect.left - stageRect.left + 12, rect.top - stageRect.top + 12);
+                }, 100);
+
+                // --- E. NEW Staged "Hunt" Sequence (Rotate, then Move) ---
+                const destX = fireX - 30;
+                const destY = fireY - 30;
+
+                // ** THE FIX IS HERE **
+                // We use the ship's *known* variable 'shipX' and 'shipY'
+                // instead of trying to read a broken DOM value.
+                const deltaMoveX = destX - shipX; 
+                const deltaMoveY = destY - shipY;
+                const travelAngle = Math.atan2(deltaMoveY, deltaMoveX) * (180 / Math.PI);
+
+                const totalPreFireTime = SHIP_TRAVEL_SPEED + SHIP_ROTATE_SPEED + SHIP_ROTATE_SPEED;
+                const shipTravelRotateStartTime = timeToIntercept - totalPreFireTime;
+                const shipMoveStartTime = shipTravelRotateStartTime + SHIP_ROTATE_SPEED;
+                const shipAimRotateStartTime = shipMoveStartTime + SHIP_TRAVEL_SPEED;
+
+                // 1. ROTATE TO FACE DESTINATION
+                setTimeout(() => {
+                    setShipTransform(shipX, shipY, travelAngle, 'rotate');
+                }, shipTravelRotateStartTime);
+
+                // 2. MOVE TO DESTINATION
+                setTimeout(() => {
+                    setShipTransform(destX, destY, travelAngle, 'move');
+                }, shipMoveStartTime);
+
+                // 3. ROTATE TO AIM
+                setTimeout(() => {
+                    setShipTransform(shipX, shipY, aimAngle, 'rotate');
+                }, shipAimRotateStartTime);
+                
+                // --- F. KABOOM! ---
+                setTimeout(() => {
+                    fireLaser(interceptX, interceptY);
+                    clearInterval(trailInterval); 
+                    asteroid.classList.add('explode');
+                    setTimeout(() => { asteroid.remove(); }, 300);
+                }, timeToIntercept);
+                
+            }
+
+            // --- START THE SIMULATION ---
+            // Initial ship position
+            const idleX = (stage.clientWidth / 2) - 30;
+            const idleY = stage.clientHeight * 0.8;
+            setShipTransform(idleX, idleY, 0, 'move');
+            
+            // Start spawning galaxy elements
+            setInterval(createGalaxyElement, GALAXY_ELEMENT_RATE);
+
+            // Start the main mission loop
+            setInterval(launchMission, NEW_ASTEROID_RATE);
+            launchMission(); // Launch one immediately
+
+        }); // <-- End of DOMContentLoaded listener
+    </script>
+</body>
+</html>
