@@ -41,14 +41,14 @@ interface TimelineProps {
 const Timeline: React.FC<TimelineProps> = ({ steps }) => {
     return (
         <div className="relative mb-20">
-            <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-slate-300 -translate-x-1/2 hidden sm:block"></div>
+            <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-gray-600 -translate-x-1/2 hidden sm:block"></div>
             {steps.map((step, index) => (
                 <div key={index} className="relative sm:flex sm:items-center mb-12 group">
                         <div className={`sm:w-1/2 ${index % 2 !== 0 ? 'sm:order-2 sm:pl-8' : 'sm:pr-8 sm:text-right'}`}>
                         <AnimatedSection>
-                            <div className="bg-white p-6 rounded-lg shadow-md mb-4 sm:mb-0 border border-slate-200">
-                                <h3 className="text-xl font-bold text-slate-900 mb-2">{step.title}</h3>
-                                <p className="text-slate-700">{step.description}</p>
+                            <div className="bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg shadow-md mb-4 sm:mb-0 border border-white/10">
+                                <h3 className="text-xl font-bold text-gray-100 mb-2">{step.title}</h3>
+                                <p className="text-gray-300">{step.description}</p>
                             </div>
                         </AnimatedSection>
                     </div>

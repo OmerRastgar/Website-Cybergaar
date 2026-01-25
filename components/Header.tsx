@@ -101,7 +101,7 @@ const Header: React.FC = () => {
     );
 
     return (
-        <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-full max-w-6xl px-4">
+        <header className="fixed top-4 left-0 right-0 z-50 w-full px-6">
             <div className="relative bg-slate-100/50 backdrop-blur-lg rounded-full shadow-lg h-16 grid grid-cols-2 lg:grid-cols-3 items-center px-6 text-slate-900">
                 
                 {/* Left: Logo */}
@@ -119,12 +119,13 @@ const Header: React.FC = () => {
                 {/* Right: Get in Touch & Mobile Menu */}
                 <div className="justify-self-end flex items-center col-start-2 lg:col-start-3">
                     <div className="hidden lg:block">
-                        <Link 
-                            to="/#contact" 
-                            onClick={handleContactClick}
+                        <a 
+                            href="https://demo.cybergaar.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="border border-slate-900 font-bold py-2 px-5 rounded-full text-sm transition-all hover:scale-105 hover:bg-slate-900 hover:text-white">
-                            Contact 
-                        </Link>
+                            Sign In
+                        </a>
                     </div>
 
                     <div className="lg:hidden">
@@ -148,12 +149,13 @@ const Header: React.FC = () => {
                 <div className="lg:hidden mt-2 bg-slate-100/95 backdrop-blur-md rounded-xl shadow-lg text-slate-900">
                     <nav className="flex flex-col items-center space-y-4 py-6 text-md font-medium">
                         {navItems(true)}
-                        <Link 
-                            to="/#contact"
-                            onClick={handleContactClick}
+                        <a 
+                            href="https://demo.cybergaar.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full transition-transform hover:scale-105">
-                            Contact
-                        </Link>
+                            Sign In
+                        </a>
                     </nav>
                 </div>
             )}

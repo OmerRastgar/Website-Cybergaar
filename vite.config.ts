@@ -23,8 +23,33 @@ export default defineConfig(({ mode }) => {
         rollupOptions: {
           input: {
             main: path.resolve(__dirname, 'index.html')
+          },
+          output: {
+            manualChunks(id) {
+              if (id.includes('node_modules')) {
+                if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) {
+                  return 'vendor';
+                }
+                if (id.includes('three')) {
+                  return 'three';
+                }
+                if (id.includes('@tsparticles')) {
+                  return 'tsparticles';
+                }
+                return 'vendor';
+              }
+            }
           }
-        }
-      }
+        },
+        minify: 'esbuild',
+        chunkSizeWarningLimit: 500,
+        sourcemap: false,
+        cssCodeSplit: true,
+        assetsInlineLimit: 2048,
+        target: 'es2015',
+      },
+      optimizeDeps: {
+        include: ['react', 'react-dom', 'react-router-dom'],
+      },
     };
 });

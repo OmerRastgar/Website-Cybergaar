@@ -15,6 +15,7 @@
     "react-dom": "^19.2.0",
     "react-helmet-async": "^2.0.5",
     "react-router-dom": "^7.9.5",
+    "three": "^0.182.0",
     "tsparticles": "^3.9.1",
     "tsparticles-slim": "^2.12.0"
   },

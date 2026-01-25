@@ -28,46 +28,41 @@ const SecurityTestingPage: React.FC = () => {
                 title="Penetration Testing Services | CyberGaar"
                 description="Simulate real-world attacks to identify and neutralize critical security vulnerabilities with CyberGaar's expert penetration testing services."
             />
-            <div className="-mt-32">
-                <section className="hero-section text-center py-20 px-4" style={{ backgroundColor: '#1a202c', color: 'white' }}>
+            <div className="-mt-32 bg-black text-white">
+                <section className="hero-section text-center py-20 px-4 bg-slate-900 text-white" style={{ backgroundColor: '#0f172a', color: 'white' }}>
                     <AnimatedSection>
                         <div className="pt-32">
                             <h1 className="text-4xl md:text-5xl font-bold">Penetration Testing</h1>
-                            <p className="text-lg md:text-xl mt-2">Simulating Attacks to Fortify Your Defenses</p>
+                            <p className="text-lg md:text-xl text-slate-300 mt-2">Simulating Attacks to Fortify Your Defenses</p>
                         </div>
                     </AnimatedSection>
                 </section>
 
                 <div className="container mx-auto py-20 px-4">
-                    <AnimatedSection className="bg-white rounded-xl shadow-lg p-8 md:p-12 mb-20">
+                    <AnimatedSection className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-lg p-8 md:p-12 mb-20 border border-white/10">
                         <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
                              <div className="order-2 md:order-1">
-                                <h2 className="text-3xl font-bold mb-4">Penetration Testing</h2>
-                                <p className="text-lg leading-relaxed mb-4">Our Penetration Testing simulates real-world attack scenarios to provide a true measure of your defensive posture. From network and web application exploitation to social engineering, we identify critical weaknesses that automated tools cannot detect.</p>
-                                <p className="text-lg leading-relaxed">By proactively neutralizing vulnerabilities, you can protect your critical assets, maintain operational integrity, and prevent catastrophic system breaches.</p>
+                                <h2 className="text-3xl font-bold text-gray-100 mb-4">Penetration Testing</h2>
+                                <p className="text-lg text-gray-300 leading-relaxed mb-4">Our Penetration Testing simulates real-world attack scenarios to provide a true measure of your defensive posture. From network and web application exploitation to social engineering, we identify critical weaknesses that automated tools cannot detect.</p>
+                                <p className="text-lg text-gray-300 leading-relaxed">By proactively neutralizing vulnerabilities, you can protect your critical assets, maintain operational integrity, and prevent catastrophic system breaches.</p>
                             </div>
                             <div className="order-1 md:order-2">
-                               <img src="/images/security-testing.jpg" alt="Penetration Testing" className="w-full h-auto rounded-lg shadow-md" />
+                               <img src="/images/security-testing.jpg" alt="Penetration Testing" className="w-full h-auto rounded-lg shadow-md" width="600" height="400" />
                             </div>
                         </div>
                     </AnimatedSection>
 
-                    <AnimatedSection>
-                        <h2 className="text-3xl font-bold text-center mb-12">Our Engagement Protocol</h2>
-                    </AnimatedSection>
-                    
-                    {/* Replace the old timeline code with the new Timeline component */}
                     <Timeline steps={timelineSteps} />
 
                     <AnimatedSection>
-                        <h2 className="text-3xl font-bold text-center mb-12">Engagement Briefings</h2>
+                        <h2 className="text-3xl font-bold text-center text-gray-100 mb-12">Engagement Briefings</h2>
                         <div className="max-w-4xl mx-auto">
                             <FAQ items={faqs} />
                         </div>
                     </AnimatedSection>
                 </div>
                 
-                <section className="contact-section py-20" id="contact">
+                <section className="contact-section py-20 bg-black text-white" id="contact">
                     <div className="container mx-auto px-4">
                         <ContactForm />
                     </div>

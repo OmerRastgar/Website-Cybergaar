@@ -12,13 +12,13 @@ const logos = [
 const ClientsCarousel: React.FC = () => {
     return (
         <div className="w-full py-12">
-            <h2 className="text-4xl font-bold text-center text-black mb-12">Trusted By</h2>
+            
             <div className="relative overflow-hidden">
                 <div className="logos-track animate-scroll-x">
                     {[...logos, ...logos].map((logo, index) => (
-                        <a key={index} href={logo.url} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center justify-center p-4 mx-4 rounded-lg shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 bg-white">
+                        <a key={index} href={logo.url} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center justify-center p-4 mx-4 rounded-lg shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 bg-gray-800/50 backdrop-blur-sm border border-white/10">
                             <img src={logo.src} alt={`${logo.name} logo`} className="h-16 mb-4" loading="lazy" />
-                            <p className="text-lg font-semibold text-center">{logo.name}</p>
+                            <p className="text-lg font-semibold text-center text-gray-200">{logo.name}</p>
                         </a>
                     ))}
                 </div>

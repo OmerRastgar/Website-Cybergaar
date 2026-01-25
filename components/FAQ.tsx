@@ -24,17 +24,17 @@ const FAQ: React.FC<FAQProps> = ({ items }) => {
     <div className="space-y-4">
       {items.map((item, index) => (
         <AnimatedSection key={index} className={`delay-${index * 100}`}>
-          <div className="border border-slate-200 rounded-lg overflow-hidden bg-white shadow-sm">
+          <div className="border border-gray-700 rounded-lg overflow-hidden bg-gray-800/50 backdrop-blur-sm shadow-sm">
             <button
               onClick={() => toggleItem(index)}
-              className="w-full flex justify-between items-center text-left p-4 sm:p-5 hover:bg-slate-50 focus:outline-none transition-colors duration-200"
+              className="w-full flex justify-between items-center text-left p-4 sm:p-5 hover:bg-gray-700/50 focus:outline-none transition-colors duration-200"
             >
-              <h3 className="text-md sm:text-lg font-semibold text-slate-800">{item.question}</h3>
-              <ChevronDownIcon className={`w-6 h-6 text-slate-500 transition-transform duration-300 ${openIndex === index ? 'rotate-180' : ''}`} />
+              <h3 className="text-md sm:text-lg font-semibold text-gray-100">{item.question}</h3>
+              <ChevronDownIcon className={`w-6 h-6 text-blue-400 transition-transform duration-300 ${openIndex === index ? 'rotate-180' : ''}`} />
             </button>
             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openIndex === index ? 'max-h-96' : 'max-h-0'}`}>
-              <div className="p-4 sm:p-5 border-t border-slate-200">
-                <p className="text-slate-600">{item.answer}</p>
+              <div className="p-4 sm:p-5 border-t border-gray-700">
+                <p className="text-gray-300">{item.answer}</p>
               </div>
             </div>
           </div>

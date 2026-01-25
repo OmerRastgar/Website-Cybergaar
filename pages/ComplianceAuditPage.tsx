@@ -28,8 +28,8 @@ const ComplianceAuditPage: React.FC = () => {
                 title="Compliance Audits - ISO 27001, PCI DSS, SOC 2 | CyberGaar"
                 description="Navigate complex regulations with CyberGaar's expert compliance audit services. We specialize in ISO 27001, PCI DSS, SOC 2, and more to ensure your organization meets all required standards."
             />
-            <div className="-mt-32">
-                <section className="hero-section text-center bg-slate-900 text-white py-20 px-4">
+            <div className="-mt-32 bg-black text-white">
+                <section className="hero-section text-center py-20 px-4 bg-slate-900 text-white" style={{ backgroundColor: '#0f172a', color: 'white' }}>
                     <AnimatedSection>
                         <div className="pt-32">
                             <h1 className="text-4xl md:text-5xl font-bold">Compliance Audit</h1>
@@ -39,35 +39,35 @@ const ComplianceAuditPage: React.FC = () => {
                 </section>
 
                 <div className="container mx-auto py-20 px-4">
-                    <AnimatedSection className="bg-white rounded-xl shadow-lg p-8 md:p-12 mb-20">
+                    <AnimatedSection className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-lg p-8 md:p-12 mb-20 border border-white/10">
                         <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
                             <div>
-                                <h2 className="text-3xl font-bold text-slate-900 mb-4">Navigating Complexity with Ease</h2>
-                                <p className="text-lg text-slate-700 leading-relaxed mb-4">CyberGaar specializes in helping organizations meet rigorous industry standards like ISO 27001, PCI DSS, NIST, and SOC 2. Our comprehensive scans identify gaps, reduce risk, and provide a clear roadmap to certification and ongoing compliance.</p>
-                                <p className="text-lg text-slate-700 leading-relaxed">We understand that compliance isn't just about checking boxes; it's about building a robust security framework that protects your data and your reputation.</p>
+                                <h2 className="text-3xl font-bold text-gray-100 mb-4">Navigating Complexity with Ease</h2>
+                                <p className="text-lg text-gray-300 leading-relaxed mb-4">CyberGaar specializes in helping organizations meet rigorous industry standards like ISO 27001, PCI DSS, NIST, and SOC 2. Our comprehensive scans identify gaps, reduce risk, and provide a clear roadmap to certification and ongoing compliance.</p>
+                                <p className="text-lg text-gray-300 leading-relaxed">We understand that compliance isn't just about checking boxes; it's about building a robust security framework that protects your data and your reputation.</p>
                             </div>
                             <div>
-                               <img src="/images/compliance-audit.jpg" alt="Compliance Scan" className="w-full h-auto rounded-lg shadow-md" />
+                               <img src="/images/compliance-audit.jpg" alt="Compliance Scan" className="w-full h-auto rounded-lg shadow-md" width="600" height="400" />
                             </div>
                         </div>
                     </AnimatedSection>
 
                     <AnimatedSection>
-                        <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Our Scan Protocol</h2>
+                        <h2 className="text-3xl font-bold text-center text-gray-100 mb-12">Our Scan Protocol</h2>
                     </AnimatedSection>
                     
                     {/* Replace the old timeline code with the new Timeline component */}
                     <Timeline steps={timelineSteps} />
 
                     <AnimatedSection>
-                        <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Mission-Critical Briefings</h2>
+                        <h2 className="text-3xl font-bold text-center text-gray-100 mb-12">Mission-Critical Briefings</h2>
                         <div className="max-w-4xl mx-auto">
                             <FAQ items={faqs} />
                         </div>
                     </AnimatedSection>
                 </div>
                 
-                <section className="contact-section py-20 bg-slate-100" id="contact">
+                <section className="contact-section py-20 bg-black text-white" id="contact">
                     <div className="container mx-auto px-4">
                         <ContactForm />
                     </div>

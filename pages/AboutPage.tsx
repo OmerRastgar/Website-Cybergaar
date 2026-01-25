@@ -31,38 +31,38 @@ const AboutPage: React.FC = () => {
                 title="About CyberGaar - Our Mission and Team"
                 description="Learn about CyberGaar's mission to secure cyberspace and meet the experienced team of cybersecurity experts leading our operations."
             />
-            <div className="-mt-32">
-                <section className="hero-section text-center bg-slate-900 text-white py-20 px-4">
+            <div className="-mt-32 bg-black text-white">
+                <section className="hero-section text-center py-20 px-4 bg-slate-900 text-white" style={{ backgroundColor: '#0f172a', color: 'white' }}>
                     <div className="container mx-auto relative z-10 pt-32">
-                        <h1 className="text-4xl md:text-5xl font-bold">Our Mission Command</h1>
+                        <h1 className="text-4xl md:text-5xl font-bold">About Us</h1>
                         <p className="text-lg md:text-xl text-slate-300 mt-2">Charting the Course for Secure Cyberspace</p>
                     </div>
                 </section>
 
                 <div className="container mx-auto py-20 px-4">
-                    <AnimatedSection className="bg-white rounded-xl shadow-lg p-8 md:p-12 mb-20">
+                    <AnimatedSection className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-lg p-8 md:p-12 mb-20 border border-white/10">
                         <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
                             <div className="order-2 md:order-1">
-                                <h2 className="text-3xl font-bold text-slate-900 mb-4">Our Prime Directive</h2>
-                                <p className="text-lg text-slate-700 leading-relaxed">Our mission is to go beyond mere compliance into true security. We navigate the uncharted sectors of your cyberspace, actively neutralizing the 'Threat-roids' that populate an evolving digital landscape. We are the specialists who chart secure pathways for high-stakes industries, transforming your security posture from a simple necessity into a mission-critical advantage.</p>
+                                <h2 className="text-3xl font-bold text-gray-100 mb-4">Our Mission</h2>
+                                <p className="text-lg text-gray-300 leading-relaxed">Our mission is to go beyond mere compliance into true security. We navigate the uncharted sectors of your cyberspace, actively neutralizing the 'Threat-roids' that populate an evolving digital landscape. We are the specialists who chart secure pathways for high-stakes industries, transforming your security posture from a simple necessity into a mission-critical advantage.</p>
                             </div>
                             <div className="order-1 md:order-2">
-                                <img src="/images/cybergaar-office.jpg" alt="CyberGaar Mission Command" className="w-full h-auto rounded-lg shadow-md" />
+                                <img src="/images/cybergaar-office.jpg" alt="CyberGaar Mission Command" className="w-full h-auto rounded-lg shadow-md" width="600" height="400" loading="lazy" />
                             </div>
                         </div>
                     </AnimatedSection>
 
                     <AnimatedSection>
-                        <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Meet the Command Crew</h2>
+                        <h2 className="text-3xl font-bold text-center text-gray-100 mb-12">Meet the Team</h2>
                     </AnimatedSection>
                     <div className="grid md:grid-cols-3 gap-8 mb-20">
                         {team.map((member, index) => (
-                             <AnimatedSection key={member.name} className={`card bg-white rounded-lg shadow-lg p-8 text-center transition-transform duration-300 hover:-translate-y-2 delay-${index * 200} border border-slate-200 hover:border-blue-600`}>
-                                <h3 className="text-xl font-bold text-slate-900">{member.name}</h3>
-                                <p className="text-slate-700 mb-4">{member.role}</p>
-                                <p className="text-slate-700 flex-grow">{member.description}</p>
+                             <AnimatedSection key={member.name} className={`card bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-lg p-8 text-center transition-transform duration-300 hover:-translate-y-2 delay-${index * 200} border border-white/10 hover:border-blue-400`}>
+                                <h3 className="text-xl font-bold text-gray-100">{member.name}</h3>
+                                <p className="text-gray-300 mb-4">{member.role}</p>
+                                <p className="text-gray-300 flex-grow">{member.description}</p>
                                 <div className="mt-4 flex justify-center">
-                                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700">
+                                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300">
                                         <LinkedInIcon />
                                     </a>
                                 </div>
@@ -70,14 +70,14 @@ const AboutPage: React.FC = () => {
                         ))}
                     </div>
 
-                    <AnimatedSection className="bg-white rounded-xl shadow-lg p-8 md:p-12 mb-20">
+                    <AnimatedSection className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-lg p-8 md:p-12 mb-20 border border-white/10">
                         <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
                             <div className="order-2 md:order-1">
-                                <h2 className="text-3xl font-bold text-slate-900 mb-4">Our Commitment to Mission Success</h2>
-                                <p className="text-lg text-slate-700 leading-relaxed">We are dedicated to providing the highest quality of service and delivering results that exceed expectations. Our team of certified mission specialists is passionate about security and committed to helping our clients achieve their compliance objectives.</p>
+                                <h2 className="text-3xl font-bold text-gray-100 mb-4">Our Commitment to Mission Success</h2>
+                                <p className="text-lg text-gray-300 leading-relaxed">We are dedicated to providing the highest quality of service and delivering results that exceed expectations. Our team of certified mission specialists is passionate about security and committed to helping our clients achieve their compliance objectives.</p>
                             </div>
                             <div className="order-1 md:order-2">
-                                <img src="/images/banner.png" alt="CyberGaar Mission Success" className="w-full h-auto rounded-lg shadow-md" />
+                                <img src="/images/banner.png" alt="CyberGaar Mission Success" className="w-full h-auto rounded-lg shadow-md" width="600" height="400" />
                             </div>
                         </div>
                     </AnimatedSection>
@@ -100,7 +100,7 @@ const AboutPage: React.FC = () => {
                     </div>
                 </div>
 
-                 <section className="contact-section py-20 bg-slate-100" id="contact">
+                 <section className="contact-section py-20 bg-black text-white" id="contact">
                     <div className="container mx-auto px-4">
                         <ContactForm />
                     </div>

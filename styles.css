@@ -1,26 +1,20 @@
-/* Aeonik Font Setup */
-@font-face {
-    font-family: 'Aeonik';
-    src: url('/fonts/Aeonik-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+/* System Font Stack */
+.font-aeonik {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
 }
 
-@font-face {
-    font-family: 'Aeonik';
-    src: url('/fonts/Aeonik-Bold.ttf') format('truetype');
+h1, h2, h3, h4, h5, h6 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
     font-weight: bold;
-    font-style: normal;
-    font-display: swap;
+    color: inherit; /* Inherit color from parent for better flexibility */
 }
 
 :root {
-    --primary-color: #FFFFFF; 
-    --secondary-color: #F8F9FA; 
+    --primary-color: #000000; 
+    --secondary-color: #1a202c; 
     --accent-color: #007BFF; 
     --neutral-color: #6C757D; 
-    --text-color: #212529;
+    --text-color: #FFFFFF;
     --header-text-color: #FFFFFF;
 }
 
@@ -46,6 +40,8 @@ header h1, header h2, header h3, header h4, header h5, header h6 {
   scroll-snap-type: y mandatory;
   overflow-y: scroll;
   height: 100vh;
+  position: relative;
+  z-index: 1;
 }
 
 /* Full-screen page sections */
@@ -58,6 +54,15 @@ header h1, header h2, header h3, header h4, header h5, header h6 {
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  position: relative;
+  background-color: #1E293B;
+  z-index: 5;
+}
+
+.page:first-child {
+  background-color: transparent;
+  z-index: 100;
+  pointer-events: auto;
 }
 
 /* Disable snap scrolling and restore normal scrolling on mobile */
@@ -76,21 +81,12 @@ header h1, header h2, header h3, header h4, header h5, header h6 {
   }
 }
 
-.font-aeonik {
-    font-family: 'Aeonik', sans-serif;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Aeonik', sans-serif;
-    font-weight: bold;
-    color: inherit; /* Inherit color from parent for better flexibility */
-}
-
 .hero-section {
     text-align: center;
-    position: relative; 
-    background-color: #1E293B; /* Dark Slate Blue */
-    overflow: hidden; 
+    position: relative;
+    background-color: transparent;
+    overflow: hidden;
+    z-index: 1;
 }
 
 .hero-highlight {
@@ -123,16 +119,6 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 3rem;
 }
 
-.service-card {
-    background-color: var(--primary-color);
-    border: 1px solid #dee2e6;
-    text-align: center;
-}
-
-.service-card:hover {
-    border-color: var(--accent-color);
-}
-
 .service-icon {
     color: var(--accent-color);
     margin: 0 auto 1rem;
@@ -151,7 +137,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .contact-section {
-    background-color: var(--secondary-color);
+    background-color: #000000;
+    color: #ffffff;
 }
 
 /* --- Animation Keyframes --- */

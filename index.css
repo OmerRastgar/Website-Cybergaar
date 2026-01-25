@@ -1,15 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Aeonik:wght@400;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --primary-color: #1E293B;
+  --primary-color: #0F172A;
   --secondary-color: #E2E8F0;
   --accent-color: #38BDF8;
   --neutral-color: #94A3B8;
-  --font-family-sans: 'Aeonik', sans-serif;
+  --font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
 }
 
 body.bg-primary {

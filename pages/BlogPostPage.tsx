@@ -23,10 +23,10 @@ const BlogPostPage: React.FC = () => {
 
     if (!post) {
         return (
-            <div className="container mx-auto py-40 px-4 text-center">
-                <h1 className="text-4xl font-bold text-slate-900">Post not found</h1>
-                <p className="text-slate-700 mt-4">The blog post you're looking for does not exist.</p>
-                <Link to="/blog" className="mt-8 inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full">Back to Blog</Link>
+            <div className="container mx-auto py-40 px-4 text-center bg-black text-white">
+                <h1 className="text-4xl font-bold text-gray-100">Post not found</h1>
+                <p className="text-gray-300 mt-4">The blog post you're looking for does not exist.</p>
+                <Link to="/blog" className="mt-8 inline-block bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-bold py-3 px-6 rounded-full">Back to Blog</Link>
             </div>
         );
     }
@@ -39,7 +39,7 @@ const BlogPostPage: React.FC = () => {
                 title={post.title}
                 description={post.description}
             />
-            <div className="-mt-32">
+            <div className="-mt-32 bg-black text-white">
                 <section className="hero-section text-left bg-slate-900 text-white pt-48 pb-24 px-4">
                     <AnimatedSection>
                         <div className="container mx-auto">
@@ -51,11 +51,11 @@ const BlogPostPage: React.FC = () => {
                     </AnimatedSection>
                 </section>
 
-                <div className="bg-slate-100">
+                <div className="bg-gray-900">
                     <div className="container mx-auto py-20 px-4">
-                        <article className="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-lg shadow-lg">
+                        <article className="max-w-4xl mx-auto bg-gray-800/50 backdrop-blur-sm p-6 sm:p-10 rounded-lg shadow-lg border border-white/10">
                             <div 
-                                className="markdown-content"
+                                className="markdown-content text-gray-100"
                                 dangerouslySetInnerHTML={{ __html: htmlContent }} 
                             />
                         </article>

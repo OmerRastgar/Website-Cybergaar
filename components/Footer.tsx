@@ -4,7 +4,7 @@ import { GithubIcon } from './icons/GithubIcon';
 
 const Logo = () => (
     <div className="flex items-center">
-        <img src="/images/logo.png" alt="CyberGaar Logo" className="h-8 w-auto" />
+        <img src="/images/logowhite.png" alt="CyberGaar Logo" className="h-8 w-auto" />
     </div>
 );
 

@@ -36,10 +36,10 @@ const AIChatPage: React.FC = () => {
                 title="CyberGaar AI Chat - Open Source Cybersecurity Education"
                 description="Explore our free, open-source AI Chat dedicated to cybersecurity. Learn about digital security, explore our training data, and contribute to the project."
             />
-            <div className="-mt-32">
-                <section className="hero-section text-center bg-slate-900 text-white py-20 px-4">
+            <div className="-mt-32 bg-black text-white">
+                <section className="hero-section text-center py-20 px-4 bg-slate-900 text-white" style={{ backgroundColor: '#0f172a', color: 'white', marginTop: '125px' }}>
                     <AnimatedSection>
-                        <div className="pt-32">
+                        <div>
                             <h1 className="text-4xl md:text-5xl font-bold">AI Chat</h1>
                             <p className="text-lg md:text-xl text-slate-300 mt-2">Our Commitment to an Open and Secure Community</p>
                         </div>
@@ -47,38 +47,38 @@ const AIChatPage: React.FC = () => {
                 </section>
 
                 <div className="container mx-auto py-20 px-4">
-                    <AnimatedSection className="bg-white rounded-xl shadow-lg p-8 md:p-12 mb-20 text-center">
-                         <h2 className="text-3xl font-bold text-slate-900 mb-4">Spreading Awareness Through Open Source AI</h2>
-                        <p className="text-lg text-slate-700 leading-relaxed max-w-4xl mx-auto mb-8">At CyberGaar, we believe that knowledge is the best defense. That's why we've developed a free, open-source Large Language Model (LLM) dedicated to cybersecurity. Hosted at <a href="https://ai.cybergaar.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 font-semibold hover:underline">ai.cybergaar.com</a>, our AI Chat is a transparent tool designed to help educate, inform, and assist anyone interested in learning more about digital security.</p>
-                         <a href="https://ai.cybergaar.com" target="_blank" rel="noopener noreferrer" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-transform hover:scale-105 inline-block">Try the AI Chat Now</a>
+                    <AnimatedSection className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-lg p-8 md:p-12 mb-20 text-center border border-white/10">
+                        <h2 className="text-3xl font-bold text-gray-100 mb-4">Spreading Awareness Through Open Source AI</h2>
+                        <p className="text-lg text-gray-300 mb-6">Our AI Chat is more than just a tool—it's a movement towards democratizing cybersecurity knowledge. By making our AI chat open source, we're empowering individuals and organizations to understand digital security better, fostering a community-driven approach to threat awareness and prevention.</p>
+                        <a href="https://ai.cybergaar.com" target="_blank" rel="noopener noreferrer" className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-bold py-3 px-8 rounded-full text-lg transition-transform hover:scale-105 inline-block">Try the AI Chat Now</a>
                     </AnimatedSection>
 
-                     <AnimatedSection>
-                        <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Transparent & Community-Driven</h2>
+                    <AnimatedSection>
+                        <h2 className="text-3xl font-bold text-center text-gray-100 mb-12">Transparent & Community-Driven</h2>
                     </AnimatedSection>
                     <div className="grid md:grid-cols-3 gap-8 mb-20">
-                        <div className="card bg-white rounded-lg shadow-lg p-6 text-center transition-transform duration-300 hover:-translate-y-2 border border-slate-200 hover:border-blue-600">
-                             <DatabaseIcon className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-                            <h3 className="text-xl font-bold text-slate-900 mb-2">The Dataset</h3>
-                            <p className="text-slate-700 mb-4">Explore the comprehensive cybersecurity dataset used to train our model.</p>
-                            <a href="https://huggingface.co/datasets/omer-rastgar/cyber-security-dataset" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:text-blue-700">View on Hugging Face &rarr;</a>
+                        <div className="card bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-lg p-6 text-center transition-transform duration-300 hover:-translate-y-2 border border-white/10 hover:border-blue-400">
+                            <DatabaseIcon className="w-12 h-12 text-blue-400 mx-auto mb-4" />
+                            <h3 className="text-xl font-bold text-gray-100 mb-2">The Dataset</h3>
+                            <p className="text-gray-300 mb-4">Explore the comprehensive cybersecurity dataset used to train our model.</p>
+                            <a href="https://huggingface.co/datasets/omer-rastgar/cyber-security-dataset" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-400 hover:text-blue-300">View on Hugging Face &rarr;</a>
                         </div>
-                         <div className="card bg-white rounded-lg shadow-lg p-6 text-center transition-transform duration-300 hover:-translate-y-2 border border-slate-200 hover:border-blue-600">
-                            <RobotIcon className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-                            <h3 className="text-xl font-bold text-slate-900 mb-2">The PEFT Model</h3>
-                            <p className="text-slate-700 mb-4">Access the fine-tuned model files, ready for your own projects and research.</p>
-                            <a href="https://huggingface.co/omer-rastgar/Llama-2-7b-chat-finetune" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:text-blue-700">View on Hugging Face &rarr;</a>
+                        <div className="card bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-lg p-6 text-center transition-transform duration-300 hover:-translate-y-2 border border-white/10 hover:border-blue-400">
+                            <RobotIcon className="w-12 h-12 text-blue-400 mx-auto mb-4" />
+                            <h3 className="text-xl font-bold text-gray-100 mb-2">The PEFT Model</h3>
+                            <p className="text-gray-300 mb-4">Access the fine-tuned model files, ready for your own projects and research.</p>
+                            <a href="https://huggingface.co/omer-rastgar/Llama-2-7b-chat-finetune" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-400 hover:text-blue-300">View on Hugging Face &rarr;</a>
                         </div>
-                         <div className="card bg-white rounded-lg shadow-lg p-6 text-center transition-transform duration-300 hover:-translate-y-2 border border-slate-200 hover:border-blue-600">
-                            <GithubIcon className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-                            <h3 className="text-xl font-bold text-slate-900 mb-2">The GUI</h3>
-                            <p className="text-slate-700 mb-4">See the code behind our user-friendly chat interface and contribute to its development.</p>
-                            <a href="https://github.com/OmerRastgar/LLM-Security-Chat" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:text-blue-700">View on GitHub &rarr;</a>
+                        <div className="card bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-lg p-6 text-center transition-transform duration-300 hover:-translate-y-2 border border-white/10 hover:border-blue-400">
+                            <GithubIcon className="w-12 h-12 text-blue-400 mx-auto mb-4" />
+                            <h3 className="text-xl font-bold text-gray-100 mb-2">The GUI</h3>
+                            <p className="text-gray-300 mb-4">See the code behind our user-friendly chat interface and contribute to its development.</p>
+                            <a href="https://github.com/OmerRastgar/LLM-Security-Chat" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-400 hover:text-blue-300">View on GitHub &rarr;</a>
                         </div>
                     </div>
 
                     <AnimatedSection>
-                        <h2 className="text-3xl font-bold text-center text-black mb-12">Frequently Asked Questions</h2>
+                        <h2 className="text-3xl font-bold text-center text-gray-100 mb-12">Frequently Asked Questions</h2>
                         <div className="max-w-4xl mx-auto">
                             <FAQ items={faqs} />
                         </div>

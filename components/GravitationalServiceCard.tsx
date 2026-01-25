@@ -4,10 +4,9 @@ import type { Service } from '../types';
 
 interface GravitationalServiceCardProps {
     service: Service & { link: string };
-    animationClass: string;
 }
 
-const GravitationalServiceCard: React.FC<GravitationalServiceCardProps> = ({ service, animationClass }) => {
+const GravitationalServiceCard: React.FC<GravitationalServiceCardProps> = ({ service }) => {
     const cardRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -56,10 +55,12 @@ const GravitationalServiceCard: React.FC<GravitationalServiceCardProps> = ({ ser
 
     return (
         <Link to={service.link} className="flex-1">
-            <div ref={cardRef} className={`service-card p-8 rounded-lg shadow-lg hover:shadow-2xl h-full animate ${animationClass}`}>
-                <div className="service-icon h-16 w-16 mb-6"><service.icon /></div>
-                <h3 className="service-title text-2xl font-bold mb-3">{service.title}</h3>
-                <p className="service-description text-lg">{service.description}</p>
+            <div ref={cardRef} className="bg-gray-900 border border-cyan-500/30 p-8 rounded-lg shadow-lg hover:shadow-2xl hover:border-cyan-400 h-full transition-all duration-300">
+                <div className="text-cyan-400 h-16 w-16 mb-6">
+                    <service.icon className="w-full h-full" />
+                </div>
+                <h3 className="text-white text-2xl font-bold mb-3">{service.title}</h3>
+                <p className="text-gray-300 text-lg">{service.description}</p>
             </div>
         </Link>
     );
