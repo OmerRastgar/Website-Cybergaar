@@ -13,10 +13,10 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const globeRef = useRef<THREE.Mesh | null>(null);
-  
-  const labelRefs = useRef<{[key: string]: HTMLDivElement | null}>({}); 
-  const linesRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
-  
+
+  const labelRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const linesRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const [isBannerHidden, setIsBannerHidden] = useState(false);
   const isDraggingRef = useRef(false);
@@ -66,7 +66,7 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
     return rawData.map(country => {
       const centerLat = (country.lat[0] + country.lat[1]) / 2;
       const centerLon = (country.lon[0] + country.lon[1]) / 2;
-      
+
       // Convert to radians and adjust for Three.js coordinate system
       const latRad = centerLat * Math.PI / 180;
       const lonRad = (centerLon + 180) * Math.PI / 180; // Adjust for Three.js coordinate system
@@ -76,7 +76,7 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
       const x = -radius * Math.cos(latRad) * Math.cos(lonRad); // Flip X axis
       const y = radius * Math.sin(latRad);
       const z = radius * Math.cos(latRad) * Math.sin(lonRad);
-      
+
       return { ...country, position: new THREE.Vector3(x, y, z) };
     });
   }, []);
@@ -98,7 +98,7 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
       if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
       }
-      
+
       // Dispose geometries and materials
       const disposeObject = (obj: THREE.Object3D) => {
         if (obj instanceof THREE.Mesh) {
@@ -118,7 +118,7 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
       if (scene) {
         scene.traverse(disposeObject);
       }
-      
+
       if (renderer) {
         renderer.dispose();
         if (mountRef.current && renderer.domElement) {
@@ -132,18 +132,22 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
     let handleMouseMove: (e: MouseEvent) => void;
     let handleMouseUp: () => void;
     let handleMouseClick: (e: MouseEvent) => void;
+    let handleTouchStart: (e: TouchEvent) => void;
+    let handleTouchMove: (e: TouchEvent) => void;
+    let handleTouchEnd: () => void;
+    let handleWheel: (e: WheelEvent) => void;
     let handleResize: () => void;
 
     try {
       // Scene setup
       scene = new THREE.Scene();
       sceneRef.current = scene;
-      
+
       // Use actual viewport dimensions with adjusted field of view
       const containerWidth = window.innerWidth;
       const containerHeight = window.innerHeight;
       const actualAspectRatio = containerWidth / containerHeight;
-      
+
       // Adjust field of view based on aspect ratio to prevent distortion
       let fov = 45;
       if (actualAspectRatio < 0.6) {
@@ -153,7 +157,7 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
         // Portrait - moderate vertical FOV
         fov = 35;
       }
-      
+
       // Debug container dimensions
       console.log('Container dimensions:', {
         containerWidth,
@@ -165,15 +169,15 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
         clientWidth: mountRef.current.clientWidth,
         clientHeight: mountRef.current.clientHeight
       });
-      
+
       camera = new THREE.PerspectiveCamera(fov, actualAspectRatio, 0.1, 1000);
       cameraRef.current = camera;
-      
+
       // Calculate responsive globe size based on screen width
       const isMobile = window.innerWidth < 768;
       const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
       let globeRadius;
-      
+
       if (isMobile) {
         globeRadius = 2.5; // Smaller on mobile
       } else if (isTablet) {
@@ -181,7 +185,7 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
       } else {
         globeRadius = 5; // Full size on desktop
       }
-      
+
       // Adjust camera position for proper globe size - ensure globe is not zoomed in
       if (isMobile) {
         camera.position.z = 15; // Further back for proper mobile size
@@ -196,7 +200,7 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
         camera.position.x = 0;
         camera.position.y = 0;
       }
-      
+
       // Debug camera positioning
       console.log('Camera positioned:', {
         isMobile,
@@ -208,7 +212,7 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
       });
 
       // Optimized renderer settings for memory efficiency
-      renderer = new THREE.WebGLRenderer({ 
+      renderer = new THREE.WebGLRenderer({
         antialias: false, // Disable antialiasing to save memory
         alpha: true,
         powerPreference: "default", // Use default instead of high-performance
@@ -220,30 +224,30 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
       renderer.setSize(containerWidth, containerHeight);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1)); // Limit to 1x to save memory
       mountRef.current.appendChild(renderer.domElement);
-      
+
       earthGroup = new THREE.Group();
       globeGroupRef.current = earthGroup;
       scene.add(earthGroup);
 
       // Load earth texture with proper error handling
       const textureLoader = new THREE.TextureLoader();
-      
+
       // Debug globe creation
       console.log('Creating globe with radius:', globeRadius);
-      
-      textureLoader.load('/earth-texture.jpg', 
+
+      textureLoader.load('/earth-texture.jpg',
         (earthTexture) => {
           try {
             const geometry = new THREE.SphereGeometry(globeRadius, 32, 32); // Responsive radius
             const material = new THREE.MeshBasicMaterial({ map: earthTexture });
             globe = new THREE.Mesh(geometry, material);
             globeRef.current = globe;
-            
+
             // Ensure globe is centered at origin
             globe.position.set(0, 0, 0);
-            
+
             earthGroup.add(globe);
-            
+
             // Debug globe and earthGroup position
             console.log('Globe created and added:', {
               globePosition: globe.position,
@@ -253,13 +257,13 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
               earthGroupVisible: earthGroup.visible,
               radius: globeRadius
             });
-            
+
             animate();
           } catch (error) {
             console.error('Error creating globe mesh:', error);
             createFallbackGlobe(globeRadius);
           }
-        }, 
+        },
         undefined,
         (error) => {
           console.error('Error loading texture:', error);
@@ -272,18 +276,18 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
         console.log('Creating fallback globe with radius:', radius);
         try {
           const geometry = new THREE.SphereGeometry(radius, 32, 32);
-          const material = new THREE.MeshBasicMaterial({ 
+          const material = new THREE.MeshBasicMaterial({
             color: 0xff0000, // Bright red for visibility
-            wireframe: false 
+            wireframe: false
           });
           globe = new THREE.Mesh(geometry, material);
           globeRef.current = globe;
-          
+
           // Ensure globe is centered at origin
           globe.position.set(0, 0, 0);
-          
+
           earthGroup.add(globe);
-          
+
           // Debug fallback globe
           console.log('Fallback globe created:', {
             globePosition: globe.position,
@@ -292,7 +296,7 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
             color: 0xff0000,
             radius
           });
-          
+
           animate();
         } catch (error) {
           console.error('Error creating fallback globe:', error);
@@ -327,15 +331,15 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
       const starsGeometry = new THREE.BufferGeometry();
       const starsCount = 2000; // Reduced count for performance
       const posArray = new Float32Array(starsCount * 3);
-      for(let i = 0; i < starsCount * 3; i++) {
-          posArray[i] = (Math.random() - 0.5) * 200;
+      for (let i = 0; i < starsCount * 3; i++) {
+        posArray[i] = (Math.random() - 0.5) * 200;
       }
       starsGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
       const starsMaterial = new THREE.PointsMaterial({
-          size: 0.1,
-          color: 0xffffff,
-          transparent: true,
-          opacity: 0.6
+        size: 0.1,
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.6
       });
       starsMesh = new THREE.Points(starsGeometry, starsMaterial);
       scene.add(starsMesh);
@@ -344,93 +348,112 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
       scene.add(ambientLight);
 
-      // Mouse interaction handlers
-      handleMouseDown = (e: MouseEvent) => {
-        // Check if mouse is over banner area
+      // Shared interaction logic for mouse and touch
+      const startInteraction = (clientX: number, clientY: number) => {
+        // Check if interaction is over banner area
         const bannerElement = document.querySelector('[data-banner="true"]');
         const headerElement = document.querySelector('header');
-        
+
         // Check if clicking over banner
         if (bannerElement) {
-          const rect = bannerElement.getBoundingClientRect();
-          if (e.clientX >= rect.left && e.clientX <= rect.right && 
-              e.clientY >= rect.top && e.clientY <= rect.bottom) {
-            return; // Don't allow globe interaction when over banner
+          // Ignore if banner is hidden or non-interactive
+          const style = window.getComputedStyle(bannerElement);
+          if (style.pointerEvents !== 'none' && style.opacity !== '0' && style.visibility !== 'hidden') {
+            const rect = bannerElement.getBoundingClientRect();
+            if (clientX >= rect.left && clientX <= rect.right &&
+              clientY >= rect.top && clientY <= rect.bottom) {
+              return false; // Don't allow globe interaction when over banner
+            }
           }
         }
-        
+
         // Check if clicking over navigation header
         if (headerElement) {
           const rect = headerElement.getBoundingClientRect();
-          if (e.clientX >= rect.left && e.clientX <= rect.right && 
-              e.clientY >= rect.top && e.clientY <= rect.bottom) {
-            return; // Don't allow globe interaction when over header
+          if (clientX >= rect.left && clientX <= rect.right &&
+            clientY >= rect.top && clientY <= rect.bottom) {
+            return false; // Don't allow globe interaction when over header
           }
         }
-        
+
         // Hide banner when clicking on globe
         if (onBannerHiddenChange) {
           onBannerHiddenChange(true);
         }
-        
+
         isDraggingRef.current = true;
         autoRotateRef.current = false; // Stop auto-rotation when interacting
-        mousePosRef.current = { x: e.clientX, y: e.clientY };
-        
+        mousePosRef.current = { x: clientX, y: clientY };
+
         // Change cursor to dragging state
         if (mountRef.current) {
           mountRef.current.className = 'absolute inset-0 w-full h-full z-0 globe-cursor-dragging';
         }
+
+        return true;
       };
 
-      handleMouseMove = (e: MouseEvent) => {
+      // Mouse interaction handlers
+      handleMouseDown = (e: MouseEvent) => {
+        startInteraction(e.clientX, e.clientY);
+      };
+
+      const moveInteraction = (clientX: number, clientY: number) => {
         if (!isDraggingRef.current) return;
-        
+
         // Check if mouse is over banner area
         const bannerElement = document.querySelector('[data-banner="true"]');
         const headerElement = document.querySelector('header');
-        
+
         // Check if dragging over banner
         if (bannerElement) {
-          const rect = bannerElement.getBoundingClientRect();
-          if (e.clientX >= rect.left && e.clientX <= rect.right && 
-              e.clientY >= rect.top && e.clientY <= rect.bottom) {
-            isDraggingRef.current = false; // Stop dragging when over banner
-            return;
+          // Ignore if banner is hidden or non-interactive
+          const style = window.getComputedStyle(bannerElement);
+          if (style.pointerEvents !== 'none' && style.opacity !== '0' && style.visibility !== 'hidden') {
+            const rect = bannerElement.getBoundingClientRect();
+            if (clientX >= rect.left && clientX <= rect.right &&
+              clientY >= rect.top && clientY <= rect.bottom) {
+              isDraggingRef.current = false; // Stop dragging when over banner
+              return;
+            }
           }
         }
-        
+
         // Check if dragging over navigation header
         if (headerElement) {
           const rect = headerElement.getBoundingClientRect();
-          if (e.clientX >= rect.left && e.clientX <= rect.right && 
-              e.clientY >= rect.top && e.clientY <= rect.bottom) {
+          if (clientX >= rect.left && clientX <= rect.right &&
+            clientY >= rect.top && clientY <= rect.bottom) {
             isDraggingRef.current = false; // Stop dragging when over header
             return;
           }
         }
-        
-        const deltaX = e.clientX - mousePosRef.current.x;
-        const deltaY = e.clientY - mousePosRef.current.y;
-        
+
+        const deltaX = clientX - mousePosRef.current.x;
+        const deltaY = clientY - mousePosRef.current.y;
+
         targetRotationRef.current = {
           x: targetRotationRef.current.x + deltaY * 0.01,
           y: targetRotationRef.current.y + deltaX * 0.01
         };
-        
-        mousePosRef.current = { x: e.clientX, y: e.clientY };
+
+        mousePosRef.current = { x: clientX, y: clientY };
       };
 
-      handleMouseUp = () => {
+      handleMouseMove = (e: MouseEvent) => {
+        moveInteraction(e.clientX, e.clientY);
+      };
+
+      const endInteraction = () => {
         // Show banner when releasing click
         if (onBannerHiddenChange) {
           onBannerHiddenChange(false);
         }
-        
+
         isDraggingRef.current = false;
-        // Resume auto-rotation instantly when mouse is released
+        // Resume auto-rotation instantly when interaction ends
         autoRotateRef.current = true;
-        
+
         // Reset cursor to normal state
         const globeArea = mountRef.current;
         if (globeArea) {
@@ -438,20 +461,24 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
         }
       };
 
+      handleMouseUp = () => {
+        endInteraction();
+      };
+
       const handleMouseClick = (e: MouseEvent) => {
         if (!camera || !globe || !renderer) return;
-        
+
         // Get current renderer dimensions
         const width = renderer.domElement.width;
         const height = renderer.domElement.height;
-        
+
         const mouse = new THREE.Vector2();
         mouse.x = (e.clientX / width) * 2 - 1;
         mouse.y = -(e.clientY / height) * 2 + 1;
-        
+
         const raycaster = new THREE.Raycaster();
         raycaster.setFromCamera(mouse, camera);
-        
+
         const intersects = raycaster.intersectObject(globe);
         if (intersects.length > 0) {
           const point = intersects[0].point;
@@ -466,7 +493,7 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
         const normalizedPoint = point.clone().normalize();
         const lat = Math.asin(normalizedPoint.y) * 180 / Math.PI;
         const lon = Math.atan2(normalizedPoint.x, normalizedPoint.z) * 180 / Math.PI;
-        
+
         return countryData.find(country => {
           const centerLat = (country.lat[0] + country.lat[1]) / 2;
           const centerLon = (country.lon[0] + country.lon[1]) / 2;
@@ -478,15 +505,15 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
 
       const updateCountryLabels = () => {
         if (!globeGroupRef.current || !cameraRef.current || !rendererRef.current) return;
-        
+
         const tempV = new THREE.Vector3();
         const vectorToCamera = new THREE.Vector3();
-        const occupiedRects: {x: number, y: number, w: number, h: number}[] = [];
+        const occupiedRects: { x: number, y: number, w: number, h: number }[] = [];
 
         // Get current renderer dimensions
         const width = rendererRef.current.domElement.width;
         const height = rendererRef.current.domElement.height;
-        
+
         // Get globe area position for offset calculation
         const globeArea = mountRef.current;
         const globeRect = globeArea ? globeArea.getBoundingClientRect() : { left: 0 };
@@ -494,7 +521,7 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
         countryData.forEach((country) => {
           const labelDiv = labelRefs.current[country.name];
           const lineDiv = linesRefs.current[country.name];
-          
+
           if (labelDiv && lineDiv && globeGroupRef.current) {
             tempV.copy(country.position);
             tempV.applyMatrix4(globeGroupRef.current.matrixWorld);
@@ -503,54 +530,44 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
             const normal = tempV.clone().normalize();
             const viewDir = vectorToCamera.normalize();
             const dot = normal.dot(viewDir);
-            
+
             // Hide cards when scrolling down - only show when globe is in view
             const scrollY = window.scrollY;
             const maxScrollForCards = 400; // Cards disappear when deep in service section
             const shouldShowCards = true; // Always show cards for debugging
             const isMobile = window.innerWidth < 768;
-            
+
             const isVisible = isMobile ? dot > 0.1 : dot > 0.25; // More lenient on mobile
 
-            // Only disable globe when deep in service section (not just scrolling)
+            // Only change cursor when deep in service section (keep pointer-events active)
             if (mountRef.current) {
-                if (scrollY >= maxScrollForCards) {
-                    mountRef.current.style.pointerEvents = 'none';
-                    mountRef.current.style.cursor = 'default';
-                    mountRef.current.style.userSelect = 'none';
-                    mountRef.current.style.webkitUserSelect = 'none';
-                    mountRef.current.style.mozUserSelect = 'none';
-                    mountRef.current.style.msUserSelect = 'none';
-                } else {
-                    mountRef.current.style.pointerEvents = 'auto';
-                    mountRef.current.style.cursor = 'url("/360.png") 16 16, grab';
-                    mountRef.current.style.userSelect = 'auto';
-                    mountRef.current.style.webkitUserSelect = 'auto';
-                    mountRef.current.style.mozUserSelect = 'auto';
-                    mountRef.current.style.msUserSelect = 'auto';
-                }
+              if (scrollY >= maxScrollForCards) {
+                mountRef.current.style.cursor = 'default';
+              } else {
+                mountRef.current.style.cursor = 'url("/360.png") 16 16, grab';
+              }
             }
 
-            // Only change cursor globally when deep in service section
+            // Only change body cursor when deep in service section
             if (scrollY >= maxScrollForCards) {
-                document.body.style.cursor = 'default';
+              document.body.style.cursor = 'default';
             } else {
-                document.body.style.cursor = '';
+              document.body.style.cursor = '';
             }
 
             // Use same visibility logic for both mobile and desktop
             const shouldProcessCard = isVisible && shouldShowCards;
-            
+
             if (shouldProcessCard) {
               tempV.project(cameraRef.current);
-              
+
               // Simple positioning: desktop approach with smaller mobile offsets
               const isMobile = window.innerWidth < 768;
-              
+
               // Use renderer dimensions for projection with viewport centering
               const x = (tempV.x * 0.5 + 0.5) * width;
               const y = (-(tempV.y * 0.5) + 0.5) * height;
-              
+
               // Debug projection coordinates
               if (country.name === 'USA') {
                 console.log('Projection debug:', {
@@ -562,7 +579,7 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
                   isMobile
                 });
               }
-              
+
               let labelX = x + (isMobile ? 5 : 15);
               let labelY = y - (isMobile ? 8 : 35);
               const labelH = isMobile ? 20 : 50;
@@ -571,9 +588,9 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
               // No viewport constraints for mobile - let cards position naturally like desktop
 
               for (let rect of occupiedRects) {
-                   if (Math.abs(labelX - rect.x) < (labelW * 0.8) && Math.abs(labelY - rect.y) < (labelH * 0.8)) {
-                       labelY = rect.y - labelH - 5; 
-                   }
+                if (Math.abs(labelX - rect.x) < (labelW * 0.8) && Math.abs(labelY - rect.y) < (labelH * 0.8)) {
+                  labelY = rect.y - labelH - 5;
+                }
               }
 
               occupiedRects.push({ x: labelX, y: labelY, w: labelW, h: labelH });
@@ -581,17 +598,19 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
               lineDiv.style.opacity = '1';
               lineDiv.style.left = `${x}px`;
               lineDiv.style.top = `${y}px`;
-               
+
               labelDiv.style.opacity = selectedCountry === country.name ? '1' : '0.7';
               const translateX = labelX - x;
               const translateY = labelY - y;
 
               labelDiv.style.left = `${x}px`;
               labelDiv.style.top = `${y}px`;
-              labelDiv.style.transform = `translate(${translateX}px, ${translateY}px)`; 
+              labelDiv.style.transform = `translate(${translateX}px, ${translateY}px)`;
+              labelDiv.style.pointerEvents = 'auto'; // Enable interaction when visible
             } else {
               lineDiv.style.opacity = '0';
               labelDiv.style.opacity = '0';
+              labelDiv.style.pointerEvents = 'none'; // Disable interaction when hidden
             }
           }
         });
@@ -602,53 +621,102 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
       let lastRotationTime = Date.now();
       const animate = () => {
         animationFrameId = requestAnimationFrame(animate);
-        
+
         const currentTime = Date.now();
         const deltaTime = currentTime - lastRotationTime;
-        
+
         // Auto-rotation when not interacting (slower speed with time-based movement)
         if (autoRotateRef.current && !isDraggingRef.current) {
           // Time-based rotation to prevent accumulation
           const rotationSpeed = 0.0005; // Base rotation speed
           const timeFactor = Math.min(deltaTime / 16.67, 2); // Normalize to 60fps, max 2x
           targetRotationRef.current.y += rotationSpeed * timeFactor;
-          
+
           // Limit rotation to prevent runaway spinning
           targetRotationRef.current.y = targetRotationRef.current.y % (Math.PI * 2);
         }
-        
-        // Smooth rotation using refs with damping
-        const dampingFactor = 0.1;
+
+        // Smooth rotation using refs with damping (higher for more responsive feel)
+        const dampingFactor = isDraggingRef.current ? 0.2 : 0.15; // More responsive when dragging
         currentRotationRef.current.x += (targetRotationRef.current.x - currentRotationRef.current.x) * dampingFactor;
         currentRotationRef.current.y += (targetRotationRef.current.y - currentRotationRef.current.y) * dampingFactor;
-        
+
         if (earthGroup) {
           earthGroup.rotation.x = currentRotationRef.current.x;
           earthGroup.rotation.y = currentRotationRef.current.y;
         }
-        
+
         if (starsMesh) {
           starsMesh.rotation.y -= 0.00005;
         }
-        
-        // Update country labels every 3 frames instead of every frame (60fps -> 20fps)
-        frameCount++;
-        if (frameCount % 3 === 0) {
-          updateCountryLabels();
-        }
-        
+
+        // Update country labels every frame for smoother experience
+        updateCountryLabels();
+
         if (renderer && scene && camera) {
           renderer.render(scene, camera);
         }
-        
+
         lastRotationTime = currentTime;
       };
 
-      // Event listeners
+      // Touch event handlers for better mobile/trackpad support
+      handleTouchStart = (e: TouchEvent) => {
+        if (e.touches.length === 1) { // Only handle single touch
+          const touch = e.touches[0];
+          if (startInteraction(touch.clientX, touch.clientY)) {
+            e.preventDefault(); // Prevent scrolling when interacting with globe
+          }
+        }
+      };
+
+      handleTouchMove = (e: TouchEvent) => {
+        if (e.touches.length === 1 && isDraggingRef.current) {
+          const touch = e.touches[0];
+          moveInteraction(touch.clientX, touch.clientY);
+          e.preventDefault(); // Prevent scrolling when dragging globe
+        }
+      };
+
+      handleTouchEnd = () => {
+        endInteraction();
+      };
+
+      // Wheel event handler for smoother scroll interactions
+      handleWheel = (e: WheelEvent) => {
+        // Only handle wheel when over globe area
+        const globeArea = mountRef.current;
+        if (!globeArea) return;
+
+        const rect = globeArea.getBoundingClientRect();
+        if (e.clientX >= rect.left && e.clientX <= rect.right &&
+          e.clientY >= rect.top && e.clientY <= rect.bottom) {
+
+          // Stop auto-rotation temporarily
+          autoRotateRef.current = false;
+
+          // Resume auto-rotation after a delay
+          setTimeout(() => {
+            if (!isDraggingRef.current) {
+              autoRotateRef.current = true;
+            }
+          }, 1000);
+        }
+      };
+
+      // Event listeners with passive options for better performance
       window.addEventListener('mousedown', handleMouseDown);
-      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
       window.addEventListener('mouseup', handleMouseUp);
       window.addEventListener('click', handleMouseClick);
+
+      // Touch events for mobile/trackpad support
+      window.addEventListener('touchstart', handleTouchStart, { passive: false });
+      window.addEventListener('touchmove', handleTouchMove, { passive: false });
+      window.addEventListener('touchend', handleTouchEnd);
+
+      // Wheel event for scroll interactions
+      window.addEventListener('wheel', handleWheel, { passive: true });
 
       // Debounced resize handler to prevent performance issues
       let resizeTimeout: NodeJS.Timeout;
@@ -660,7 +728,7 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
             const containerWidth = window.innerWidth;
             const containerHeight = window.innerHeight;
             const actualAspectRatio = containerWidth / containerHeight;
-            
+
             // Adjust field of view based on aspect ratio to prevent distortion
             let fov = 45;
             if (actualAspectRatio < 0.6) {
@@ -670,13 +738,13 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
               // Portrait - moderate vertical FOV
               fov = 35;
             }
-            
+
             const isMobile = window.innerWidth < 768;
             const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
-            
+
             camera.aspect = actualAspectRatio;
             camera.fov = fov;
-            
+
             if (isMobile) {
               camera.position.z = 15; // Further back for proper mobile size
               camera.position.x = 0; // Ensure centered horizontally
@@ -690,10 +758,10 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
               camera.position.x = 0;
               camera.position.y = 0;
             }
-            
+
             camera.updateProjectionMatrix();
             renderer.setSize(containerWidth, containerHeight);
-            
+
             // Force update globe size immediately
             updateGlobeSize();
           }
@@ -706,16 +774,16 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
           updateGlobeSize();
         }
       };
-      
+
       window.addEventListener('scroll', handleScrollUpdate);
 
       const updateGlobeSize = () => {
         if (!globe) return;
-        
+
         const isMobile = window.innerWidth < 768;
         const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
         let scaleFactor;
-        
+
         if (isMobile) {
           scaleFactor = 0.8; // Smaller on mobile with further camera
         } else if (isTablet) {
@@ -723,26 +791,26 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
         } else {
           scaleFactor = 1.2; // Smaller on desktop with further camera
         }
-        
+
         // Add scroll-based scaling - globe grows as you scroll
         const currentScrollY = window.scrollY;
         const scrollScale = Math.min(1 + (currentScrollY * 0.0003), 1.3); // Max 30% growth
         scaleFactor = scaleFactor * scrollScale;
-        
+
         // Apply scale to globe
         globe.scale.set(scaleFactor, scaleFactor, scaleFactor);
-        
+
         // Update atmosphere if it exists
         if (atmosphere) {
           atmosphere.scale.set(scaleFactor * 1.08, scaleFactor * 1.08, scaleFactor * 1.08);
         }
-        
+
         console.log('Globe scaled to:', scaleFactor, 'Window width:', window.innerWidth, 'Scroll:', currentScrollY);
       };
 
       // Start animation
       animate();
-      
+
       // Set initial globe size based on current window size
       setTimeout(() => {
         updateGlobeSize();
@@ -758,6 +826,10 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
       window.removeEventListener('click', handleMouseClick);
+      window.removeEventListener('touchstart', handleTouchStart as any);
+      window.removeEventListener('touchmove', handleTouchMove as any);
+      window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('wheel', handleWheel as any);
       window.removeEventListener('resize', handleResize);
       // Note: handleScrollUpdate is defined inside useEffect, so we can't remove it here
       cleanup();
@@ -789,73 +861,72 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
           }
         `
       }} />
-      
+
       {/* Globe - Centered on Page */}
       <div ref={mountRef} className="absolute inset-0 w-full h-full z-0 globe-cursor" />
 
       {/* Dynamic Label Layer */}
       {countryData.map((country) => (
         <React.Fragment key={country.name}>
-            <div 
-                ref={el => { linesRefs.current[country.name] = el; }}
-                className="absolute w-2 h-2 bg-cyan-400 rounded-full pointer-events-none transition-opacity duration-300 z-10 shadow-[0_0_10px_#22d3ee]"
-                style={{ opacity: 0, transform: 'translate(-50%, -50%)', willChange: 'left, top' }}
-            />
-            
-            <div 
-                ref={el => { labelRefs.current[country.name] = el; }}
-                className="absolute pointer-events-auto transition-opacity duration-300 z-5 cursor-pointer hover:scale-105"
-                style={{ 
-                  opacity: 1, 
-                  willChange: 'transform, left, top',
-                  backgroundColor: 'red',
-                  border: '2px solid yellow',
-                  borderRadius: '8px'
-                }}
-                onClick={() => setSelectedCountry(country.name)}
-            >
-                <div className={`bg-black/95 backdrop-blur-md border p-1.5 md:p-2 rounded-lg border-l-4 shadow-[0_0_20px_rgba(6,182,212,0.3)] min-w-[65px] md:min-w-[120px] max-w-[80px] md:max-w-[160px] ${
-                    selectedCountry === country.name 
-                        ? 'border-cyan-400 shadow-[0_0_30px_rgba(6,182,212,0.6)]' 
-                        : 'border-cyan-500/40'
-                }`}>
-                    <div className="flex items-center justify-between mb-1 md:mb-1.5 border-b border-gray-700 pb-1">
-                        <span className="text-[9px] md:text-[11px] font-bold text-white uppercase tracking-tight">{country.name}</span>
-                        <div className="w-1 md:w-1.5 h-1 md:h-1.5 bg-green-500 rounded-full animate-pulse"></div>
-                    </div>
-                    <div className="flex flex-wrap gap-0.5 md:gap-1">
-                        {country.standards.map(std => (
-                            <span key={std} className="text-[7px] md:text-[9px] text-cyan-100 font-mono bg-cyan-900/60 px-1 md:px-1.5 py-0.5 rounded border border-cyan-500/30">
-                                {std}
-                            </span>
-                        ))}
-                    </div>
-                </div>
+          <div
+            ref={el => { linesRefs.current[country.name] = el; }}
+            className="absolute w-2 h-2 bg-cyan-400 rounded-full pointer-events-none transition-opacity duration-300 z-10 shadow-[0_0_10px_#22d3ee]"
+            style={{ opacity: 0, transform: 'translate(-50%, -50%)', willChange: 'left, top' }}
+          />
+
+          <div
+            ref={el => { labelRefs.current[country.name] = el; }}
+            className="absolute pointer-events-auto transition-opacity duration-300 z-5 cursor-pointer hover:scale-105"
+            style={{
+              opacity: 1,
+              willChange: 'transform, left, top',
+              backgroundColor: 'red',
+              border: '2px solid yellow',
+              borderRadius: '8px'
+            }}
+            onClick={() => setSelectedCountry(country.name)}
+          >
+            <div className={`bg-black/95 backdrop-blur-md border p-1.5 md:p-2 rounded-lg border-l-4 shadow-[0_0_20px_rgba(6,182,212,0.3)] min-w-[65px] md:min-w-[120px] max-w-[80px] md:max-w-[160px] ${selectedCountry === country.name
+              ? 'border-cyan-400 shadow-[0_0_30px_rgba(6,182,212,0.6)]'
+              : 'border-cyan-500/40'
+              }`}>
+              <div className="flex items-center justify-between mb-1 md:mb-1.5 border-b border-gray-700 pb-1">
+                <span className="text-[9px] md:text-[11px] font-bold text-white uppercase tracking-tight">{country.name}</span>
+                <div className="w-1 md:w-1.5 h-1 md:h-1.5 bg-green-500 rounded-full animate-pulse"></div>
+              </div>
+              <div className="flex flex-wrap gap-0.5 md:gap-1">
+                {country.standards.map(std => (
+                  <span key={std} className="text-[7px] md:text-[9px] text-cyan-100 font-mono bg-cyan-900/60 px-1 md:px-1.5 py-0.5 rounded border border-cyan-500/30">
+                    {std}
+                  </span>
+                ))}
+              </div>
             </div>
+          </div>
         </React.Fragment>
       ))}
 
       {/* Footer Info */}
       <div className="absolute bottom-4 right-4 z-30 pointer-events-none text-right hidden md:block">
-          <div className="flex flex-col items-end space-y-2">
-             <p className="text-cyan-500 text-[10px] font-mono tracking-widest uppercase">Live Surveillance Feed</p>
-             <div className="flex space-x-2 text-gray-500 text-xs font-mono bg-black/60 p-2 rounded border border-gray-800 backdrop-blur">
-                <span>ACTIVE NODES: {countryData.length}</span>
-                <span>|</span>
-                <span className="animate-pulse text-green-500">SYSTEM ONLINE</span>
-                <span>|</span>
-                <span className={`${autoRotateRef.current ? 'text-cyan-400' : 'text-gray-400'}`}>
-                  {autoRotateRef.current ? 'AUTO-ROTATING' : 'MANUAL CONTROL'}
-                </span>
-             </div>
+        <div className="flex flex-col items-end space-y-2">
+          <p className="text-cyan-500 text-[10px] font-mono tracking-widest uppercase">Live Surveillance Feed</p>
+          <div className="flex space-x-2 text-gray-500 text-xs font-mono bg-black/60 p-2 rounded border border-gray-800 backdrop-blur">
+            <span>ACTIVE NODES: {countryData.length}</span>
+            <span>|</span>
+            <span className="animate-pulse text-green-500">SYSTEM ONLINE</span>
+            <span>|</span>
+            <span className={`${autoRotateRef.current ? 'text-cyan-400' : 'text-gray-400'}`}>
+              {autoRotateRef.current ? 'AUTO-ROTATING' : 'MANUAL CONTROL'}
+            </span>
           </div>
+        </div>
       </div>
 
       {/* Mobile Optimization - Add touch controls indicator */}
       <div className="absolute top-4 left-4 z-30 pointer-events-none md:hidden">
-          <div className="bg-black/60 backdrop-blur-md p-2 rounded border border-cyan-500/30">
-             <p className="text-cyan-400 text-[10px] font-mono">Touch to rotate</p>
-          </div>
+        <div className="bg-black/60 backdrop-blur-md p-2 rounded border border-cyan-500/30">
+          <p className="text-cyan-400 text-[10px] font-mono">Touch to rotate</p>
+        </div>
       </div>
 
     </div>

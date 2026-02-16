@@ -159,13 +159,17 @@ const services: (Service & { link: string })[] = [
 ];
 
 const faqs: FAQItem[] = [
-    { question: "What systems do you deploy?", answer: "We offer a comprehensive suite of services including Compliance Audits, Penetration Testing, and Vulnerability Assessments to create a multi-layered defense system for your digital assets."
+    {
+        question: "What systems do you deploy?", answer: "We offer a comprehensive suite of services including Compliance Audits, Penetration Testing, and Vulnerability Assessments to create a multi-layered defense system for your digital assets."
     },
-    { question: "What is the cost of securing our assets?", answer: "Our pricing is customized based on the scope and complexity. We offer a consultation to assess your needs and provide a detailed proposal."
+    {
+        question: "What is the cost of securing our assets?", answer: "Our pricing is customized based on the scope and complexity. We offer a consultation to assess your needs and provide a detailed proposal."
     },
-    { question: "What sectors do you operate in?", answer: "We have experience across a wide range of sectors, including finance, healthcare, and e-commerce, adapting our strategies to the unique threat landscape of each."
+    {
+        question: "What sectors do you operate in?", answer: "We have experience across a wide range of sectors, including finance, healthcare, and e-commerce, adapting our strategies to the unique threat landscape of each."
     },
-    { question: "How do we contact you?", answer: "You can contact us by using the contact form on our website to schedule a consultation with our mission specialists."
+    {
+        question: "How do we contact you?", answer: "You can contact us by using the contact form on our website to schedule a consultation with our mission specialists."
     },
 ];
 
@@ -184,7 +188,7 @@ const HomePage: React.FC = () => {
         const styleElement = document.createElement('style');
         styleElement.textContent = animationStyles;
         document.head.appendChild(styleElement);
-        
+
         return () => {
             document.head.removeChild(styleElement);
         };
@@ -194,7 +198,7 @@ const HomePage: React.FC = () => {
     useEffect(() => {
         const setupAnimations = () => {
             const cards = document.querySelectorAll('.service-card, .case-study-card');
-            
+
             cards.forEach((card, index) => {
                 const content = card.querySelector('.service-card-content, .case-study-card-content');
                 if (!content) return;
@@ -238,7 +242,7 @@ const HomePage: React.FC = () => {
 
         // Delay setup to ensure DOM is ready
         const timer = setTimeout(setupAnimations, 100);
-        
+
         return () => clearTimeout(timer);
     }, []);
 
@@ -273,7 +277,7 @@ const HomePage: React.FC = () => {
         const handleScroll = () => {
             setScrollY(window.scrollY);
         };
-        
+
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
@@ -284,45 +288,45 @@ const HomePage: React.FC = () => {
                 title="CyberGaar - Elite Cybersecurity Solutions"
                 description="CyberGaar offers cutting-edge cybersecurity services, including compliance audits, penetration testing, and vulnerability assessments to protect your digital assets."
             />
-            
+
             {/* Navigation Header - Always on Top */}
             <Header />
-            
+
             {/* Fixed Hero Section with Parallax Movement */}
             <div className="fixed inset-0 bg-black overflow-hidden z-0">
                 <CyberGaarGlobe onBannerHiddenChange={setIsBannerHidden} />
-                
+
                 {/* Parallax Reveal Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black z-10"></div>
-                
+
                 {/* Welcome Banner - Centered with Parallax Movement */}
-                <div data-banner="true" className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full md:w-1/2 lg:w-[45%] z-30 flex items-center justify-center pointer-events-auto transition-opacity duration-300 ${isBannerHidden ? 'opacity-0' : 'opacity-100'}`} style={{ transform: `translate(-50%, calc(-50% + ${scrollY * 0.5}px))` }}>
+                <div data-banner="true" className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full md:w-1/2 lg:w-[45%] z-30 flex items-center justify-center transition-opacity duration-300 ${isBannerHidden ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'}`} style={{ transform: `translate(-50%, calc(-50% + ${scrollY * 0.5}px))` }}>
                     <div className="w-full h-full bg-black/40 backdrop-blur-md md:rounded-r-3xl border-r border-t border-b border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] p-6 sm:p-8 md:p-12 lg:p-16 flex flex-col justify-center items-center animate-fadeInUp">
-                       
+
 
                         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 md:mb-6 leading-[1.1] tracking-tight text-center">
-                            Welcome to the <br className="hidden md:block"/>
+                            Welcome to the <br className="hidden md:block" />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
-                               World of Standards
+                                World of Standards
                             </span>
                         </h1>
-                        
+
                         <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 mb-6 md:mb-8 leading-relaxed font-light max-w-2xl text-center">
                             Navigate the complex landscape of international cybersecurity standards and compliance frameworks across the globe.
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mb-8 md:mb-10 justify-center">
-                            <Link 
+                            <Link
                                 to="/#contact"
                                 className="px-6 sm:px-8 py-2.5 sm:py-3.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-cyan-500/30 transition-all transform hover:scale-105 text-sm sm:text-base">
-                               Contact Us
+                                Contact Us
                             </Link>
-                            <a 
+                            <a
                                 href="https://demo.cybergaar.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="px-6 sm:px-8 py-2.5 sm:py-3.5 bg-white/5 border border-white/10 text-white rounded-xl font-semibold hover:bg-white/10 transition-all backdrop-blur-sm text-sm sm:text-base">
-                               Get a Demo
+                                Get a Demo
                             </a>
                         </div>
 
@@ -342,7 +346,7 @@ const HomePage: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                
+
                 {/* Scroll Down Animation */}
                 <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-40 pointer-events-none">
                     <div className="flex flex-col items-center space-y-2">
@@ -353,7 +357,7 @@ const HomePage: React.FC = () => {
                     </div>
                 </div>
             </div>
-            
+
             {/* Scrolling Content - Starts after hero section */}
             <div className="relative z-10" style={{ marginTop: '100vh' }}>
                 {/* Services Section */}

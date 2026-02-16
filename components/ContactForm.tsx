@@ -18,16 +18,39 @@ const ContactForm: React.FC = () => {
         }));
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setStatus('Transmitting...');
-        // Simulate form submission
-        setTimeout(() => {
-            console.log('Form submitted:', formData);
-            setStatus('Your message has been securely transmitted.');
-            setFormData({ name: '', email: '', subject: '', message: '' });
-            setTimeout(() => setStatus(''), 3000);
-        }, 1000);
+
+        try {
+            const response = await fetch('https://formspree.io/f/xzzdgkly', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                setStatus('Your message is sent, someone will get back to you as soon as possible.');
+                setFormData({ name: '', email: '', subject: '', message: '' });
+                setTimeout(() => setStatus(''), 5000);
+            } else {
+                const data = await response.json();
+                console.error('Formspree error:', data);
+                if (data && data.errors) {
+                    setStatus(data.errors.map((error: any) => error.message).join(', '));
+                } else if (data && data.error) {
+                    setStatus(`Error: ${data.error}`);
+                } else {
+                    setStatus('Transmission failed. Please try again.');
+                }
+            }
+        } catch (error) {
+            setStatus('Transmission failed. Please try again.');
+            console.error('Form error:', error);
+        }
     };
 
     return (
@@ -39,11 +62,11 @@ const ContactForm: React.FC = () => {
                         Contact Us
                     </span>
                 </h2>
-                
+
                 {/* Contact Form Container */}
                 <div className="bg-gray-800/50 backdrop-blur-sm p-8 rounded-lg shadow-lg border border-white/10">
-                    
-                    <form onSubmit={handleSubmit} className="space-y-6">
+
+                    <form onSubmit={handleSubmit} action="https://formspree.io/f/xzzdgkly" method="POST" className="space-y-6">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div>
                                 <label htmlFor="name" className="block text-sm font-medium text-gray-200">Your Name</label>

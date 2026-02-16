@@ -40,7 +40,7 @@ const BlogPostPage: React.FC = () => {
                 description={post.description}
             />
             <div className="-mt-32 bg-black text-white">
-                <section className="hero-section text-left bg-slate-900 text-white pt-48 pb-24 px-4">
+                <section className="hero-section text-left bg-slate-900 text-white pt-64 pb-24 px-4">
                     <AnimatedSection>
                         <div className="container mx-auto">
                             <h1 className="text-4xl md:text-5xl font-bold">{post.title}</h1>
@@ -54,9 +54,9 @@ const BlogPostPage: React.FC = () => {
                 <div className="bg-gray-900">
                     <div className="container mx-auto py-20 px-4">
                         <article className="max-w-4xl mx-auto bg-gray-800/50 backdrop-blur-sm p-6 sm:p-10 rounded-lg shadow-lg border border-white/10">
-                            <div 
+                            <div
                                 className="markdown-content text-gray-100"
-                                dangerouslySetInnerHTML={{ __html: htmlContent }} 
+                                dangerouslySetInnerHTML={{ __html: htmlContent }}
                             />
                         </article>
                     </div>

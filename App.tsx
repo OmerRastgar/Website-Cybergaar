@@ -51,32 +51,49 @@ const ConditionalFooter = () => {
 }
 
 const App: React.FC = () => {
+    const [isLoading, setIsLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        // Enforce a minimum loading time to prevent FOUC and allow assets to initialize
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 2000); // 2 seconds splash screen
+
+        return () => clearTimeout(timer);
+    }, []);
+
     return (
         <ErrorBoundary>
-            <Router>
-                <Meta title="CyberGaar" description="Your first line of defense in the vast expanse of cyberspace, securing your operations with resilient, cutting-edge threat mitigation." />
-                <ScrollToTop />
-                <ScrollToAnchor />
-                <ConditionalHeader />
-                <main>
-                    <Suspense fallback={<Loader />}>
-                        <Routes>
-                            <Route path="/" element={<HomePage />} />
-                            <Route path="/about" element={<AboutPage />} />
-                            <Route path="/compliance-audit" element={<ComplianceAuditPage />} />
-                            <Route path="/security-testing" element={<SecurityTestingPage />} />
-                            <Route path="/vulnerability-assessment" element={<VulnerabilityAssessmentPage />} />
-                            <Route path="/policy-audit-pro" element={<PolicyAuditProPage />} />
-                            <Route path="/ai-chat" element={<AIChatPage />} />
-                            <Route path="/blog" element={<BlogPage />} />
-                            <Route path="/blog/:slug" element={<BlogPostPage />} />
-                            <Route path="/animation" element={<AnimationPage />} />
-                        </Routes>
-                    </Suspense>
-                </main>
-                <ConditionalFooter />
-                <CookieNotice />
-            </Router>
+            {/* Always render Loader if loading, but keep it on top */}
+            {isLoading && <Loader />}
+
+            {/* Render main app content but hide it physically until loading is done */}
+            <div style={{ display: isLoading ? 'none' : 'block', opacity: isLoading ? 0 : 1, transition: 'opacity 1s ease-in-out' }}>
+                <Router>
+                    <Meta title="CyberGaar" description="Your first line of defense in the vast expanse of cyberspace, securing your operations with resilient, cutting-edge threat mitigation." />
+                    <ScrollToTop />
+                    <ScrollToAnchor />
+                    <ConditionalHeader />
+                    <main>
+                        <Suspense fallback={<Loader />}>
+                            <Routes>
+                                <Route path="/" element={<HomePage />} />
+                                <Route path="/about" element={<AboutPage />} />
+                                <Route path="/compliance-audit" element={<ComplianceAuditPage />} />
+                                <Route path="/security-testing" element={<SecurityTestingPage />} />
+                                <Route path="/vulnerability-assessment" element={<VulnerabilityAssessmentPage />} />
+                                <Route path="/policy-audit-pro" element={<PolicyAuditProPage />} />
+                                <Route path="/ai-chat" element={<AIChatPage />} />
+                                <Route path="/blog" element={<BlogPage />} />
+                                <Route path="/blog/:slug" element={<BlogPostPage />} />
+                                <Route path="/animation" element={<AnimationPage />} />
+                            </Routes>
+                        </Suspense>
+                    </main>
+                    <ConditionalFooter />
+                    <CookieNotice />
+                </Router>
+            </div>
         </ErrorBoundary>
     );
 };
