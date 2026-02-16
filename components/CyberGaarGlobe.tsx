@@ -376,6 +376,23 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
           }
         }
 
+        // Raycasting check: Only interact if clicking/touching the actual globe
+        if (globe && camera && renderer) {
+          const rect = renderer.domElement.getBoundingClientRect();
+          const x = ((clientX - rect.left) / rect.width) * 2 - 1;
+          const y = -((clientY - rect.top) / rect.height) * 2 + 1;
+
+          const raycaster = new THREE.Raycaster();
+          raycaster.setFromCamera(new THREE.Vector2(x, y), camera);
+
+          // Check intersection with globe and atmosphere
+          const intersects = raycaster.intersectObjects([globe, ...(atmosphere ? [atmosphere] : [])]);
+
+          if (intersects.length === 0) {
+            return false; // Clicked on background/stars, allow scrolling
+          }
+        }
+
         // Hide banner when clicking on globe
         if (onBannerHiddenChange) {
           onBannerHiddenChange(true);
