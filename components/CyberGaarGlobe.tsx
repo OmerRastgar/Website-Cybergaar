@@ -350,6 +350,11 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
 
       // Shared interaction logic for mouse and touch
       const startInteraction = (clientX: number, clientY: number) => {
+        // completely disable interaction on mobile to allow native scrolling
+        if (window.innerWidth < 768) {
+          return false;
+        }
+
         // Check if interaction is over banner area
         const bannerElement = document.querySelector('[data-banner="true"]');
         const headerElement = document.querySelector('header');
@@ -376,22 +381,6 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
           }
         }
 
-        // Raycasting check: Only interact if clicking/touching the actual globe
-        if (globe && camera && renderer) {
-          const rect = renderer.domElement.getBoundingClientRect();
-          const x = ((clientX - rect.left) / rect.width) * 2 - 1;
-          const y = -((clientY - rect.top) / rect.height) * 2 + 1;
-
-          const raycaster = new THREE.Raycaster();
-          raycaster.setFromCamera(new THREE.Vector2(x, y), camera);
-
-          // Check intersection with globe and atmosphere
-          const intersects = raycaster.intersectObjects([globe, ...(atmosphere ? [atmosphere] : [])]);
-
-          if (intersects.length === 0) {
-            return false; // Clicked on background/stars, allow scrolling
-          }
-        }
 
         // Hide banner when clicking on globe
         if (onBannerHiddenChange) {
@@ -701,6 +690,9 @@ const CyberGaarGlobe: React.FC<CyberGaarGlobeProps> = ({ onBannerHiddenChange })
 
       // Wheel event handler for smoother scroll interactions
       handleWheel = (e: WheelEvent) => {
+        // Disable wheel on mobile
+        if (window.innerWidth < 768) return;
+
         // Only handle wheel when over globe area
         const globeArea = mountRef.current;
         if (!globeArea) return;

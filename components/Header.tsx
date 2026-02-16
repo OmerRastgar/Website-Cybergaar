@@ -54,19 +54,19 @@ const Header: React.FC = () => {
 
     const activeLinkClass = "text-blue-600";
     const inactiveLinkClass = "hover:text-blue-600 transition-colors";
-    
-    const navLinkClasses = ({ isActive }: { isActive: boolean }) => 
+
+    const navLinkClasses = ({ isActive }: { isActive: boolean }) =>
         isActive ? activeLinkClass : inactiveLinkClass;
 
     const navItems = (isMobile = false) => (
         <>
             <NavLink to="/" className={navLinkClasses}>Home</NavLink>
             <NavLink to="/about" className={navLinkClasses}>About</NavLink>
-            
+
             {/* Services Dropdown */}
             <div className="relative" ref={servicesDropdownRef}>
                 <button onClick={() => setServicesOpen(!servicesOpen)} className={`${inactiveLinkClass} flex items-center w-full justify-center`}>
-                    Services 
+                    Services
                     <svg className={`w-4 h-4 ml-2 transition-transform transform ${servicesOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
@@ -95,7 +95,7 @@ const Header: React.FC = () => {
                     </div>
                 )}
             </div>
-            
+
             <NavLink to="/blog" className={navLinkClasses}>Blog</NavLink>
         </>
     );
@@ -103,7 +103,7 @@ const Header: React.FC = () => {
     return (
         <header className="fixed top-4 left-0 right-0 z-50 w-full px-6">
             <div className="relative bg-slate-100/50 backdrop-blur-lg rounded-full shadow-lg h-16 grid grid-cols-2 lg:grid-cols-3 items-center px-6 text-slate-900">
-                
+
                 {/* Left: Logo */}
                 <div className="justify-self-start">
                     <Link to="/">
@@ -119,7 +119,7 @@ const Header: React.FC = () => {
                 {/* Right: Get in Touch & Mobile Menu */}
                 <div className="justify-self-end flex items-center col-start-2 lg:col-start-3">
                     <div className="hidden lg:block">
-                        <a 
+                        <a
                             href="https://demo.cybergaar.com"
                             target="_blank"
                             rel="noopener noreferrer"
@@ -146,10 +146,10 @@ const Header: React.FC = () => {
 
             {/* Mobile Navigation */}
             {mobileMenuOpen && (
-                <div className="lg:hidden mt-2 bg-slate-100/95 backdrop-blur-md rounded-xl shadow-lg text-slate-900">
+                <div className="lg:hidden mt-2 bg-slate-900/95 backdrop-blur-md rounded-xl shadow-lg text-slate-100 border border-slate-800">
                     <nav className="flex flex-col items-center space-y-4 py-6 text-md font-medium">
                         {navItems(true)}
-                        <a 
+                        <a
                             href="https://demo.cybergaar.com"
                             target="_blank"
                             rel="noopener noreferrer"
