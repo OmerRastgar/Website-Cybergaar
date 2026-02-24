@@ -66,7 +66,7 @@ Technology is a critical part of any defense-in-depth strategy, but it can never
         slug: 'overcoming-zero-trust-challenges-in-short-term-data-analytics-engagements',
         title: 'Overcoming Zero Trust Challenges in Short-Term Data Analytics Engagements: A Cloudflare-Powered Case Study',
         description: 'How we used Cloudflare Zero Trust to maintain security and visibility in fast-paced data analytics consulting.',
-        date: '2024-06-10',
+        date: '2026-02-24',
         author: 'Omer Rastgar',
         tags: ['Zero Trust', 'Cloudflare', 'Data Analytics', 'Security'],
         content: `
@@ -103,30 +103,6 @@ Furthermore, when analysts use unmanaged, personal devices to access client envi
 To resolve this, we had to shift the security paradigm. Instead of forcing the client to build complex IAM architectures for a temporary engagement, we brought our own identity-aware perimeter to the engagement. We transitioned from a Traditional VPN/IAM model—which grants broad network access once authenticated—to a Zero Trust model that verifies every request based on identity, device posture, and context.
 
 By integrating Cloudflare's Zero Trust platform alongside AWS and GCP, we decoupled the authentication to the network from the authentication to the client's database.
-
-### Architecture Overview
-
-Here is a simplified logical flow of the implemented architecture:
-
-\`\`\`
-[Analyst's Corporate Device] 
-       |
-       | (Enforced Routing via Cloudflare WARP Client)
-       v
-[Cloudflare Zero Trust Edge]
-       |
-       |-- 1. Identity Verification (SSO/IdP)
-       |-- 2. Device Posture Check (Hardware Binding)
-       |-- 3. Granular Traffic Inspection (HTTP/HTTPS Logging)
-       |
-       v
-[Identity-Aware Proxy / Gateway]
-       |
-       | (Traffic is now attributed to the specific human)
-       | (Client's Shared Credential is automatically injected/utilized)
-       v
-[Client Environments: AWS S3 / GCP BigQuery / Redshift]
-\`\`\`
 
 ### Enforced Routing via Cloudflare Gateway
 
