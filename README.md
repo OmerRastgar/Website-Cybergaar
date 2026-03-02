@@ -6,14 +6,12 @@ This is the official website for CyberGaar Security, a comprehensive cybersecuri
 
 CyberGaar offers a wide range of cybersecurity services, including compliance audits for standards like ISO 27001, PCI DSS, and SOC 2, as well as penetration testing and vulnerability assessments. The company is dedicated to helping businesses of all sizes secure their digital assets and navigate the complex landscape of modern cybersecurity.
 
-### Open Source AI for Cybersecurity Education
 
-A unique feature of CyberGaar is its commitment to open-source education. The company has developed a free, open-source Large Language Model (LLM) dedicated to cybersecurity. This AI-powered chat, available at [ai.cybergaar.com](https://ai.cybergaar.com), is designed to educate, inform, and assist anyone interested in learning more about digital security. The model and its dataset are open-sourced to encourage community collaboration and transparency.
 
 ## Features
 
 *   **Comprehensive Service Pages:** Detailed information about each of CyberGaar's services.
-*   **AI-Powered Chat:** An open-source, educational AI chat for cybersecurity information.
+
 *   **Responsive Design:** A fully responsive and mobile-friendly user experience.
 *   **Interactive UI:** Engaging animations and a modern, clean design.
 *   **Code-Splitting:** Optimized for performance with lazy-loaded pages and components.
