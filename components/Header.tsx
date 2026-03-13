@@ -91,6 +91,7 @@ const Header: React.FC = () => {
                 {productsOpen && (
                     <div className={isMobile ? "pt-2 flex flex-col items-center space-y-2" : "absolute top-full left-1/2 -translate-x-1/2 mt-4 w-56 bg-white rounded-md shadow-lg py-2 z-10 border border-slate-200"}>
                         <Link to="/policy-audit-pro" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>Policy Audit Pro</Link>
+                        <Link to="/virtual-browser" className={isMobile ? "hover:text-blue-600" : "block px-4 py-2 hover:bg-slate-100 w-full text-left"}>Virtual Browser</Link>
 
                     </div>
                 )}

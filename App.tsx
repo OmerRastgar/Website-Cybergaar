@@ -15,6 +15,7 @@ const ComplianceAuditPage = lazy(() => import('./pages/ComplianceAuditPage'));
 const SecurityTestingPage = lazy(() => import('./pages/SecurityTestingPage'));
 const VulnerabilityAssessmentPage = lazy(() => import('./pages/VulnerabilityAssessmentPage'));
 const PolicyAuditProPage = lazy(() => import('./pages/PolicyAuditProPage'));
+const VirtualBrowserPage = lazy(() => import('./pages/VirtualBrowserPage'));
 
 const BlogPage = lazy(() => import('./pages/BlogPage'));
 const BlogPostPage = lazy(() => import('./pages/BlogPostPage'));
@@ -83,6 +84,7 @@ const App: React.FC = () => {
                                 <Route path="/security-testing" element={<SecurityTestingPage />} />
                                 <Route path="/vulnerability-assessment" element={<VulnerabilityAssessmentPage />} />
                                 <Route path="/policy-audit-pro" element={<PolicyAuditProPage />} />
+                                <Route path="/virtual-browser" element={<VirtualBrowserPage />} />
 
                                 <Route path="/blog" element={<BlogPage />} />
                                 <Route path="/blog/:slug" element={<BlogPostPage />} />
