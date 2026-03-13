@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
 import ContactForm from '../components/ContactForm';
 import Meta from '../components/Meta';
@@ -123,16 +124,13 @@ const VirtualBrowserPage: React.FC = () => {
                              <a href="#pricing" className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-bold py-4 px-8 rounded-full text-md transition-all hover:scale-105 shadow-lg shadow-blue-500/20">
                                 View Pricing
                             </a>
-                            <a href="#contact" className="border border-white/20 text-gray-300 font-bold py-4 px-8 rounded-full text-md transition-all hover:bg-white/10 hover:border-white/40">
-                                Get Started
-                            </a>
                         </div>
                     </AnimatedSection>
                 </section>
 
                 <div className="container mx-auto py-24 px-4">
-                    <AnimatedSection className="mb-24">
-                         <div className="flex flex-col lg:flex-row items-center gap-16">
+                    <AnimatedSection className="mb-24" id="overview">
+                        <div className="flex flex-col lg:flex-row items-center gap-16">
                             <div className="lg:w-1/2">
                                 <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Isolated. Secure. Performant.</h2>
                                 <p className="text-gray-400 text-lg mb-8 leading-relaxed">
@@ -198,11 +196,14 @@ const VirtualBrowserPage: React.FC = () => {
                                                 </li>
                                             ))}
                                         </ul>
-                                        <a href="#contact" className="block w-full">
+                                        <Link 
+                                            to={`/checkout?plan=${encodeURIComponent(tier.title)}&price=${encodeURIComponent(tier.price)}`} 
+                                            className="block w-full"
+                                        >
                                             <button className={`w-full py-3 rounded-full font-bold transition-all ${tier.popular ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-white/10 hover:bg-white/20 text-white'}`}>
                                                 Select Plan
                                             </button>
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                             </AnimatedSection>
