@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
 import ContactForm from '../components/ContactForm';
 import Meta from '../components/Meta';
 
 const ShieldIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+// ... icons omitted for brevity in replacement chunk but kept in actual file ...
     <svg {...props} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.744c0 1.517.283 2.968.8 4.298a12.01 12.01 0 002.508 3.75 12.01 12.01 0 003.5 2.508c1.33.517 2.781.8 4.298.8 1.517 0 2.968-.283 4.298-.8a12.01 12.01 0 003.5-2.508 12.01 12.01 0 002.508-3.75c.517-1.33.8-2.781.8-4.298 0-1.309-.21-2.568-.598-3.744A11.959 11.959 0 0112 2.714z" />
     </svg>
@@ -99,6 +100,8 @@ const features = [
 ];
 
 const VirtualBrowserPage: React.FC = () => {
+    const [billingCycle, setBillingCycle] = useState<'daily' | 'monthly'>('daily');
+
     return (
         <>
             <Meta
@@ -121,9 +124,9 @@ const VirtualBrowserPage: React.FC = () => {
                             The ultimate protection for teams and individuals.
                         </p>
                         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-                             <a href="#pricing" className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-bold py-4 px-8 rounded-full text-md transition-all hover:scale-105 shadow-lg shadow-blue-500/20">
+                             <Link to="/virtual-browser#pricing" className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-bold py-4 px-8 rounded-full text-md transition-all hover:scale-105 shadow-lg shadow-blue-500/20">
                                 View Pricing
-                            </a>
+                            </Link>
                         </div>
                     </AnimatedSection>
                 </section>
@@ -163,6 +166,22 @@ const VirtualBrowserPage: React.FC = () => {
                     <AnimatedSection id="pricing" className="mb-12 text-center">
                         <h2 className="text-3xl md:text-4xl font-bold mb-4">Flexible Pricing Tiers</h2>
                         <p className="text-gray-400">Scale your secure browsing as your needs grow.</p>
+                        
+                        {/* Toggle UI */}
+                        <div className="mt-12 inline-flex items-center p-1 bg-slate-900/60 rounded-full border border-white/10 backdrop-blur-sm">
+                            <button 
+                                onClick={() => setBillingCycle('daily')}
+                                className={`px-8 py-2.5 rounded-full font-bold text-sm transition-all duration-300 ${billingCycle === 'daily' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'text-slate-400 hover:text-white'}`}
+                            >
+                                DAILY
+                            </button>
+                            <button 
+                                onClick={() => setBillingCycle('monthly')}
+                                className={`px-8 py-2.5 rounded-full font-bold text-sm transition-all duration-300 ${billingCycle === 'monthly' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'text-slate-400 hover:text-white'}`}
+                            >
+                                MONTHLY
+                            </button>
+                        </div>
                     </AnimatedSection>
 
                     <div className="grid md:grid-cols-3 gap-8 mb-32">
@@ -179,12 +198,18 @@ const VirtualBrowserPage: React.FC = () => {
                                     <div className="relative z-10">
                                         <h3 className="text-2xl font-bold mb-2">{tier.title}</h3>
                                         <div className="mb-6">
-                                            <div className="text-5xl font-bold text-white mb-1">{tier.price}</div>
-                                            <div className="text-slate-400 text-sm">Daily Subscription</div>
+                                            <div className="text-6xl font-bold text-white mb-2 transition-all duration-500">
+                                                {billingCycle === 'daily' ? tier.price : tier.monthlyPrice}
+                                            </div>
+                                            <div className="text-slate-400 text-sm font-medium uppercase tracking-widest">
+                                                {billingCycle === 'daily' ? 'Daily Subscription' : 'Monthly Subscription'}
+                                            </div>
                                         </div>
                                         <div className="mb-8 p-4 bg-white/5 rounded-xl border border-white/5">
-                                             <div className="text-xl font-semibold text-blue-400">{tier.monthlyPrice} / Month</div>
-                                             <div className="text-slate-500 text-xs uppercase tracking-widest font-bold">Standard Usage</div>
+                                             <div className="text-xl font-semibold text-blue-400">
+                                                 {billingCycle === 'daily' ? 'Pay per day' : 'Full month access'}
+                                             </div>
+                                             <div className="text-slate-500 text-xs uppercase tracking-widest font-bold">Secure Environment</div>
                                         </div>
                                         <ul className="space-y-4 mb-10 text-gray-300 text-sm">
                                             {tier.features.map((feature, fIndex) => (
@@ -197,7 +222,7 @@ const VirtualBrowserPage: React.FC = () => {
                                             ))}
                                         </ul>
                                         <Link 
-                                            to={`/checkout?plan=${encodeURIComponent(tier.title)}&price=${encodeURIComponent(tier.price)}`} 
+                                            to={`/checkout?plan=${encodeURIComponent(tier.title)}&price=${encodeURIComponent(billingCycle === 'daily' ? tier.price : tier.monthlyPrice)}`} 
                                             className="block w-full"
                                         >
                                             <button className={`w-full py-3 rounded-full font-bold transition-all ${tier.popular ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-white/10 hover:bg-white/20 text-white'}`}>

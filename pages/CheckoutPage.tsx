@@ -66,7 +66,7 @@ const CheckoutPage: React.FC = () => {
         <>
             <Meta title={`Checkout - ${plan} | CyberGaar`} description="Secure your virtual browser environment with our high-performance subscription plans." />
             
-            <div className="-mt-32 bg-black min-h-screen text-white py-40">
+            <div className="bg-black min-h-screen text-white pt-32 pb-24">
                 <div className="container mx-auto px-4">
                     <AnimatedSection>
                         <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 bg-slate-900/60 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
