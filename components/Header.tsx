@@ -98,6 +98,14 @@ const Header: React.FC = () => {
             </div>
 
             <NavLink to="/blog" className={navLinkClasses}>Blog</NavLink>
+            <a
+                href="https://doc.cybergaar.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={navLinkClasses}
+            >
+                Docs
+            </a>
         </>
     );
 
